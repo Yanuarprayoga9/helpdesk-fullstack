@@ -20,15 +20,12 @@ export default auth((req) => {
 
     if (isAuthRoute) {
         if (isLoggedIn) {
+            console.log("middleware isLoggedIn")
+
             return Response.redirect(new URL(DEFAULT_ISLOGIN_REDIRECT, nextUrl));
         }
     }
 
-    if (isAuthRoute) {
-        if (isLoggedIn) {
-            return Response.redirect(new URL(DEFAULT_ISLOGIN_REDIRECT, nextUrl));
-        }
-    }
 
     if (!isLoggedIn && !isPublicRoute) {
         let callbackUrl = nextUrl.pathname;
@@ -37,9 +34,10 @@ export default auth((req) => {
         }
 
         const encodedCallbackUrl = encodeURIComponent(callbackUrl);
+        console.log("middleware !isLoggedIn && !isPublicRoute")
 
         return Response.redirect(new URL(
-            `/auth/login?callbackUrl=${encodedCallbackUrl}`,
+            `/login?callbackUrl=${encodedCallbackUrl}`,
             nextUrl
         ));
     }

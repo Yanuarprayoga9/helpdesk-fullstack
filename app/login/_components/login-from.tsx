@@ -5,7 +5,7 @@ import React from 'react'
 export const LoginForm = () => {
 
     const handleClick = async () => {
-        await login({ email: "yanuarprayogat@gmail.com", password: "yanuar123" });
+        await login({ email: "yanuar@gmail.com", password: "yanuar" });
     }
   return (
     <div onClick={handleClick}>LoginForm</div>

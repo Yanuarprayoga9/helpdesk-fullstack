@@ -3,7 +3,7 @@ import React from "react";
 
 const page =async  () => {
   const user =await auth();
-  console.log(user);
+  console.log({user});
   return <div>page</div>;
 };
 
