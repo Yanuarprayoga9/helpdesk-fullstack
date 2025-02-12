@@ -4,6 +4,7 @@ import { AuthError } from "next-auth";
 import { LoginSchema } from "@/schemas";
 import * as z from "zod";
 import { DEFAULT_ISLOGIN_REDIRECT } from "@/routes";
+
 export const login = async (
   values: z.infer<typeof LoginSchema>,
   callbackUrl?: string | null
@@ -11,9 +12,11 @@ export const login = async (
   const validatedFields = LoginSchema.safeParse(values);
 
   if (!validatedFields.success) {
-    return { error: "Invalid fields!" };
+    return { error: "Please provide valid fields!" };
   }
+
   const { email, password } = validatedFields.data;
+  
   try {
     await signIn("credentials", {
       email,
@@ -25,9 +28,9 @@ export const login = async (
     if (error instanceof AuthError) {
       switch (error.type) {
         case "CredentialsSignin":
-          return { error: "Invalid credentials!" };
+          return { error: "Invalid email or password!" };
         default:
-          return { error: "Something went wrong!" };
+          return { error: "An unexpected error occurred. Please try again!" };
       }
     }
 

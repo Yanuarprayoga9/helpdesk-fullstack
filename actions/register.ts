@@ -1,14 +1,14 @@
 "use server";
 import * as z from "zod";
-import { DaftarSchema } from "@/schemas";
+import { RegisterSchema } from "@/schemas";
 import bcrypt from "bcryptjs";
 import prisma from "@/lib/db";
-import { getUserByEmail } from "@/data/user";
+import { getUserByEmail } from "./user";
 
-export const register = async (values: z.infer<typeof DaftarSchema>) => {
-  const validatedFields = DaftarSchema.safeParse(values);
+export const register = async (values: z.infer<typeof RegisterSchema>) => {
+  const validatedFields = RegisterSchema.safeParse(values);
 
-  if (!validatedFields.success) return { error: "invalid fields!" };
+  if (!validatedFields.success) return { error: "Invalid fields!" };
 
   const { email, password, name } = validatedFields.data;
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -16,7 +16,7 @@ export const register = async (values: z.infer<typeof DaftarSchema>) => {
   const existingUser = await getUserByEmail(email);
 
   if (existingUser) {
-    return { error: "Email sudah digunakan!" };
+    return { error: "Email is already in use!" };
   }
   await prisma.user.create({
     data: {
@@ -26,5 +26,5 @@ export const register = async (values: z.infer<typeof DaftarSchema>) => {
     },
   });
 
-  return { success: "Daftar akun berhasil silahkan login" };
+  return { success: "Account registration successful, please login" };
 };
