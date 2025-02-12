@@ -1,0 +1,140 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model User {
+    id        String   @id @default(uuid())
+    name      String
+    email     String   @unique
+    role      Role
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    ticketsCreated  Ticket[]         @relation("CreatedTickets")
+    ticketsAssigned TicketAssignee[]
+    comments        TicketComment[]
+    feedbacks       TicketFeedback[]
+    history         TicketHistory[]
+    Ticket          Ticket[]
+}
+
+enum Role {
+    Developer
+    DevOps
+    Manager
+    Reporter
+}
+
+model Category {
+    id        String   @id @default(uuid())
+    name      String   @unique
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    tickets Ticket[]
+}
+
+model Ticket {
+    id           String    @id @default(uuid())
+    title        String
+    description  String
+    priority     Priority
+    status       Status    @default(Open)
+    createdBy    User      @relation("CreatedTickets", fields: [createdById], references: [id])
+    createdById  String
+    assignedBy   User?     @relation(fields: [assignedById], references: [id])
+    assignedById String?
+    category     Category? @relation(fields: [categoryId], references: [id])
+    categoryId   String?
+    createdAt    DateTime  @default(now())
+    updatedAt    DateTime  @updatedAt
+
+    assignees   TicketAssignee[]
+    attachments TicketAttachment[]
+    comments    TicketComment[]
+    history     TicketHistory[]
+    feedbacks   TicketFeedback[]
+}
+
+enum Priority {
+    Critical
+    High
+    Medium
+    Low
+}
+
+enum Status {
+    Open
+    InProgress
+    Escalated
+    Resolved
+    Reopened
+    Closed
+    OnHold
+}
+
+model TicketAssignee {
+    id         String   @id @default(uuid())
+    ticket     Ticket   @relation(fields: [ticketId], references: [id])
+    ticketId   String
+    user       User     @relation(fields: [userId], references: [id])
+    userId     String
+    assignedAt DateTime @default(now())
+
+    @@unique([ticketId, userId])
+}
+
+model TicketAttachment {
+    id              String         @id @default(uuid())
+    ticket          Ticket         @relation(fields: [ticketId], references: [id])
+    ticketId        String
+    fileUrl         String
+    uploadedAt      DateTime       @default(now())
+    TicketComment   TicketComment? @relation(fields: [ticketCommentId], references: [id])
+    ticketCommentId String?
+}
+
+model TicketHistory {
+    id          String   @id @default(uuid())
+    ticket      Ticket   @relation(fields: [ticketId], references: [id])
+    ticketId    String
+    changedBy   User?    @relation(fields: [changedById], references: [id])
+    changedById String?
+    oldStatus   Status?
+    newStatus   Status
+    changeNotes String?
+    changedAt   DateTime @default(now())
+}
+
+model TicketComment {
+    id        String   @id @default(uuid())
+    ticket    Ticket   @relation(fields: [ticketId], references: [id])
+    ticketId  String
+    user      User     @relation(fields: [userId], references: [id])
+    userId    String
+    comment   String
+    imageUrl  String? // Opsional: Menyimpan URL gambar
+    createdAt DateTime @default(now())
+
+    parentComment   TicketComment? @relation("CommentReplies", fields: [parentCommentId], references: [id])
+    parentCommentId String? // ID komentar induk (untuk reply)
+
+    replies     TicketComment[]    @relation("CommentReplies") // Relasi untuk balasan komentar
+    attachments TicketAttachment[]
+}
+
+model TicketFeedback {
+    id          String   @id @default(uuid())
+    ticket      Ticket   @relation(fields: [ticketId], references: [id])
+    ticketId    String
+    user        User     @relation(fields: [userId], references: [id])
+    userId      String
+    rating      Int      @default(0)
+    feedback    String?
+    submittedAt DateTime @default(now())
+}
