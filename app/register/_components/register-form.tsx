@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
-import { DaftarSchema } from "@/schemas";
+import { RegisterSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import {
@@ -28,8 +28,8 @@ export function RegisterForm({ className, ...props }: RegisterFormProps) {
   const [error, setError] = React.useState<string | undefined>("");
   const [success, setSuccess] = React.useState<string | undefined>("");
 
-  const form = useForm<z.infer<typeof DaftarSchema>>({
-    resolver: zodResolver(DaftarSchema),
+  const form = useForm<z.infer<typeof RegisterSchema>>({
+    resolver: zodResolver(RegisterSchema),
     defaultValues: {
       name: "",
       email: "",
@@ -37,7 +37,7 @@ export function RegisterForm({ className, ...props }: RegisterFormProps) {
     },
   });
 
-  function onSubmit(values: z.infer<typeof DaftarSchema>) {
+  function onSubmit(values: z.infer<typeof RegisterSchema>) {
     startTransition(() => {
       register(values)
         .then((data) => {
@@ -45,7 +45,6 @@ export function RegisterForm({ className, ...props }: RegisterFormProps) {
           setError(data.error);
         })
         .catch((error) => {
-          // ... handle errors here
           setError(error.message);
         });
     });

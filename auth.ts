@@ -2,8 +2,8 @@ import NextAuth, { Session } from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
 import authConfig from "./auth.config";
-import { getUserById } from "./data/user";
 import { JWT } from "next-auth/jwt";
+import { getUserById } from "./actions/user";
 
 const prisma = new PrismaClient();
 

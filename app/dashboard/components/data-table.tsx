@@ -1,7 +1,5 @@
 "use client"
-import { currentUser } from '@/actions/user'
-import prisma from '@/lib/db'
-import { User } from '@prisma/client'
+
 import { Session } from 'next-auth'
 import React from 'react'
 interface DataTableProps {

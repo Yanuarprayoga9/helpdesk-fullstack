@@ -1,50 +1,50 @@
-import { auth } from "@/auth"
+import { auth } from "@/auth";
 
 import {
-  authRoutes,
-  apiAuthPrefix,
-  publicRoutes,
-  DEFAULT_ISLOGIN_REDIRECT,
-} from "@/routes/index";
+    authRoutes,
+    publicRoutes,
+    DEFAULT_ISLOGIN_REDIRECT,
+} from "@/routes";
 
+// Middleware for handling authentication in Next.js
 export default auth((req) => {
+    console.log("middleware");
     const { nextUrl } = req;
-    const isLoggedIn = !!req.auth;
-    console.log("middleware")
-    const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
+    const isLoggedIn = !!req.auth; // Check if the user is logged in
+
     const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
     const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
-    if (isApiAuthRoute) {
-    }
-
+    // If the user is already logged in and tries to access an authentication page
     if (isAuthRoute) {
         if (isLoggedIn) {
-            console.log("middleware isLoggedIn")
-
+            // Redirect to the default page after login (e.g., dashboard)
             return Response.redirect(new URL(DEFAULT_ISLOGIN_REDIRECT, nextUrl));
         }
     }
 
-
+    // If the user is not logged in and tries to access a non-public route
     if (!isLoggedIn && !isPublicRoute) {
         let callbackUrl = nextUrl.pathname;
+
+        // Preserve query parameters if present (so the user can return to the requested page after login)
         if (nextUrl.search) {
             callbackUrl += nextUrl.search;
         }
 
         const encodedCallbackUrl = encodeURIComponent(callbackUrl);
-        console.log("middleware !isLoggedIn && !isPublicRoute")
+        console.log("middleware !isLoggedIn && !isPublicRoute");
 
-        return Response.redirect(new URL(
-            `/login?callbackUrl=${encodedCallbackUrl}`,
-            nextUrl
-        ));
+        // Redirect to the login page with a callback URL to return to the original page after login
+        return Response.redirect(
+            new URL(`/login?callbackUrl=${encodedCallbackUrl}`, nextUrl)
+        );
     }
+
 
 });
 
-// Optionally, don't invoke Middleware on some paths
+// Middleware configuration to apply only to specific routes
 export const config = {
-  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
+    matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
 };
