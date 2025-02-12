@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/form";
 import { register } from "@/actions/register";
 import { AlertCustom } from "@/components/alert-custom";
+
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface RegisterFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
