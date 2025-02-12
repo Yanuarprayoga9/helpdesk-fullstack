@@ -5,7 +5,7 @@ import {
   apiAuthPrefix,
   publicRoutes,
   DEFAULT_ISLOGIN_REDIRECT,
-} from "@/routes";
+} from "@/routes/index";
 
 export default auth((req) => {
     const { nextUrl } = req;
