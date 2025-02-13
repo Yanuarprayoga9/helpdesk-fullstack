@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
@@ -19,9 +19,31 @@ model User {
   createdTickets  Ticket[]         @relation("TicketCreatedBy") // Relasi dengan tiket yang dibuat oleh user
   assignedTickets Ticket[]         @relation("TicketAssignedBy") // Relasi dengan tiket yang ditugaskan kepada user
   comments        TicketComment[] // Relasi dengan komentar-komentar yang dibuat oleh user di tiket
-  feedbacks       TicketFeedback[] // Relasi dengan feedback yang diberikan oleh user untuk tiket
+  // feedbacks       TicketFeedback[] // Relasi dengan feedback yang diberikan oleh user untuk tiket
   assignees       TicketAssignee[] // Relasi dengan assignee yang ditugaskan ke tiket
   history         TicketHistory[] // Relasi dengan riwayat perubahan tiket
+  ProjectUser     ProjectUser[]
+}
+
+// Model Project untuk menyimpan daftar proyek
+model Project {
+  id        String        @id @default(uuid()) // ID unik proyek
+  name      String        @db.VarChar(100) // Nama proyek
+  tickets   Ticket[] // Relasi dengan tiket
+  users     ProjectUser[] // Relasi dengan pengguna dalam proyek
+  createdAt DateTime      @default(now()) // Timestamp pembuatan proyek
+  updatedAt DateTime      @updatedAt // Timestamp update proyek
+}
+
+model ProjectUser {
+  id        String @id @default(uuid())
+  projectId String
+  userId    String
+
+  project Project @relation(fields: [projectId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
 }
 
 // Model Role yang menyimpan informasi tentang peran
@@ -85,13 +107,15 @@ model Ticket {
   updatedAt    DateTime         @updatedAt // Waktu pembaruan tiket, diperbarui otomatis
   priority     Priority         @relation(fields: [priorityId], references: [id]) // Relasi dengan prioritas tiket
   status       Status?          @relation(fields: [statusId], references: [id]) // Relasi dengan status tiket (opsional)
+  projectId    String // Relasi dengan project
   createdBy    User             @relation("TicketCreatedBy", fields: [createdById], references: [id]) // Relasi dengan pengguna yang membuat tiket
   assignedBy   User?            @relation("TicketAssignedBy", fields: [assignedById], references: [id]) // Relasi dengan pengguna yang menugaskan tiket (opsional)
   category     Category?        @relation(fields: [categoryId], references: [id]) // Relasi dengan kategori tiket (opsional)
   assignees    TicketAssignee[] // Relasi dengan assignee yang ditugaskan ke tiket
   history      TicketHistory[] // Relasi dengan riwayat perubahan status tiket
   comments     TicketComment[] // Relasi dengan komentar-komentar yang ada pada tiket
-  feedback     TicketFeedback[] // Relasi dengan feedback yang diberikan pada tiket
+  // feedback     TicketFeedback[] // Relasi dengan feedback yang diberikan pada tiket
+  Project      Project          @relation(fields: [projectId], references: [id])
 }
 
 // Model TicketAssignee yang menyimpan relasi antara tiket dan user yang ditugaskan
@@ -136,14 +160,14 @@ model TicketComment {
   replies         TicketComment[] @relation("TicketCommentParent") // Relasi dengan balasan-balasannya
 }
 
-// Model TicketFeedback yang menyimpan feedback pada tiket
-model TicketFeedback {
-  id          String   @id @default(uuid()) // ID unik untuk feedback yang dihasilkan menggunakan UUID
-  ticketId    String // ID dari tiket yang diberikan feedback
-  userId      String // ID dari pengguna yang memberikan feedback
-  rating      Int      @default(0) // Rating feedback (nilai default 0)
-  feedback    String?  @db.Text // Isi feedback (opsional)
-  submittedAt DateTime @default(now()) // Waktu pengiriman feedback, otomatis diisi dengan waktu sekarang
-  ticket      Ticket   @relation(fields: [ticketId], references: [id]) // Relasi dengan tiket yang diberi feedback
-  user        User     @relation(fields: [userId], references: [id]) // Relasi dengan pengguna yang memberikan feedback
-}
+// // Model TicketFeedback yang menyimpan feedback pada tiket
+// model TicketFeedback {
+//   id          String   @id @default(uuid()) // ID unik untuk feedback yang dihasilkan menggunakan UUID
+//   ticketId    String // ID dari tiket yang diberikan feedback
+//   userId      String // ID dari pengguna yang memberikan feedback
+//   rating      Int      @default(0) // Rating feedback (nilai default 0)
+//   feedback    String?  @db.Text // Isi feedback (opsional)
+//   submittedAt DateTime @default(now()) // Waktu pengiriman feedback, otomatis diisi dengan waktu sekarang
+//   ticket      Ticket   @relation(fields: [ticketId], references: [id]) // Relasi dengan tiket yang diberi feedback
+//   user        User     @relation(fields: [userId], references: [id]) // Relasi dengan pengguna yang memberikan feedback
+// }
