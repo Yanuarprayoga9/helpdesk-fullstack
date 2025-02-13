@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
     provider = "postgresql"
-    url      = env("DATABASE_URL") 
+    url      = env("DATABASE_URL")
 }
 
 // Model User yang merepresentasikan pengguna di sistem
@@ -24,6 +24,7 @@ model User {
 }
 
 // Model Role yang menyimpan informasi tentang peran
+// Role harus salah satu dari 'Developer', 'DevOps', 'Admin','Manager'
 model Role {
     id    String     @id @default(uuid()) // ID unik untuk peran yang dihasilkan menggunakan UUID
     name  String     @unique @db.VarChar(20) // Nama peran yang unik dengan panjang maksimal 20 karakter
@@ -41,6 +42,8 @@ model UserRole {
 }
 
 // Model Category yang menyimpan kategori tiket
+// Kategeri harus salah satu dari ''Bug Sistem'', 'Gangguan Infrastruktur', 'Permintaan Deployment', 'Permintaan Perubahan'
+
 model Category {
     id        String   @id @default(uuid()) // ID unik kategori yang dihasilkan menggunakan UUID
     name      String   @unique @db.VarChar(100) // Nama kategori yang unik dengan panjang maksimal 100 karakter
@@ -50,6 +53,8 @@ model Category {
 }
 
 // Model Priority yang menyimpan prioritas tiket
+// This would be the validation logic that was previously in SQL CHECK constraint:
+// Status tiket harus salah satu dari 'Open', 'InProgress', 'Escalated', 'Resolved', 'Reopened', 'Closed', 'OnHold'
 model Priority {
     id      String   @id @default(uuid()) // ID unik untuk prioritas tiket yang dihasilkan dengan UUID
     name    String   @unique @db.VarChar(20) // Nama prioritas yang unik dengan panjang maksimal 20 karakter
@@ -57,6 +62,8 @@ model Priority {
 }
 
 // Model Status yang menyimpan status tiket
+// This would be the validation logic that was previously in SQL CHECK constraint:
+// Status tiket harus salah satu dari 'Open', 'InProgress', 'Escalated', 'Resolved', 'Reopened', 'Closed', 'OnHold'
 model Status {
     id      String   @id @default(uuid()) // ID unik untuk status tiket yang dihasilkan menggunakan UUID
     name    String   @unique @db.VarChar(20) // Nama status yang unik dengan panjang maksimal 20 karakter
@@ -99,6 +106,8 @@ model TicketAssignee {
 }
 
 // Model TicketHistory yang menyimpan riwayat perubahan status tiket
+// Status validation:
+// Ensure that oldStatus and newStatus values are from the set of valid statuses ('Open', 'InProgress', 'Escalated', etc.)
 model TicketHistory {
     id          String   @id @default(uuid()) // ID unik untuk riwayat yang dihasilkan menggunakan UUID
     ticketId    String // ID dari tiket yang mengalami perubahan
