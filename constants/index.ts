@@ -1,21 +1,23 @@
-export const ROLES = ['Developer', 'DevOps', 'Admin', 'Manager'] as const;
-export type Role = (typeof ROLES)[number];
+export enum Role {
+    Developer = 'Developer',
+    DevOps = 'DevOps',
+    Admin = 'Admin',
+    Manager = 'Manager'
+}
+export type RoleList = Role[];
+export enum Category {
+    BugSistem = 'Bug Sistem',
+    GangguanInfrastruktur = 'Gangguan Infrastruktur',
+    PermintaanDeployment = 'Permintaan Deployment',
+    PermintaanPerubahan = 'Permintaan Perubahan'
+}
 
-export const CATEGORIES = [
-    'Bug Sistem',
-    'Gangguan Infrastruktur',
-    'Permintaan Deployment',
-    'Permintaan Perubahan',
-] as const;
-export type Category = (typeof CATEGORIES)[number];
-
-export const TICKET_STATUSES = [
-    'Open',
-    'InProgress',
-    'Escalated',
-    'Resolved',
-    'Reopened',
-    'Closed',
-    'OnHold',
-] as const;
-export type TicketStatus = (typeof TICKET_STATUSES)[number];
+export enum TicketStatus {
+    Open = 'Open',
+    InProgress = 'InProgress',
+    Escalated = 'Escalated',
+    Resolved = 'Resolved',
+    Reopened = 'Reopened',
+    Closed = 'Closed',
+    OnHold = 'OnHold'
+}
