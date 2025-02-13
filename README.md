@@ -1,36 +1,62 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Helpdesk 
+## <a name="links">🔗 Assets</a>
 
-## Getting Started
+- Figma Link [https://www.figma.com/design/rL1fkmMtbZAIhXeXkqrzo7/helpdesk-tugas-akhir?node-id=1-233&p=f&t=zSxplxTe9BDdIfta-0](https://www.figma.com/design/rL1fkmMtbZAIhXeXkqrzo7/helpdesk-tugas-akhir?node-id=1-233&p=f&t=zSxplxTe9BDdIfta-0)
 
-First, run the development server:
+- Database Schema Link [https://app.diagrams.net/#G16yTuzhCDS9O6PCf7xJ0kDI0s_64QTUV_#%7B%22pageId%22%3A%22R2lEEEUBdFMjLlhIrx00%22%7D](https://app.diagrams.net/#G16yTuzhCDS9O6PCf7xJ0kDI0s_64QTUV_#%7B%22pageId%22%3A%22R2lEEEUBdFMjLlhIrx00%22%7D)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+### Prerequisites
+
+**Node version 18.7.x**
+
+### Cloning the repository
+
+```shell
+git https://github.com/Yanuarprayoga9/helpdesk-fullstack.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Install packages
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```shell
+npm i
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Setup .env file 
+```shell
+cp .env.example .env 
+```
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+```js
+DATABASE_URL=
+DIRECT_URL=
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+RESEND_API_KEY=
 
-## Deploy on Vercel
+NEXT_PUBLIC_APP_URL=
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Setup Prisma
+```shell
+npm i -D prisma
+npm i @prisma/client
+npx prisma generate
+npx prisma migrate 
+npx prisma db push
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Start the app
+
+```shell
+npm run dev
+```
+
+## Available commands
+
+Running commands with npm `npm run [command]`
+
+| command         | description                              |
+| :-------------- | :--------------------------------------- |
+| `dev`           | Starts a development instance of the app |
