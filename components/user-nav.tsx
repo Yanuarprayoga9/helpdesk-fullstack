@@ -16,12 +16,6 @@ import {
     DropdownMenuShortcut,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { RoleList } from "@/constants"
-import { useGetCurrentUser, useGetCurrentUserRoles } from "@/hooks/use-get-current-user"
-import { formatStringRoles } from "@/lib/utils"
-import { DEFAULT_ISLOGIN_REDIRECT } from "@/routes"
-import { User } from "@prisma/client"
-import { redirect, useRouter } from "next/navigation"
 
 export function UserNav({user}:{user:any}) {
     console.log({user},"user in usernav")

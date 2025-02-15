@@ -1,4 +1,3 @@
-import { getCurrentUser } from "@/actions/user"
 import { auth } from "@/auth"
 import { AppSidebar } from "@/components/app-sidebar"
 import { MainNav } from "@/components/main-nav"
