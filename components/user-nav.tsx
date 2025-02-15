@@ -1,3 +1,5 @@
+"use client"
+import { logout } from "@/actions/logout"
 import {
     Avatar,
     AvatarFallback,
@@ -14,8 +16,18 @@ import {
     DropdownMenuShortcut,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { RoleList } from "@/constants"
+import { useGetCurrentUser, useGetCurrentUserRoles } from "@/hooks/use-get-current-user"
+import { formatStringRoles } from "@/lib/utils"
+import { DEFAULT_ISLOGIN_REDIRECT } from "@/routes"
+import { User } from "@prisma/client"
+import { redirect, useRouter } from "next/navigation"
 
-export function UserNav() {
+export function UserNav({user}:{user:any}) {
+    console.log({user},"user in usernav")
+    const handleSignOut = () => {
+        logout()
+    }
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -29,9 +41,9 @@ export function UserNav() {
             <DropdownMenuContent className="w-56" align="end" forceMount>
                 <DropdownMenuLabel className="font-normal">
                     <div className="flex flex-col space-y-1">
-                        <p className="text-sm font-medium leading-none">shadcn</p>
+                        {/* <p className="text-sm font-medium leading-none">{user?.name}</p> */}
                         <p className="text-xs leading-none text-muted-foreground">
-                            m@example.com
+                            {/* {user?.email as string} {`(${formatStringRoles(user.roles)})`} */}
                         </p>
                     </div>
                 </DropdownMenuLabel>
@@ -52,8 +64,8 @@ export function UserNav() {
                     <DropdownMenuItem>New Team</DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                    Log out
+                <DropdownMenuItem onClick={handleSignOut}>
+                    Sign Out
                     <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
                 </DropdownMenuItem>
             </DropdownMenuContent>
