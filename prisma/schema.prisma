@@ -77,9 +77,10 @@ model Category {
 
 // Model Priority yang menyimpan prioritas tiket
 // This would be the validation logic that was previously in SQL CHECK constraint:
-// Status tiket harus salah satu dari 'Open', 'InProgress', 'Escalated', 'Resolved', 'Reopened', 'Closed', 'OnHold'
+// Status tiket harus salah satu dari Critical (operasi berhenti).High (urgensi tinggi).Medium (tidak mendesak). Low (perbaikan minor).
 model Priority {
   id      String   @id @default(uuid()) // ID unik untuk prioritas tiket yang dihasilkan dengan UUID
+  color   String   @db.VarChar(20)
   name    String   @unique @db.VarChar(20) // Nama prioritas yang unik dengan panjang maksimal 20 karakter
   tickets Ticket[] // Relasi dengan tiket yang memiliki prioritas ini
 }
@@ -89,6 +90,7 @@ model Priority {
 // Status tiket harus salah satu dari 'Open', 'InProgress', 'Escalated', 'Resolved', 'Reopened', 'Closed', 'OnHold'
 model Status {
   id      String   @id @default(uuid()) // ID unik untuk status tiket yang dihasilkan menggunakan UUID
+  color   String   @db.VarChar(20)
   name    String   @unique @db.VarChar(20) // Nama status yang unik dengan panjang maksimal 20 karakter
   tickets Ticket[] // Relasi dengan tiket yang memiliki status ini
 }
@@ -104,7 +106,7 @@ model Ticket {
   assignedById String? // ID dari pengguna yang menugaskan tiket (opsional)
   categoryId   String? // ID kategori tiket (opsional)
   createdAt    DateTime         @default(now()) // Waktu pembuatan tiket, otomatis diisi dengan waktu sekarang
-  updatedAt    DateTime         @updatedAt // Waktu pembaruan tiket, diperbarui otomatis
+  updatedAt    DateTime?         @updatedAt // Waktu pembaruan tiket, diperbarui otomatis
   priority     Priority         @relation(fields: [priorityId], references: [id]) // Relasi dengan prioritas tiket
   status       Status?          @relation(fields: [statusId], references: [id]) // Relasi dengan status tiket (opsional)
   projectId    String // Relasi dengan project

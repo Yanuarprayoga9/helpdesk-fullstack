@@ -1,131 +1,145 @@
--- Create table for User
+-- Table for User
 CREATE TABLE
-    "User" (
-        "id" UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-        "name" VARCHAR(50) NOT NULL,
-        "email" VARCHAR(50) UNIQUE NOT NULL,
-        "password" TEXT NOT NULL,
-        "createdAt" TIMESTAMPTZ DEFAULT now (),
-        "updatedAt" TIMESTAMPTZ DEFAULT now ()
+    `User` (
+        `id` CHAR(36) PRIMARY KEY,
+        `name` VARCHAR(50) NOT NULL,
+        `email` VARCHAR(50) UNIQUE NOT NULL,
+        `password` TEXT NOT NULL,
+        `createdAt` DATETIME DEFAULT CURRENT_TIMESTAMP,
+        `updatedAt` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     );
 
--- Create table for Project
+-- Table for Project
 CREATE TABLE
-    "Project" (
-        "id" UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-        "name" VARCHAR(100) NOT NULL,
-        "createdAt" TIMESTAMPTZ DEFAULT now (),
-        "updatedAt" TIMESTAMPTZ DEFAULT now ()
+    `Project` (
+        `id` CHAR(36) PRIMARY KEY,
+        `name` VARCHAR(100) NOT NULL,
+        `createdAt` DATETIME DEFAULT CURRENT_TIMESTAMP,
+        `updatedAt` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     );
 
--- Create table for ProjectUser
+-- Table for ProjectUser
 CREATE TABLE
-    "ProjectUser" (
-        "id" UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-        "projectId" UUID NOT NULL,
-        "userId" UUID NOT NULL,
-        "createdAt" TIMESTAMPTZ DEFAULT now (),
-        CONSTRAINT "FK_ProjectUser_Project" FOREIGN KEY ("projectId") REFERENCES "Project" ("id"),
-        CONSTRAINT "FK_ProjectUser_User" FOREIGN KEY ("userId") REFERENCES "User" ("id")
+    `ProjectUser` (
+        `id` CHAR(36) PRIMARY KEY,
+        `projectId` CHAR(36) NOT NULL,
+        `userId` CHAR(36) NOT NULL,
+        `createdAt` DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (`projectId`) REFERENCES `Project` (`id`),
+        FOREIGN KEY (`userId`) REFERENCES `User` (`id`)
     );
 
--- Create table for Role
+-- Table for Role
 CREATE TABLE
-    "Role" (
-        "id" UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-        "name" VARCHAR(20) UNIQUE NOT NULL
+    `Role` (
+        `id` CHAR(36) PRIMARY KEY,
+        `name` VARCHAR(20) UNIQUE NOT NULL
     );
 
--- Create table for UserRole
+-- Table for UserRole
 CREATE TABLE
-    "UserRole" (
-        "userId" UUID NOT NULL,
-        "roleId" UUID NOT NULL,
-        PRIMARY KEY ("userId", "roleId"),
-        CONSTRAINT "FK_UserRole_User" FOREIGN KEY ("userId") REFERENCES "User" ("id"),
-        CONSTRAINT "FK_UserRole_Role" FOREIGN KEY ("roleId") REFERENCES "Role" ("id")
+    `UserRole` (
+        `userId` CHAR(36) NOT NULL,
+        `roleId` CHAR(36) NOT NULL,
+        PRIMARY KEY (`userId`, `roleId`),
+        FOREIGN KEY (`userId`) REFERENCES `User` (`id`),
+        FOREIGN KEY (`roleId`) REFERENCES `Role` (`id`)
     );
 
--- Create table for Category
+-- Table for Category
 CREATE TABLE
-    "Category" (
-        "id" UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-        "name" VARCHAR(100) UNIQUE NOT NULL,
-        "createdAt" TIMESTAMPTZ DEFAULT now (),
-        "updatedAt" TIMESTAMPTZ DEFAULT now ()
+    `Category` (
+        `id` CHAR(36) PRIMARY KEY,
+        `name` VARCHAR(100) UNIQUE NOT NULL,
+        `createdAt` DATETIME DEFAULT CURRENT_TIMESTAMP,
+        `updatedAt` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     );
 
--- Create table for Priority
+-- Table for Priority
 CREATE TABLE
-    "Priority" (
-        "id" UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-        "name" VARCHAR(20) UNIQUE NOT NULL
+    `Priority` (
+        `id` CHAR(36) PRIMARY KEY,
+        `color` VARCHAR(20) NOT NULL,
+        `name` VARCHAR(20) UNIQUE NOT NULL
     );
 
--- Create table for Status
+-- Table for Status
 CREATE TABLE
-    "Status" (
-        "id" UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-        "name" VARCHAR(20) UNIQUE NOT NULL
+    `Status` (
+        `id` CHAR(36) PRIMARY KEY,
+        `color` VARCHAR(20) NOT NULL,
+        `name` VARCHAR(20) UNIQUE NOT NULL
     );
 
--- Create table for Ticket
+-- Table for Ticket
 CREATE TABLE
-    "Ticket" (
-        "id" UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-        "title" VARCHAR(50) NOT NULL,
-        "description" TEXT NOT NULL,
-        "priorityId" UUID NOT NULL,
-        "statusId" UUID,
-        "createdById" UUID NOT NULL,
-        "assignedById" UUID,
-        "categoryId" UUID,
-        "createdAt" TIMESTAMPTZ DEFAULT now (),
-        "updatedAt" TIMESTAMPTZ DEFAULT now (),
-        CONSTRAINT "FK_Ticket_Priority" FOREIGN KEY ("priorityId") REFERENCES "Priority" ("id"),
-        CONSTRAINT "FK_Ticket_Status" FOREIGN KEY ("statusId") REFERENCES "Status" ("id"),
-        CONSTRAINT "FK_Ticket_CreatedBy" FOREIGN KEY ("createdById") REFERENCES "User" ("id"),
-        CONSTRAINT "FK_Ticket_AssignedBy" FOREIGN KEY ("assignedById") REFERENCES "User" ("id"),
-        CONSTRAINT "FK_Ticket_Category" FOREIGN KEY ("categoryId") REFERENCES "Category" ("id")
+    `Ticket` (
+        `id` CHAR(36) PRIMARY KEY,
+        `title` VARCHAR(50) NOT NULL,
+        `description` TEXT NOT NULL,
+        `priorityId` CHAR(36) NOT NULL,
+        `statusId` CHAR(36),
+        `createdById` CHAR(36) NOT NULL,
+        `assignedById` CHAR(36),
+        `categoryId` CHAR(36),
+        `createdAt` DATETIME DEFAULT CURRENT_TIMESTAMP,
+        `updatedAt` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        FOREIGN KEY (`priorityId`) REFERENCES `Priority` (`id`),
+        FOREIGN KEY (`statusId`) REFERENCES `Status` (`id`),
+        FOREIGN KEY (`createdById`) REFERENCES `User` (`id`),
+        FOREIGN KEY (`assignedById`) REFERENCES `User` (`id`),
+        FOREIGN KEY (`categoryId`) REFERENCES `Category` (`id`)
     );
 
--- Create table for TicketAssignee
+-- Table for TicketAssignee
 CREATE TABLE
-    "TicketAssignee" (
-        "id" UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-        "ticketId" UUID NOT NULL,
-        "userId" UUID NOT NULL,
-        "assignedAt" TIMESTAMPTZ DEFAULT now (),
-        CONSTRAINT "FK_TicketAssignee_Ticket" FOREIGN KEY ("ticketId") REFERENCES "Ticket" ("id"),
-        CONSTRAINT "FK_TicketAssignee_User" FOREIGN KEY ("userId") REFERENCES "User" ("id"),
-        CONSTRAINT "Unique_TicketAssignee" UNIQUE ("ticketId", "userId")
+    `TicketAssignee` (
+        `id` CHAR(36) PRIMARY KEY,
+        `ticketId` CHAR(36) NOT NULL,
+        `userId` CHAR(36) NOT NULL,
+        `assignedAt` DATETIME DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE (`ticketId`, `userId`),
+        FOREIGN KEY (`ticketId`) REFERENCES `Ticket` (`id`),
+        FOREIGN KEY (`userId`) REFERENCES `User` (`id`)
     );
 
--- Create table for TicketHistory
+-- Table for TicketHistory
 CREATE TABLE
-    "TicketHistory" (
-        "id" UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-        "ticketId" UUID NOT NULL,
-        "changedById" UUID,
-        "oldStatus" VARCHAR(20) NOT NULL,
-        "newStatus" VARCHAR(20) NOT NULL,
-        "changeNotes" TEXT,
-        "changedAt" TIMESTAMPTZ DEFAULT now (),
-        CONSTRAINT "FK_TicketHistory_Ticket" FOREIGN KEY ("ticketId") REFERENCES "Ticket" ("id"),
-        CONSTRAINT "FK_TicketHistory_ChangedBy" FOREIGN KEY ("changedById") REFERENCES "User" ("id")
+    `TicketHistory` (
+        `id` CHAR(36) PRIMARY KEY,
+        `ticketId` CHAR(36) NOT NULL,
+        `changedById` CHAR(36),
+        `oldStatus` VARCHAR(20) NOT NULL,
+        `newStatus` VARCHAR(20) NOT NULL,
+        `changeNotes` TEXT,
+        `changedAt` DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (`ticketId`) REFERENCES `Ticket` (`id`),
+        FOREIGN KEY (`changedById`) REFERENCES `User` (`id`)
     );
 
--- Create table for TicketComment
+-- Table for TicketComment
 CREATE TABLE
-    "TicketComment" (
-        "id" UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-        "ticketId" UUID NOT NULL,
-        "userId" UUID NOT NULL,
-        "comment" TEXT NOT NULL,
-        "imageUrl" VARCHAR(255),
-        "createdAt" TIMESTAMPTZ DEFAULT now (),
-        "parentCommentId" UUID,
-        CONSTRAINT "FK_TicketComment_Ticket" FOREIGN KEY ("ticketId") REFERENCES "Ticket" ("id"),
-        CONSTRAINT "FK_TicketComment_User" FOREIGN KEY ("userId") REFERENCES "User" ("id"),
-        CONSTRAINT "FK_TicketComment_Parent" FOREIGN KEY ("parentCommentId") REFERENCES "TicketComment" ("id")
+    `TicketComment` (
+        `id` CHAR(36) PRIMARY KEY,
+        `ticketId` CHAR(36) NOT NULL,
+        `userId` CHAR(36) NOT NULL,
+        `comment` TEXT NOT NULL,
+        `imageUrl` VARCHAR(255),
+        `createdAt` DATETIME DEFAULT CURRENT_TIMESTAMP,
+        `parentCommentId` CHAR(36),
+        FOREIGN KEY (`ticketId`) REFERENCES `Ticket` (`id`),
+        FOREIGN KEY (`userId`) REFERENCES `User` (`id`),
+        FOREIGN KEY (`parentCommentId`) REFERENCES `TicketComment` (`id`)
     );
+
+-- Table for TicketFeedback (commented out in schema)
+-- CREATE TABLE `TicketFeedback` (
+--   `id` CHAR(36) PRIMARY KEY,
+--   `ticketId` CHAR(36) NOT NULL,
+--   `userId` CHAR(36) NOT NULL,
+--   `rating` INT DEFAULT 0,
+--   `feedback` TEXT,
+--   `submittedAt` DATETIME DEFAULT CURRENT_TIMESTAMP,
+--   FOREIGN KEY (`ticketId`) REFERENCES `Ticket`(`id`),
+--   FOREIGN KEY (`userId`) REFERENCES `User`(`id`)
+-- );
