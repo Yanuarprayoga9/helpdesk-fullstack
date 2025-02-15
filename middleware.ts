@@ -4,6 +4,7 @@ import {
     authRoutes,
     publicRoutes,
     DEFAULT_ISLOGIN_REDIRECT,
+    protectedRoutes,
 } from "@/routes";
 
 // Middleware for handling authentication in Next.js
@@ -14,6 +15,7 @@ export default auth((req) => {
 
     const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
     const isAuthRoute = authRoutes.includes(nextUrl.pathname);
+    const isAProtectedRoute = protectedRoutes.includes(nextUrl.pathname);
 
     // If the user is already logged in and tries to access an authentication page
     if (isAuthRoute) {
@@ -24,7 +26,7 @@ export default auth((req) => {
     }
 
     // If the user is not logged in and tries to access a non-public route
-    if (!isLoggedIn && !isPublicRoute) {
+    if (!isLoggedIn && !isPublicRoute && isAProtectedRoute) {
         let callbackUrl = nextUrl.pathname;
 
         // Preserve query parameters if present (so the user can return to the requested page after login)
