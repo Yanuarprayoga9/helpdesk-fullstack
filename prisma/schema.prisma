@@ -89,10 +89,15 @@ model Priority {
 // This would be the validation logic that was previously in SQL CHECK constraint:
 // Status tiket harus salah satu dari 'Open', 'InProgress', 'Escalated', 'Resolved', 'Reopened', 'Closed', 'OnHold'
 model Status {
-  id      String   @id @default(uuid()) // ID unik untuk status tiket yang dihasilkan menggunakan UUID
-  color   String   @db.VarChar(20)
-  name    String   @unique @db.VarChar(20) // Nama status yang unik dengan panjang maksimal 20 karakter
-  tickets Ticket[] // Relasi dengan tiket yang memiliki status ini
+  id           String          @id @default(uuid()) // ID unik untuk status tiket yang dihasilkan menggunakan UUID
+  color        String          @db.VarChar(20)
+  name         String          @unique @db.VarChar(20) // Nama status yang unik dengan panjang maksimal 20 karakter
+  tickets      Ticket[] // Relasi dengan tiket yang memiliki status ini
+  // Relasi untuk status lama dari riwayat tiket
+  oldHistories TicketHistory[] @relation("TicketHistoryOldStatus")
+
+  // Relasi untuk status baru dari riwayat tiket
+  newHistories TicketHistory[] @relation("TicketHistoryNewStatus")
 }
 
 // Model Ticket yang merepresentasikan tiket di sistem
@@ -106,7 +111,7 @@ model Ticket {
   assignedById String? // ID dari pengguna yang menugaskan tiket (opsional)
   categoryId   String? // ID kategori tiket (opsional)
   createdAt    DateTime         @default(now()) // Waktu pembuatan tiket, otomatis diisi dengan waktu sekarang
-  updatedAt    DateTime?         @updatedAt // Waktu pembaruan tiket, diperbarui otomatis
+  updatedAt    DateTime?        @updatedAt // Waktu pembaruan tiket, diperbarui otomatis
   priority     Priority         @relation(fields: [priorityId], references: [id]) // Relasi dengan prioritas tiket
   status       Status?          @relation(fields: [statusId], references: [id]) // Relasi dengan status tiket (opsional)
   projectId    String // Relasi dengan project
@@ -136,15 +141,18 @@ model TicketAssignee {
 // Status validation:
 // Ensure that oldStatus and newStatus values are from the set of valid statuses ('Open', 'InProgress', 'Escalated', etc.)
 model TicketHistory {
-  id          String   @id @default(uuid()) // ID unik untuk riwayat yang dihasilkan menggunakan UUID
-  ticketId    String // ID dari tiket yang mengalami perubahan
-  changedById String? // ID dari pengguna yang melakukan perubahan (opsional)
-  oldStatus   String   @db.VarChar(20) // Status lama tiket
-  newStatus   String   @db.VarChar(20) // Status baru tiket
-  changeNotes String?  @db.Text // Catatan perubahan (opsional)
-  changedAt   DateTime @default(now()) // Waktu perubahan status, secara otomatis diisi dengan waktu sekarang
-  ticket      Ticket   @relation(fields: [ticketId], references: [id]) // Relasi dengan tiket yang memiliki riwayat perubahan
-  changedBy   User?    @relation(fields: [changedById], references: [id]) // Relasi dengan pengguna yang melakukan perubahan (opsional)
+  id          String   @id @default(uuid())
+  ticketId    String
+  changedById String?
+  oldStatusId String
+  newStatusId String
+  changeNotes String?  @db.Text
+  changedAt   DateTime @default(now())
+
+  ticket    Ticket @relation(fields: [ticketId], references: [id])
+  changedBy User?  @relation(fields: [changedById], references: [id])
+  oldStatus Status @relation("TicketHistoryOldStatus", fields: [oldStatusId], references: [id])
+  newStatus Status @relation("TicketHistoryNewStatus", fields: [newStatusId], references: [id])
 }
 
 // Model TicketComment yang menyimpan komentar pada tiket

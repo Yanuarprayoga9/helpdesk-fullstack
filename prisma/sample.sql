@@ -53,9 +53,9 @@ INSERT INTO TicketAssignee (id,ticketId, userId, assignedAt) VALUES
   ('uuid-ticketass-2','uuid-ticket-2', 'uuid-user-3', NOW()); -- Jane ditugaskan pada Ticket 2
 
 -- Menambahkan TicketHistory (Riwayat status perubahan)
-INSERT INTO TicketHistory (id,ticketId, oldStatus, newStatus, changedAt) VALUES
-  ('uuid-tickethis-1', 'uuid-ticket-1', 'Open', 'InProgress', NOW()), -- Ticket 1 berubah status dari Open ke InProgress
-  ('uuid-tickethis-2','uuid-ticket-1', 'Open', 'Resolved', NOW()); -- Ticket 2 berubah status dari Open ke Resolved
+INSERT INTO TicketHistory (id, ticketId, oldStatusId, newStatusId, changedById, changeNotes, changedAt) VALUES
+  ('uuid-tickethis-1', 'uuid-ticket-1', 'uuid-status-1', 'uuid-status-2', 'uuid-user-1', 'Status berubah dari Open ke InProgress', NOW()), 
+  ('uuid-tickethis-2', 'uuid-ticket-1', 'uuid-status-2', 'uuid-status-1', 'uuid-user-2', 'Status dikembalikan ke Open', NOW());
 
 -- Menambahkan TicketComment (Komentar di tiket)
 INSERT INTO TicketComment (id,ticketId, userId, comment, createdAt) VALUES
