@@ -109,10 +109,12 @@ CREATE TABLE
         `id` CHAR(36) PRIMARY KEY,
         `ticketId` CHAR(36) NOT NULL,
         `changedById` CHAR(36),
-        `oldStatus` VARCHAR(20) NOT NULL,
-        `newStatus` VARCHAR(20) NOT NULL,
+        `oldStatusId` VARCHAR(20) NOT NULL,
+        `newStatusId` VARCHAR(20) NOT NULL,
         `changeNotes` TEXT,
         `changedAt` DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (`oldStatusId`) REFERENCES `Status` (`id`),
+        FOREIGN KEY (`newStatusId`) REFERENCES `Status` (`id`),
         FOREIGN KEY (`ticketId`) REFERENCES `Ticket` (`id`),
         FOREIGN KEY (`changedById`) REFERENCES `User` (`id`)
     );
