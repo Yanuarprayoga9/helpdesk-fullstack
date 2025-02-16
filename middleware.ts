@@ -6,6 +6,7 @@ import {
     DEFAULT_ISLOGIN_REDIRECT,
     protectedRoutes,
 } from "@/routes";
+import { NextResponse } from "next/server";
 
 // Middleware for handling authentication in Next.js
 export default auth((req) => {

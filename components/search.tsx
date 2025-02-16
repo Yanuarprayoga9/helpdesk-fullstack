@@ -1,12 +1,12 @@
 import { Input } from "@/components/ui/input"
 
-export function Search() {
+export function SearchComponent() {
   return (
     <div>
       <Input
         type="search"
         placeholder="Search..."
-        className="md:w-[100px] lg:w-[300px]"
+        className=" overflow-none"
       />
     </div>
   )

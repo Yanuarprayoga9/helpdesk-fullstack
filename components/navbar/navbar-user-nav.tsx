@@ -1,5 +1,3 @@
-"use client"
-import { logout } from "@/actions/logout"
 import {
     Avatar,
     AvatarFallback,
@@ -16,12 +14,15 @@ import {
     DropdownMenuShortcut,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { formatStringRoles } from "@/lib/utils"
+import Link from "next/link"
+import SignOutButton from "../signout-button"
 
-export function UserNav({user}:{user:any}) {
-    console.log({user},"user in usernav")
-    const handleSignOut = () => {
-        logout()
-    }
+export function UserNav({ user, roles }: { user: any, roles: string[] }) {
+
+    console.log({ user }, user.name)
+    console.log({ roles }, formatStringRoles(roles))
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -35,16 +36,16 @@ export function UserNav({user}:{user:any}) {
             <DropdownMenuContent className="w-56" align="end" forceMount>
                 <DropdownMenuLabel className="font-normal">
                     <div className="flex flex-col space-y-1">
-                        {/* <p className="text-sm font-medium leading-none">{user?.name}</p> */}
+                        <p className="text-sm font-medium leading-none">{user?.name}</p>
                         <p className="text-xs leading-none text-muted-foreground">
-                            {/* {user?.email as string} {`(${formatStringRoles(user.roles)})`} */}
+                            {user?.email as string} {`(${formatStringRoles(user.roles)})`}
                         </p>
                     </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
                     <DropdownMenuItem>
-                        Profile
+                        <Link href={'/dashboard/admin'}>Admin</Link>
                         <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
                     </DropdownMenuItem>
                     <DropdownMenuItem>
@@ -58,8 +59,8 @@ export function UserNav({user}:{user:any}) {
                     <DropdownMenuItem>New Team</DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleSignOut}>
-                    Sign Out
+                <DropdownMenuItem >
+                    <SignOutButton />
                     <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
                 </DropdownMenuItem>
             </DropdownMenuContent>

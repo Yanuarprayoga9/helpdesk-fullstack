@@ -1,35 +1,25 @@
+import { getCurrentUserRole } from "@/actions/user"
 import { auth } from "@/auth"
-import { AppSidebar } from "@/components/app-sidebar"
-import { MainNav } from "@/components/main-nav"
-import { Search } from "@/components/search"
-import TeamSwitcher from "@/components/team-switcher"
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
-import { UserNav } from "@/components/user-nav"
+import { AppSidebar } from "@/components/sidebar/app-sidebar"
+import { SidebarProvider } from "@/components/ui/sidebar"
 import { SessionProvider } from "next-auth/react"
+import AppNavbar from "@/components/navbar/app-navbar"
 
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
-    const user =await  auth()
-    console.log({user},"in layout")
+    const session = await auth()
+    const roles = await getCurrentUserRole()
+    
     return (
         <SessionProvider>
 
             <SidebarProvider>
                 <AppSidebar />
-                <main className="w-full">
-                    <div className=" border-b">
-                        <div className=" flex h-16 items-center px-4">
-                            <SidebarTrigger />
-                            <TeamSwitcher />
-
-                            <MainNav className="mx-6" />
-                            <div className="ml-auto flex items-center space-x-4">
-                                <Search />
-                                <UserNav user={user}/>
-                            </div>
-                        </div>
+                <main className="w-full   ">
+                    <AppNavbar user={session?.user} roles={roles}/>
+                    <div className="md:p-4 md:mx-4 md:my-5 rounded-md bg-[#F9F9FA]">
+                        {children}
                     </div>
-                    {children}
                 </main>
             </SidebarProvider>
         </SessionProvider>

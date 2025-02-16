@@ -6,7 +6,7 @@ const page = async () => {
   console.log({ user });
   if (!user) return <></>
   return (
-    <></>
+    <>test</>
   )
 };
 
