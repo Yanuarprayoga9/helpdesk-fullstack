@@ -1,5 +1,8 @@
 "use server"
 
+import { ProjectType } from "@/@types/project"
+import {RoleType } from "@/@types/role"
+import { UserType } from "@/@types/user"
 import { auth } from "@/auth"
 import prisma from "@/lib/db"
 
@@ -21,7 +24,7 @@ export const getCurrentUserRole = async () => {
     }
 }
 
-export const getUserByEmail = async (email: string) => {
+export const getUserByEmail = async (email: string): Promise<UserType | null> => {
     try {
         const user = await prisma.user.findUnique({
             where: { email },
@@ -33,7 +36,7 @@ export const getUserByEmail = async (email: string) => {
                 },
             },
         });
-
+        console.log(user?.roles)
         if (!user) return null;
         return {
             ...user,
@@ -43,7 +46,7 @@ export const getUserByEmail = async (email: string) => {
         return null;
     }
 };
-export const getUserById = async (id: string) => {
+export const getUserById = async (id: string): Promise<UserType | null> => {
     try {
         const user = await prisma.user.findUnique({
             where: { id },
@@ -52,10 +55,11 @@ export const getUserById = async (id: string) => {
                     include: {
                         role: true,
                     },
+    
                 },
             },
         });
-        console.log({user},'user in function')
+        console.log({ user }, user?.roles)
         if (!user) return null;
 
         return {
@@ -63,7 +67,32 @@ export const getUserById = async (id: string) => {
             roles: user.roles.map(userRole => userRole.role.name)
         };
     } catch {
+        return null;
+    }
+};
+export const getUserRolesById = async (userId: string): Promise<RoleType[] | null> => {
+    try {
+        const userRoles = await prisma.userRole.findMany({
+            where: { userId },
+            include: {
+                role: true, // Sertakan detail role
+            },
+        });
 
+        // Jika tidak ditemukan role, kembalikan null
+        if (!userRoles.length) {
+            console.warn(`No roles found for userId: ${userId}`);
+            return null;
+        }
+
+        // Ubah hasil menjadi array role
+        const roles = userRoles.map((ur) => ({
+            id: ur.role.id,
+            name: ur.role.name,
+        }));
+
+        return roles;
+    } catch {
         return null;
     }
 };
