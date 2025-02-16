@@ -7,6 +7,5 @@ export const useGetCurrentUser = () => {
 }
 export const useGetCurrentUserRoles = () => {
     const session = useSession()
-    console.log({session})
     return session.data?.user?.roles
 }
