@@ -1,19 +1,16 @@
 import { Calendar, ChevronDown, ChevronUp, Home, HomeIcon, Inbox, PanelLeft, Plus, Search, Settings, Shield, User2 } from "lucide-react"
-
-export enum Role {
-    Developer = 'Developer',
-    DevOps = 'DevOps',
-    Admin = 'Admin',
-    Manager = 'Manager'
-}
-export type RoleList = Role[];
 export enum Category {
     BugSistem = 'Bug Sistem',
     GangguanInfrastruktur = 'Gangguan Infrastruktur',
     PermintaanDeployment = 'Permintaan Deployment',
     PermintaanPerubahan = 'Permintaan Perubahan'
 }
-
+export enum PriorityLevel {
+    Critical = 'Critical', // Operasi berhenti
+    High = 'High',         // Urgensi tinggi
+    Medium = 'Medium',     // Tidak mendesak
+    Low = 'Low'            // Perbaikan minor
+}
 export enum TicketStatus {
     Open = 'Open',
     InProgress = 'InProgress',
@@ -23,6 +20,13 @@ export enum TicketStatus {
     Closed = 'Closed',
     OnHold = 'OnHold'
 }
+export enum Role {
+    Developer = 'Developer',
+    DevOps = 'DevOps',
+    Admin = 'Admin',
+    Manager = 'Manager'
+}
+
 
 
 export const SIDEBAR_ITEMS  = [
