@@ -37,10 +37,13 @@ INSERT INTO Priority (id, color, name) VALUES
   ('uuid-priority-1', 'red', 'Critical'),
   ('uuid-priority-2', 'yellow', 'High');
 
--- Menambahkan Status
 INSERT INTO Status (id, color, name) VALUES
   ('uuid-status-1', 'green', 'Open'),
-  ('uuid-status-2', 'blue', 'InProgress');
+  ('uuid-status-2', 'blue', 'InProgress'),
+  ('uuid-status-3', 'orange', 'OnHold'),
+  ('uuid-status-4', 'red', 'Escalated'),
+  ('uuid-status-5', 'brown', 'Reopened'),
+  ('uuid-status-6', 'gray', 'Closed');
 
 -- Menambahkan Ticket
 INSERT INTO Ticket (id, title, description, priorityId, statusId, createdById, createdAt,updatedAt, projectId) VALUES
