@@ -7,6 +7,7 @@
 - Database Relations Link [here](./docs/RELATIONS.md)
 - Database ERD Link [here](./docs/erd.png)
 - Plan process business [here](https://docs.google.com/document/d/12VTB6BW_HVXTWkGgP6lG2hb2ow1Sk5BGvF6ptn0XCNY/edit?tab=t.0)
+- Document Tugas Akhir [here](https://drive.google.com/drive/folders/17vSX0WvQV-NcHQFd1lhS8fya4ZM66GbB)
 
 
 ### Prerequisites
