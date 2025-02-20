@@ -1,5 +1,6 @@
 import { getUserRolesById } from "@/actions/user";
 import { auth } from "@/auth";
+import { ModeToggle } from "@/components/theme-toggle";
 import { redirect } from "next/navigation";
 import React from "react";
 
@@ -10,7 +11,7 @@ const page = async () => {
   console.log({ user,roles });
   if (!user) return <></>
   return (
-    <>test</>
+    <ModeToggle/>
   )
 };
 

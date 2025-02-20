@@ -10,6 +10,12 @@ export default {
   theme: {
   	extend: {
   		colors: {
+			// custom 
+			dark :{
+				primary : "#0D1117"
+			},
+
+			// bawaan
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {

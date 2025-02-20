@@ -9,36 +9,40 @@ datasource db {
 
 // Model User yang merepresentasikan pengguna di sistem
 model User {
-  id              String           @id @default(uuid()) // ID unik untuk User yang dihasilkan secara otomatis menggunakan UUID
-  name            String           @db.VarChar(50) // Nama pengguna, dengan panjang maksimal 50 karakter
-  email           String           @unique @db.VarChar(50) // Email yang unik dan memiliki panjang maksimal 50 karakter
-  password        String
-  createdAt       DateTime         @default(now()) // Waktu pembuatan, secara default diisi dengan waktu sekarang
-  updatedAt       DateTime         @updatedAt // Waktu pembaruan, secara otomatis diperbarui setiap kali terjadi perubahan
-  roles           UserRole[] // Relasi dengan model UserRole, yang menyimpan peran-peran yang dimiliki oleh user
-  createdTickets  Ticket[]         @relation("TicketCreatedBy") // Relasi dengan tiket yang dibuat oleh user
-  assignedTickets Ticket[]         @relation("TicketAssignedBy") // Relasi dengan tiket yang ditugaskan kepada user
-  comments        TicketComment[] // Relasi dengan komentar-komentar yang dibuat oleh user di tiket
+  id                      String                    @id @default(uuid()) @db.VarChar(36) // ID unik untuk User yang dihasilkan secara otomatis menggunakan UUID
+  name                    String                    @db.VarChar(100) // Nama pengguna, dengan panjang maksimal 50 karakter
+  email                   String                    @unique @db.VarChar(100) // Email yang unik dan memiliki panjang maksimal 50 karakter
+  password                String                    @db.VarChar(50)
+  createdAt               DateTime                  @default(now()) // Waktu pembuatan, secara default diisi dengan waktu sekarang
+  updatedAt               DateTime                  @updatedAt // Waktu pembaruan, secara otomatis diperbarui setiap kali terjadi perubahan
+  deleted                 Boolean                   @default(false)
+  roles                   UserRole[] // Relasi dengan model UserRole, yang menyimpan peran-peran yang dimiliki oleh user
+  createdTickets          Ticket[]                  @relation("TicketCreatedBy") // Relasi dengan tiket yang dibuat oleh user
+  assignedTickets         Ticket[]                  @relation("TicketAssignedBy") // Relasi dengan tiket yang ditugaskan kepada user
+  comments                TicketComment[] // Relasi dengan komentar-komentar yang dibuat oleh user di tiket
   // feedbacks       TicketFeedback[] // Relasi dengan feedback yang diberikan oleh user untuk tiket
-  assignees       TicketAssignee[] // Relasi dengan assignee yang ditugaskan ke tiket
-  history         TicketHistory[] // Relasi dengan riwayat perubahan tiket
-  ProjectUser     ProjectUser[]
+  assignees               TicketAssignee[] // Relasi dengan assignee yang ditugaskan ke tiket
+  history                 TicketHistory[] // Relasi dengan riwayat perubahan tiket
+  ProjectUser             ProjectUser[]
+  TicketAssignmentRequest TicketAssignmentRequest[]
 }
 
 // Model Project untuk menyimpan daftar proyek
 model Project {
-  id        String        @id @default(uuid()) // ID unik proyek
+  id        String        @id @default(uuid()) @db.VarChar(36) // ID unik proyek
   name      String        @db.VarChar(100) // Nama proyek
   tickets   Ticket[] // Relasi dengan tiket
   users     ProjectUser[] // Relasi dengan pengguna dalam proyek
   createdAt DateTime      @default(now()) // Timestamp pembuatan proyek
   updatedAt DateTime      @updatedAt // Timestamp update proyek
+  deleted   Boolean       @default(false)
 }
 
 model ProjectUser {
-  id        String @id @default(uuid())
-  projectId String
-  userId    String
+  id        String  @id @default(uuid()) @db.VarChar(36)
+  projectId String  @db.VarChar(36)
+  userId    String  @db.VarChar(36)
+  deleted   Boolean @default(false)
 
   project Project @relation(fields: [projectId], references: [id])
   user    User    @relation(fields: [userId], references: [id])
@@ -49,17 +53,19 @@ model ProjectUser {
 // Model Role yang menyimpan informasi tentang peran
 // Role harus salah satu dari 'Developer', 'DevOps', 'Admin','Manager'
 model Role {
-  id    String     @id @default(uuid()) // ID unik untuk peran yang dihasilkan menggunakan UUID
-  name  String     @unique @db.VarChar(20) // Nama peran yang unik dengan panjang maksimal 20 karakter
-  users UserRole[] // Relasi dengan model UserRole untuk mengetahui user yang memiliki peran ini
+  id      String     @id @default(uuid()) @db.VarChar(36) // ID unik untuk peran yang dihasilkan menggunakan UUID
+  name    String     @unique @db.VarChar(100) // Nama peran yang unik dengan panjang maksimal 20 karakter
+  users   UserRole[] // Relasi dengan model UserRole untuk mengetahui user yang memiliki peran ini
+  deleted Boolean    @default(false)
 }
 
 // Model UserRole yang menyimpan relasi antara pengguna dan peran yang dimilikinya
 model UserRole {
-  userId String
-  roleId String
-  user   User   @relation(fields: [userId], references: [id]) // Relasi ke model User berdasarkan userId
-  role   Role   @relation(fields: [roleId], references: [id]) // Relasi ke model Role berdasarkan roleId
+  userId  String  @db.VarChar(36)
+  roleId  String  @db.VarChar(36)
+  user    User    @relation(fields: [userId], references: [id]) // Relasi ke model User berdasarkan userId
+  role    Role    @relation(fields: [roleId], references: [id]) // Relasi ke model Role berdasarkan roleId
+  deleted Boolean @default(false)
 
   @@id([userId, roleId]) // Menetapkan kombinasi userId dan roleId sebagai primary key
 }
@@ -68,20 +74,24 @@ model UserRole {
 // Kategeri harus salah satu dari ''Bug Sistem'', 'Gangguan Infrastruktur', 'Permintaan Deployment', 'Permintaan Perubahan'
 
 model Category {
-  id        String   @id @default(uuid()) // ID unik kategori yang dihasilkan menggunakan UUID
+  id        String   @id @default(uuid()) @db.VarChar(36) // ID unik kategori yang dihasilkan menggunakan UUID
   name      String   @unique @db.VarChar(100) // Nama kategori yang unik dengan panjang maksimal 100 karakter
   createdAt DateTime @default(now()) // Waktu pembuatan kategori, diisi dengan waktu sekarang
   updatedAt DateTime @updatedAt // Waktu pembaruan kategori, otomatis diperbarui ketika ada perubahan
-  tickets   Ticket[] // Relasi dengan tiket-tiket yang tergabung dalam kategori ini
+  deleted   Boolean  @default(false)
+
+  tickets Ticket[] // Relasi dengan tiket-tiket yang tergabung dalam kategori ini
 }
 
 // Model Priority yang menyimpan prioritas tiket
 // This would be the validation logic that was previously in SQL CHECK constraint:
 // Status tiket harus salah satu dari Critical (operasi berhenti).High (urgensi tinggi).Medium (tidak mendesak). Low (perbaikan minor).
 model Priority {
-  id      String   @id @default(uuid()) // ID unik untuk prioritas tiket yang dihasilkan dengan UUID
-  color   String   @db.VarChar(20)
-  name    String   @unique @db.VarChar(20) // Nama prioritas yang unik dengan panjang maksimal 20 karakter
+  id      String  @id @default(uuid()) @db.VarChar(36) // ID unik untuk prioritas tiket yang dihasilkan dengan UUID
+  color   String  @db.VarChar(30)
+  name    String  @unique @db.VarChar(50) // Nama prioritas yang unik dengan panjang maksimal 20 karakter
+  deleted Boolean @default(false)
+
   tickets Ticket[] // Relasi dengan tiket yang memiliki prioritas ini
 }
 
@@ -89,9 +99,11 @@ model Priority {
 // This would be the validation logic that was previously in SQL CHECK constraint:
 // Status tiket harus salah satu dari 'Open', 'InProgress', 'Escalated', 'Resolved', 'Reopened', 'Closed', 'OnHold'
 model Status {
-  id           String          @id @default(uuid()) // ID unik untuk status tiket yang dihasilkan menggunakan UUID
-  color        String          @db.VarChar(20)
-  name         String          @unique @db.VarChar(20) // Nama status yang unik dengan panjang maksimal 20 karakter
+  id      String  @id @default(uuid()) @db.VarChar(36) // ID unik untuk status tiket yang dihasilkan menggunakan UUID
+  color   String  @db.VarChar(50)
+  name    String  @unique @db.VarChar(50) // Nama status yang unik dengan panjang maksimal 20 karakter
+  deleted Boolean @default(false)
+
   tickets      Ticket[] // Relasi dengan tiket yang memiliki status ini
   // Relasi untuk status lama dari riwayat tiket
   oldHistories TicketHistory[] @relation("TicketHistoryOldStatus")
@@ -102,35 +114,38 @@ model Status {
 
 // Model Ticket yang merepresentasikan tiket di sistem
 model Ticket {
-  id           String           @id @default(uuid()) // ID unik untuk tiket yang dihasilkan menggunakan UUID
-  title        String           @db.VarChar(50) // Judul tiket dengan panjang maksimal 50 karakter
-  description  String           @db.Text // Deskripsi tiket yang panjangnya tidak terbatas
-  priorityId   String // ID dari prioritas yang diberikan pada tiket
-  statusId     String? // ID dari status tiket (opsional)
-  createdById  String // ID dari pengguna yang membuat tiket
-  assignedById String? // ID dari pengguna yang menugaskan tiket (opsional)
-  categoryId   String? // ID kategori tiket (opsional)
-  createdAt    DateTime         @default(now()) // Waktu pembuatan tiket, otomatis diisi dengan waktu sekarang
-  updatedAt    DateTime?        @updatedAt // Waktu pembaruan tiket, diperbarui otomatis
-  priority     Priority         @relation(fields: [priorityId], references: [id]) // Relasi dengan prioritas tiket
-  status       Status?          @relation(fields: [statusId], references: [id]) // Relasi dengan status tiket (opsional)
-  projectId    String // Relasi dengan project
-  createdBy    User             @relation("TicketCreatedBy", fields: [createdById], references: [id]) // Relasi dengan pengguna yang membuat tiket
-  assignedBy   User?            @relation("TicketAssignedBy", fields: [assignedById], references: [id]) // Relasi dengan pengguna yang menugaskan tiket (opsional)
-  category     Category?        @relation(fields: [categoryId], references: [id]) // Relasi dengan kategori tiket (opsional)
-  assignees    TicketAssignee[] // Relasi dengan assignee yang ditugaskan ke tiket
-  history      TicketHistory[] // Relasi dengan riwayat perubahan status tiket
-  comments     TicketComment[] // Relasi dengan komentar-komentar yang ada pada tiket
+  id                      String                    @id @default(uuid()) @db.VarChar(36) // ID unik untuk tiket yang dihasilkan menggunakan UUID
+  title                   String                    @db.VarChar(50) // Judul tiket dengan panjang maksimal 50 karakter
+  description             String                    @db.Text // Deskripsi tiket yang panjangnya tidak terbatas
+  priorityId              String                    @db.VarChar(36) // ID dari prioritas yang diberikan pada tiket
+  statusId                String?                   @db.VarChar(36) // ID dari status tiket (opsional)
+  createdById             String                    @db.VarChar(36) // ID dari pengguna yang membuat tiket
+  assignedById            String?                   @db.VarChar(36) // ID dari pengguna yang menugaskan tiket (opsional)
+  categoryId              String?                   @db.VarChar(36) // ID kategori tiket (opsional)
+  projectId               String // Relasi dengan project
+  createdAt               DateTime                  @default(now()) // Waktu pembuatan tiket, otomatis diisi dengan waktu sekarang
+  updatedAt               DateTime?                 @updatedAt // Waktu pembaruan tiket, diperbarui otomatis  
+  deleted                 Boolean                   @default(false)
+  priority                Priority                  @relation(fields: [priorityId], references: [id]) // Relasi dengan prioritas tiket
+  status                  Status?                   @relation(fields: [statusId], references: [id]) // Relasi dengan status tiket (opsional)
+  createdBy               User                      @relation("TicketCreatedBy", fields: [createdById], references: [id]) // Relasi dengan pengguna yang membuat tiket
+  assignedBy              User?                     @relation("TicketAssignedBy", fields: [assignedById], references: [id]) // Relasi dengan pengguna yang menugaskan tiket (opsional)
+  category                Category?                 @relation(fields: [categoryId], references: [id]) // Relasi dengan kategori tiket (opsional)
+  assignees               TicketAssignee[] // Relasi dengan assignee yang ditugaskan ke tiket
+  history                 TicketHistory[] // Relasi dengan riwayat perubahan status tiket
+  comments                TicketComment[] // Relasi dengan komentar-komentar yang ada pada tiket
   // feedback     TicketFeedback[] // Relasi dengan feedback yang diberikan pada tiket
-  Project      Project          @relation(fields: [projectId], references: [id])
+  Project                 Project                   @relation(fields: [projectId], references: [id])
+  TicketAssignmentRequest TicketAssignmentRequest[]
 }
 
 // Model TicketAssignee yang menyimpan relasi antara tiket dan user yang ditugaskan
 model TicketAssignee {
-  id         String   @id @default(uuid()) // ID unik untuk assignee yang dihasilkan menggunakan UUID
-  ticketId   String // ID dari tiket yang ditugaskan
-  userId     String // ID dari pengguna yang ditugaskan
+  id         String   @id @default(uuid()) @db.VarChar(36) // ID unik untuk assignee yang dihasilkan menggunakan UUID
+  ticketId   String   @db.VarChar(36) // ID dari tiket yang ditugaskan
+  userId     String   @db.VarChar(36) // ID dari pengguna yang ditugaskan
   assignedAt DateTime @default(now()) // Waktu penugasan, secara otomatis diisi dengan waktu sekarang
+  deleted    Boolean  @default(false)
   ticket     Ticket   @relation(fields: [ticketId], references: [id]) // Relasi dengan tiket yang ditugaskan
   user       User     @relation(fields: [userId], references: [id]) // Relasi dengan pengguna yang ditugaskan
 
@@ -141,33 +156,46 @@ model TicketAssignee {
 // Status validation:
 // Ensure that oldStatus and newStatus values are from the set of valid statuses ('Open', 'InProgress', 'Escalated', etc.)
 model TicketHistory {
-  id          String   @id @default(uuid())
-  ticketId    String
-  changedById String?
-  oldStatusId String
-  newStatusId String
+  id          String   @id @default(uuid()) @db.VarChar(36)
+  ticketId    String   @db.VarChar(36)
+  changedById String?  @db.VarChar(36)
+  oldStatusId String   @db.VarChar(36)
+  newStatusId String   @db.VarChar(36)
   changeNotes String?  @db.Text
   changedAt   DateTime @default(now())
-
-  ticket    Ticket @relation(fields: [ticketId], references: [id])
-  changedBy User?  @relation(fields: [changedById], references: [id])
-  oldStatus Status @relation("TicketHistoryOldStatus", fields: [oldStatusId], references: [id])
-  newStatus Status @relation("TicketHistoryNewStatus", fields: [newStatusId], references: [id])
+  deleted     Boolean  @default(false)
+  ticket      Ticket   @relation(fields: [ticketId], references: [id])
+  changedBy   User?    @relation(fields: [changedById], references: [id])
+  oldStatus   Status   @relation("TicketHistoryOldStatus", fields: [oldStatusId], references: [id])
+  newStatus   Status   @relation("TicketHistoryNewStatus", fields: [newStatusId], references: [id])
 }
 
 // Model TicketComment yang menyimpan komentar pada tiket
 model TicketComment {
-  id              String          @id @default(uuid()) // ID unik untuk komentar tiket yang dihasilkan menggunakan UUID
-  ticketId        String // ID dari tiket yang dikomentari
-  userId          String // ID dari pengguna yang memberikan komentar
+  id              String          @id @default(uuid()) @db.VarChar(36) // ID unik untuk komentar tiket yang dihasilkan menggunakan UUID
+  ticketId        String          @db.VarChar(36) // ID dari tiket yang dikomentari
+  userId          String          @db.VarChar(36) // ID dari pengguna yang memberikan komentar
   comment         String          @db.Text // Isi komentar
-  imageUrl        String?         @db.VarChar(255) // URL gambar yang terkait dengan komentar (opsional)
+  imageUrl        String?         @db.VarChar(100) // URL gambar yang terkait dengan komentar (opsional)
   createdAt       DateTime        @default(now()) // Waktu pembuatan komentar, otomatis diisi dengan waktu sekarang
   parentCommentId String? // ID dari komentar induk, jika komentar ini adalah balasan (opsional)
+  deleted         Boolean         @default(false)
   ticket          Ticket          @relation(fields: [ticketId], references: [id]) // Relasi dengan tiket yang dikomentari
   user            User            @relation(fields: [userId], references: [id]) // Relasi dengan pengguna yang memberikan komentar
   parentComment   TicketComment?  @relation("TicketCommentParent", fields: [parentCommentId], references: [id]) // Relasi dengan komentar induk (opsional)
   replies         TicketComment[] @relation("TicketCommentParent") // Relasi dengan balasan-balasannya
+}
+
+model TicketAssignmentRequest {
+  id            String   @id @default(uuid()) @db.VarChar(36)
+  ticketId      String   @db.VarChar(36)
+  requestedById String   @db.VarChar(36) // Pengguna yang mengajukan diri
+  status        String   @db.VarChar(20) // Pending, Rejected
+  notes         String?  @db.Text
+  requestedAt   DateTime @default(now())
+
+  ticket      Ticket @relation(fields: [ticketId], references: [id])
+  requestedBy User   @relation(fields: [requestedById], references: [id])
 }
 
 // // Model TicketFeedback yang menyimpan feedback pada tiket
