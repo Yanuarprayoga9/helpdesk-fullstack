@@ -8,7 +8,7 @@
 - Document Tugas Akhir [here](https://drive.google.com/drive/folders/17vSX0WvQV-NcHQFd1lhS8fya4ZM66GbB)
 
 ## Feature Table
-![alt text](image.png)
+![alt text](image-1.png)
 ### Prerequisites
 
 **Node version 18.7.x**
