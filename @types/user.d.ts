@@ -1,10 +1,14 @@
-import { RolesType } from "./role";
 
 export type UserType = {
     id: string;
     name: string;
     email: string;
-    roles: RolesType;
+    imageUrl: string;
+    roles: RoleType[]
 }
 
+export type RoleType = {
+    id: string;
+    name: string;
+}
 

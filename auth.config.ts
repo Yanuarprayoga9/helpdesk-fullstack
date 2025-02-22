@@ -18,6 +18,9 @@ export default {
             where: {
               email,
             },
+            include: {
+              roles:true
+            }
           });
           if (!user || !user.password) return null;
 

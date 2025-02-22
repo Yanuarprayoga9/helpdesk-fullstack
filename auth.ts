@@ -3,9 +3,10 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 
 import authConfig from "./auth.config";
 import { JWT } from "next-auth/jwt";
-import { getUserById } from "./actions/user";
+import { getUserByEmail, getUserById } from "./actions/user";
 import { Role } from "./constants";
 import prisma from "./lib/db";
+import { UserType } from "./@types/user";
 
 
 export const {
@@ -20,29 +21,24 @@ export const {
   },
   callbacks: {
     async signIn({ user }) {
-      console.log({ user });
       return true;
     },
     async session(args: any) {
-      const { session, token } = args as { session: Session; token: JWT };
-      const user = await getUserById(token.sub as string);
-      console.log('user in session', { user })
-      if (token.sub && session.user) {
-        session.user.id = token.sub;
-      }
-      if (session.user && user) {
-        session.user.roles = user.roles
-          .map(role => role as Role) 
-          .filter(role => Object.values(Role).includes(role)); 
+      const { session } = args as { session: Session };
+      console.log('user in session', { session })
+      const { data: user } = await getUserByEmail(session.user.email as string)
+      if (session.user.email && session.user) {
+        session.user.id = user?.id as string;
       }
 
+      if (user) {
+        session.user.roles = user.roles;
+      }
+      console.log('user in session', { session })
 
       return session;
     },
-    async jwt({ token }) {
-      if (!token.sub) return token;
-      return token;
-    },
+
   },
 
   adapter: PrismaAdapter(prisma),
