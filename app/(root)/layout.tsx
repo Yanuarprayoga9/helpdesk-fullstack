@@ -12,7 +12,6 @@ export default async function Layout({ children }: { children: React.ReactNode }
     console.log({data})
     return (
         <SessionProvider>
-
             <SidebarProvider>
                 <AppSidebar />
                 <SidebarInset>
