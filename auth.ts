@@ -2,11 +2,9 @@ import NextAuth, { Session } from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 
 import authConfig from "./auth.config";
-import { JWT } from "next-auth/jwt";
 import { getUserByEmail, getUserById } from "./actions/user";
-import { Role } from "./constants";
 import prisma from "./lib/db";
-import { UserType } from "./@types/user";
+import { JWT } from "next-auth/jwt";
 
 
 export const {
@@ -26,17 +24,21 @@ export const {
     async session(args: any) {
       const { session } = args as { session: Session };
       console.log('user in session', { session })
-      const { data: user } = await getUserByEmail(session.user.email as string)
-      if (session.user.email && session.user) {
+      const { user } = await getUserByEmail(session.user.email as string)
+      if (user && session.user) {
         session.user.id = user?.id as string;
       }
 
       if (user) {
         session.user.roles = user.roles;
       }
-      console.log('user in session', { session })
+      console.log('user in db', { user })
 
       return session;
+    },
+    async jwt({ token }) {
+      if (!token.sub) return token;
+      return token;
     },
 
   },
