@@ -14,7 +14,6 @@ import {
     DropdownMenuShortcut,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { formatStringRoles } from "@/lib/utils"
 import Link from "next/link"
 import SignOutButton from "../signout-button"
 import { UserType } from "@/@types/user"
