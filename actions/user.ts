@@ -1,12 +1,11 @@
 "use server"
 
-import { RoleType } from "@/@types/role"
 import { UserType } from "@/@types/user"
 import { auth } from "@/auth"
 import prisma from "@/lib/db"
 
 interface getUserReturn extends ActionResult {
-    data?: UserType
+    user?: UserType
 }
 export const getCurrentUser = async (): Promise<getUserReturn> => {
     try {
@@ -20,12 +19,15 @@ export const getCurrentUser = async (): Promise<getUserReturn> => {
             return { success: false, error: "user not found" };
         }
 
-        return { success: true, data: user };
+        return { success: true, user: user };
     } catch (error) {
         console.error("Error fetching user:", error);
         return { success: false, error: (error as Error).message };
     }
 };
+
+
+
 
 
 
@@ -47,28 +49,34 @@ export const getUserByEmail = async (email: string): Promise<getUserReturn> => {
             roles: user.roles.map((role) => role.role)
         }
 
-        return { success: true, data: userMapped };
+        return { success: true, user: userMapped };
     } catch (error) {
         console.error("Error fetching user by email:", error);
         return { success: false, error: (error as Error).message };
     }
 };
 
-export const getUserById = async (id: string) => {
+export const getUserById = async (id: string):Promise<getUserReturn> => {
     try {
         const user = await prisma.user.findUnique({
             where: { id },
             include: {
-                roles: true
+                roles: {
+                    include: { role: true },
+                },
             },
         });
-        console.log({ user }, user?.roles)
-        if (!user) return null;
-
-        return {
+        if (!user) {
+            return { success: false, error: "User not found" };
+        }
+        const userMapped: UserType = {
             ...user,
-        };
-    } catch {
-        return null;
+            roles: user.roles.map((role) => role.role)
+        }
+
+        return { success: true, user: userMapped };
+    } catch (error) {
+        console.error("Error fetching user by email:", error);
+        return { success: false, error: (error as Error).message };
     }
 };

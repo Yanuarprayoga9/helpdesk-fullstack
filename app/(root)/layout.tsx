@@ -1,15 +1,11 @@
-import { auth } from "@/auth"
-import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
-// import AppNavbar from "@/components/navbar/app-navbar"
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 import { SessionProvider } from "next-auth/react"
 import { AppSidebar } from "@/components/sidebar/app-sidebar"
-import AppNavbar from "@/components/navbar/app-navbar"
-import { getCurrentUser } from "@/actions/user"
+// import { getCurrentUser } from "@/actions/user"
 
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
-    const data = await getCurrentUser()
-    console.log({data})
+    // const data = await getCurrentUser()
     return (
         <SessionProvider>
             <SidebarProvider>

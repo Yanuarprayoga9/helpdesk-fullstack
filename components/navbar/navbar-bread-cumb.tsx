@@ -1,9 +1,7 @@
 "use client"
 import {
     Breadcrumb,
-    BreadcrumbEllipsis,
     BreadcrumbItem,
-    BreadcrumbLink,
     BreadcrumbList,
     BreadcrumbPage,
     BreadcrumbSeparator,
@@ -19,7 +17,6 @@ type BreadcrumbObj = {
 
 export function BreadcrumbDemo() {
     const pathname = usePathname();
-    console.log({ pathname });
 
     // Pisahkan pathname dan buat array objek breadcrumb
     const breadcrumbArray: BreadcrumbObj[] = pathname
@@ -30,7 +27,6 @@ export function BreadcrumbDemo() {
             href: `/${array.slice(0, index + 1).join("/")}`,
         }));
 
-    console.log({ breadcrumbArray })
     return (
         <Breadcrumb>
             <BreadcrumbList>

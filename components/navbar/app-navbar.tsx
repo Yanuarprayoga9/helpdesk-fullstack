@@ -5,8 +5,9 @@ import Notification from './navbar-notification'
 import { UserNav } from './navbar-user-nav'
 import { Separator } from '../ui/separator'
 import { ModeToggle } from '../theme-toggle'
+import { UserType } from '@/@types/user'
 interface AppNavbarProps {
-    user?: any;
+    user?: UserType;
     roles?: string[] | undefined | null
 }
 const AppNavbar: React.FC<AppNavbarProps> = ({ user, roles }) => {
@@ -22,7 +23,7 @@ const AppNavbar: React.FC<AppNavbarProps> = ({ user, roles }) => {
             <div className="ml-auto flex items-center space-x-4">
                 <ModeToggle />
                 <Notification />
-                <UserNav user={user} roles={roles || []} />
+                {/* <UserNav user={user} roles={roles || []} /> */}
             </div>
         </header>
     )
