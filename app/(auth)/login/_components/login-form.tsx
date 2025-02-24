@@ -51,7 +51,9 @@ export const LoginForm = () => {
               <Input id="password" value={'password123'} type="password" required />
             </div>
             <Button type="submit" disabled={isLoading} className="w-full bg-[#4F46E5]" onClick={handleClick}>
-              Sign in
+              {
+                !isLoading ? "Sign in" : "Loading..." 
+              }
             </Button>
           </form>
         </div>
