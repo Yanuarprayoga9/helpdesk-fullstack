@@ -17,6 +17,7 @@ export const LoginForm = () => {
         password: 'password123'
       });
     } catch (error) {
+      /* eslint-disable no-console */
       console.log(error)
     }
     setIsLoading(false)
