@@ -37,7 +37,7 @@ export const LoginForm = () => {
           <form className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
-              <Input id="email" type="email" placeholder="m@example.com" required />
+              <Input id="email" type="email" value={'admin@example.com'} placeholder="m@example.com" required />
             </div>
             <div className="space-y-2">
               <div className="flex items-center justify-between">
@@ -46,7 +46,7 @@ export const LoginForm = () => {
                   Forgot password?
                 </Link>
               </div>
-              <Input id="password" type="password" required />
+              <Input id="password" value={'password123'} type="password" required />
             </div>
             <Button type="submit" className="w-full bg-[#4F46E5]" onClick={handleClick}>
               Sign in
