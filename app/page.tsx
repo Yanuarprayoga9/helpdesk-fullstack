@@ -1,8 +1,7 @@
-"use server"
+import { redirect } from "next/navigation";
 
 export default async  function Home() {
-  // const users = await prisma.user.findMany();
-  // console.log(users)
+  redirect('/login')
   return (
     <div>
       halo yanuar
