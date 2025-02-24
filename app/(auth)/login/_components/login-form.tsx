@@ -1,27 +1,67 @@
 "use client"
 import { login } from '@/actions/login'
-import React, { useState } from 'react'
-import { Label } from "@/components/ui/label"
+import React, { useState, useTransition } from 'react'
 import { Input } from "@/components/ui/input"
-import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import Image from 'next/image'
+import { useForm } from 'react-hook-form'
+import { LoginSchema } from '@/schemas'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
+import { useSearchParams } from 'next/navigation'
 
 export const LoginForm = () => {
-  const [isLoading ,setIsLoading ] = useState(false)
-  const handleClick = async () => {
-    setIsLoading(true)
-    try {
-      await login({
-        email: 'admin@example.com',
-        password: 'password123'
-      });
-    } catch (error) {
-      /* eslint-disable no-console */
-      console.log(error)
-    }
-    setIsLoading(false)
-  }
+  const searchParams = useSearchParams();
+
+  const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState<string | undefined>("");
+  const [success, setSuccess] = useState<string | undefined>("");
+  const callbackUrl = searchParams.get("callbackUrl")
+    ;
+  // 1. Define your form.
+  const form = useForm<z.infer<typeof LoginSchema>>({
+    resolver: zodResolver(LoginSchema),
+    defaultValues: {
+      email: 'admin@example.com',
+      password: 'password123'
+    },
+  })
+
+  const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+    setError("");
+    setSuccess("");
+    /* eslint-disable no-console */
+    console.log(success, isPending)
+
+    startTransition(() => {
+      login(values, callbackUrl)
+        .then((data) => {
+          if (data?.error) {
+            form.reset();
+            console.log(error)
+            setError(data.error);
+          }
+
+          if (data?.success) {
+            form.reset();
+            setSuccess(data.success);
+          }
+
+
+        })
+        .catch(() => setError("Something went wrong"));
+    });
+  };
+
   return (
 
     <div className="grid min-h-screen w-full grid-cols-1 lg:grid-cols-2">
@@ -41,26 +81,43 @@ export const LoginForm = () => {
             <h1 className="text-3xl font-bold">Welcome back!</h1>
             <p className=" dark:text-gray-400 text-[#4F46E5]">Enter your email and password to sign in.</p>
           </div>
-          <form className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input id="email" type="email" value={'admin@example.com'} placeholder="m@example.com" required />
-            </div>
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="password">Password</Label>
-                <Link href="#" className="text-sm font-medium underline" prefetch={false}>
-                  Forgot password?
-                </Link>
-              </div>
-              <Input id="password" value={'password123'} type="password" required />
-            </div>
-            <Button type="submit" disabled={isLoading} className="w-full bg-[#4F46E5]" onClick={handleClick}>
-              {
-                !isLoading ? "Sign in" : "Loading..." 
-              }
-            </Button>
-          </form>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>email</FormLabel>
+                    <FormControl>
+                      <Input placeholder="shadcn" type="email" {...field} />
+                    </FormControl>
+                    <FormDescription>
+                      This is your public display name.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input placeholder="shadcn" type='password' {...field} />
+                    </FormControl>
+                    <FormDescription>
+                      This is your public display name.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button type="submit">Submit</Button>
+            </form>
+          </Form>
         </div>
       </div>
     </div>
