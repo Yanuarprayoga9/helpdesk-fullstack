@@ -4,6 +4,7 @@ import { AuthError } from "next-auth";
 import { LoginSchema } from "@/schemas";
 import * as z from "zod";
 import { DEFAULT_ISLOGIN_REDIRECT } from "@/routes";
+import { redirect } from "next/navigation";
 
 export const login = async (
   values: z.infer<typeof LoginSchema>,
@@ -16,14 +17,20 @@ export const login = async (
   }
 
   const { email, password } = validatedFields.data;
-  
+
   try {
-    await signIn("credentials", {
+    const result = await signIn("credentials", {
       email,
       password,
-      redirect: true,
-      redirectTo: callbackUrl || DEFAULT_ISLOGIN_REDIRECT,
-    });
+      redirect: false,
+      // redirectTo: callbackUrl || DEFAULT_ISLOGIN_REDIRECT,
+    }) as { error?: string; ok: boolean; url?: string };
+
+    if (result && result.error) {
+      return { error: "Invalid email or password!" };
+    }
+
+    redirect(callbackUrl || DEFAULT_ISLOGIN_REDIRECT);
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
