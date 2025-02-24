@@ -11,10 +11,14 @@ export const LoginForm = () => {
   const [isLoading ,setIsLoading ] = useState(false)
   const handleClick = async () => {
     setIsLoading(true)
-    await login({
-      email: 'admin@example.com',
-      password: 'password123'
-    });
+    try {
+      await login({
+        email: 'admin@example.com',
+        password: 'password123'
+      });
+    } catch (error) {
+      console.log(error)
+    }
     setIsLoading(false)
   }
   return (
