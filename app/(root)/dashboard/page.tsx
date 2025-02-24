@@ -1,15 +1,16 @@
-import { auth } from "@/auth";
+// import { getUsers } from "@/actions/users";
 import { ModeToggle } from "@/components/theme-toggle";
-import { redirect } from "next/navigation";
+import Link from "next/link";
 import React from "react";
 
 const page = async () => {
-  const user = await auth();
-  if (!user) redirect('/login')
+  // const users = await getUsers()
 
-  if (!user) return <></>
   return (
-    <ModeToggle />
+    <>
+      <Link href={"/dashboard/admin"}>tes</Link>
+      <ModeToggle />
+    </>
   )
 };
 

@@ -14,14 +14,12 @@ import {
     DropdownMenuShortcut,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { formatStringRoles } from "@/lib/utils"
 import Link from "next/link"
 import SignOutButton from "../signout-button"
+import { UserType } from "@/@types/user"
 
-export function UserNav({ user, roles }: { user: any, roles: string[] }) {
+export function UserNav({ user }: { user: UserType, roles: string[] }) {
 
-    console.log({ user }, user.name)
-    console.log({ roles }, formatStringRoles(roles))
 
     return (
         <DropdownMenu>
@@ -38,7 +36,7 @@ export function UserNav({ user, roles }: { user: any, roles: string[] }) {
                     <div className="flex flex-col space-y-1">
                         <p className="text-sm font-medium leading-none">{user?.name}</p>
                         <p className="text-xs leading-none text-muted-foreground">
-                            {user?.email as string} {`(${formatStringRoles(user.roles)})`}
+                            {/* {user?.email as string} {`(${formatStringRoles(user.roles)})`} */}
                         </p>
                     </div>
                 </DropdownMenuLabel>
