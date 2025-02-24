@@ -7,13 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-<<<<<<< HEAD
     "seed": "node prisma/seed.ts",
     "postinstall": "prisma generate"
-=======
-    "seed": "node prisma/seed.ts"
->>>>>>> 00ec9faa2e9fdb375b55f34cf4d36dc57b0b9b20
-
   },
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
