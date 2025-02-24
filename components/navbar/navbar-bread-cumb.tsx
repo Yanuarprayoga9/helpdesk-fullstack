@@ -15,7 +15,7 @@ type BreadcrumbObj = {
     href: string;
 };
 
-export function BreadcrumbDemo() {
+export function NavbarBreadCumb() {
     const pathname = usePathname();
 
     // Pisahkan pathname dan buat array objek breadcrumb
@@ -34,7 +34,7 @@ export function BreadcrumbDemo() {
                     breadcrumbArray.map((bread, idx) => (
                         <div key={idx} className="flex justify-center items-center space-x-2">
                             <BreadcrumbSeparator />
-                            <BreadcrumbItem>
+                            <BreadcrumbItem className="hover:cursor-pointer">
                                 {
                                     bread.title == breadcrumbArray[breadcrumbArray.length - 1].title ? (
                                         <BreadcrumbPage>{bread.title}</BreadcrumbPage>

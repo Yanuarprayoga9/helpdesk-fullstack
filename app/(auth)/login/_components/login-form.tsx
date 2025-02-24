@@ -1,6 +1,6 @@
 "use client"
 import { login } from '@/actions/login'
-import React from 'react'
+import React, { useState } from 'react'
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
@@ -8,12 +8,14 @@ import { Button } from "@/components/ui/button"
 import Image from 'next/image'
 
 export const LoginForm = () => {
-
+  const [isLoading ,setIsLoading ] = useState(false)
   const handleClick = async () => {
+    setIsLoading(true)
     await login({
       email: 'admin@example.com',
       password: 'password123'
     });
+    setIsLoading(false)
   }
   return (
 
@@ -48,7 +50,7 @@ export const LoginForm = () => {
               </div>
               <Input id="password" value={'password123'} type="password" required />
             </div>
-            <Button type="submit" className="w-full bg-[#4F46E5]" onClick={handleClick}>
+            <Button type="submit" disabled={isLoading} className="w-full bg-[#4F46E5]" onClick={handleClick}>
               Sign in
             </Button>
           </form>

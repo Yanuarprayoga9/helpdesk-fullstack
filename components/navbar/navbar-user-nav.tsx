@@ -18,9 +18,11 @@ import Link from "next/link"
 import SignOutButton from "../signout-button"
 import { UserType } from "@/@types/user"
 
-export function UserNav({ user }: { user: UserType, roles: string[] }) {
 
-
+interface UserNavProps {
+    user?: UserType
+}
+export function UserNav({ user }:UserNavProps) {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
