@@ -1,7 +1,7 @@
 "use server"
 
 import { UserType } from "@/@types/user"
-import { auth } from "@/auth"
+import { auth } from "@/lib/auth";
 import prisma from "@/lib/db"
 
 interface getUserReturn extends ActionResult {

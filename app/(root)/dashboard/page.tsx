@@ -1,6 +1,6 @@
 // import { getUsers } from "@/actions/users";
-import { signOut } from "@/auth";
 import { ModeToggle } from "@/components/theme-toggle";
+import { signOut } from "@/lib/auth";
 import Link from "next/link";
 import React, { Suspense } from "react";
 
