@@ -56,7 +56,6 @@ export const LoginForm = () => {
             setSuccess(data.success);
           }
 
-
         })
         .catch(() => setError("Something went wrong"));
     });
@@ -115,7 +114,8 @@ export const LoginForm = () => {
                   </FormItem>
                 )}
               />
-              <Button type="submit">Submit</Button>
+                <Button type="submit" disabled={isPending} className=' w-full dark:text-white dark:bg-green-500 dark:hover:bg-green-300'>Login</Button>
+
             </form>
           </Form>
         </div>

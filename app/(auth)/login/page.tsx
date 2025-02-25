@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { LoginForm } from "./_components/login-form";
+import { LoginForm } from "./components/login-form";
 
 const LoginPage = async () => {
 
