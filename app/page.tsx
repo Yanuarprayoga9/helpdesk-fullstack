@@ -1,10 +1,6 @@
-import { redirect } from "next/navigation";
 
-export default async  function Home() {
-  redirect('/login')
-  return (
-    <div>
-      halo yanuar
-    </div>
-  );
+export default function Home() {
+
+
+  return <div>halo</div>;
 }
