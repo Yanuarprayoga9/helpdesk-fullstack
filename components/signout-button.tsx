@@ -14,7 +14,7 @@ export default function SignOutButton() {
     try {
       await logout();
       toast.success("Logged out successfully!", { id: toastId }); // Menampilkan success toast
-      router.push("/logout");
+      router.push("/login");
     } catch (error) {
       /* eslint-disable no-console */
       console.log(error)
