@@ -1,13 +1,17 @@
-import React, { Suspense } from "react";
+"use client";
+import { useEffect } from "react";
 import { LoginForm } from "./components/login-form";
 
-const LoginPage = async () => {
+export default function LoginPage() {
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      document.cookie.split(";").forEach((cookie) => {
+        document.cookie = cookie
+          .replace(/^ +/, "")
+          .replace(/=.*/, "=;expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/");
+      });
+    }
+  }, []);
 
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <LoginForm />
-    </Suspense>
-  )
-};
-
-export default LoginPage;
+  return <LoginForm />;
+}

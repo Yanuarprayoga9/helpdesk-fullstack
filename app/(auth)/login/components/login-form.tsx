@@ -11,58 +11,60 @@ import { z } from 'zod'
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
+import toast from 'react-hot-toast' // Import toast
 
 export const LoginForm = () => {
   const searchParams = useSearchParams();
-
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
-  const callbackUrl = searchParams.get("callbackUrl")
-    ;
-  // 1. Define your form.
+  const callbackUrl = searchParams.get("callbackUrl");
+  const router = useRouter();
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
       email: 'admin@example.com',
       password: 'password123'
     },
-  })
+  });
 
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
     setError("");
     setSuccess("");
-    /* eslint-disable no-console */
-    console.log(success, isPending)
+
+    // Menampilkan toast bahwa login sedang diproses
+    toast.loading("Memproses login...", { id: "login" });
 
     startTransition(() => {
       login(values, callbackUrl)
         .then((data) => {
           if (data?.error) {
-            form.reset();
-            console.log(error)
             setError(data.error);
+            form.reset();
+            toast.error(data.error, { id: "login" }); // Menampilkan toast error
           }
 
           if (data?.success) {
-            form.reset();
             setSuccess(data.success);
+            form.reset();
+            toast.success("Mengalihkan...", { id: "login" }); // Menampilkan toast sukses
+            router.push(callbackUrl || "/dashboard")
           }
-
         })
-        .catch(() => setError("Something went wrong"));
+        .catch(() => {
+          setError("Something went wrong");
+          toast.error("Something went wrong", { id: "login" });
+        });
     });
   };
 
   return (
-
     <div className="grid min-h-screen w-full grid-cols-1 lg:grid-cols-2">
       <div className="hidden bg-gray-100 lg:block dark:bg-gray-800">
         <Image
@@ -78,7 +80,7 @@ export const LoginForm = () => {
         <div className="mx-auto w-full max-w-[400px] space-y-6">
           <div className="space-y-2 text-center">
             <h1 className="text-3xl font-bold">Welcome back!</h1>
-            <p className=" dark:text-gray-400 text-[#4F46E5]">Enter your email and password to sign in.</p>
+            <p className="dark:text-gray-400 text-[#4F46E5]">Enter your email and password to sign in.</p>
           </div>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -87,13 +89,10 @@ export const LoginForm = () => {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>email</FormLabel>
+                    <FormLabel>Email</FormLabel>
                     <FormControl>
                       <Input placeholder="shadcn" type="email" {...field} />
                     </FormControl>
-                    <FormDescription>
-                      This is your public display name.
-                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -107,20 +106,21 @@ export const LoginForm = () => {
                     <FormControl>
                       <Input placeholder="shadcn" type='password' {...field} />
                     </FormControl>
-                    <FormDescription>
-                      This is your public display name.
-                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-                <Button type="submit" disabled={isPending} className=' w-full dark:text-white dark:bg-green-500 dark:hover:bg-green-300'>Login</Button>
-
+              <div>
+                {success && <span className='text-green-500'>{success}</span>}
+                {error && <span className='text-red-500'>{error}</span>}
+              </div>
+              <Button type="submit" disabled={isPending} className='dark:text-white dark:bg-green-500 dark:hover:bg-green-300'>
+                {isPending ? "Processing..." : "Login"}
+              </Button>
             </form>
           </Form>
         </div>
       </div>
     </div>
-  )
-}
-
+  );
+};
