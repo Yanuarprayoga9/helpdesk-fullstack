@@ -1,17 +1,20 @@
 
 // import { getUsers } from '@/actions/users';
+import Loader from '@/components/loader';
 import Link from 'next/link';
-import React from 'react';
+import React, { Suspense } from 'react';
 
 
 const Page = async () => {
     // const users = await getUsers()
     return (
-        <div>
-                  <Link href={"/dashboard"}>tes</Link>
+        <Suspense fallback={<Loader />}>
+            <div>
+                <Link href={"/dashboard"}>tes</Link>
 
-            <h1>Welcome, Admin</h1>
-        </div>
+                <h1>Welcome, Admin</h1>
+            </div>
+        </Suspense>
     );
 }
 
