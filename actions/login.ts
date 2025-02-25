@@ -3,7 +3,6 @@ import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
 import { LoginSchema } from "@/schemas";
 import * as z from "zod";
-import { DEFAULT_ISLOGIN_REDIRECT } from "@/routes";
 
 export const login = async (
   values: z.infer<typeof LoginSchema>,
@@ -16,24 +15,32 @@ export const login = async (
   }
 
   const { email, password } = validatedFields.data;
-  
+
   try {
-    await signIn("credentials", {
+    const response = await signIn("credentials", {
       email,
       password,
-      redirectTo: callbackUrl || DEFAULT_ISLOGIN_REDIRECT,
+      redirect: false, // Mencegah redirect otomatis dari NextAuth
     });
+
+    if (response?.error) {
+      return { error: "Invalid email or password!" };
+    }
+
     return { success: "Login successful!" };
   } catch (error) {
-    if (error instanceof AuthError) {
-      switch (error.type) {
+    console.error(error);
+    if (error instanceof Error) {
+      const { type, cause } = error as AuthError;
+      switch (type) {
         case "CredentialsSignin":
           return { error: "Invalid email or password!" };
+        case "CallbackRouteError":
+          return { error: cause?.err?.toString() };
         default:
-          return { error: "An unexpected error occurred. Please try again!" };
+          return { error: "An unexpected error occurred." };
       }
     }
-    console.log(error)
-    throw error;
+    return { error: "Something went wrong!" };
   }
 };

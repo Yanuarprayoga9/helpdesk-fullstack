@@ -7,31 +7,30 @@ import prisma from "./lib/db";
 import { JWT } from "next-auth/jwt";
 
 
-export const {
-  auth,
-  handlers: { GET, POST },
-  signIn,
-  signOut,
-} = NextAuth({
+export const { handlers, signIn, signOut, auth } = NextAuth({
+  session: {
+    strategy: "jwt",  
+    maxAge: 30 * 24 * 60 * 60, // 30 hari
+    updateAge: 24 * 60 * 60, // Update setiap 24 jam
+  },
   pages: {
     signIn: "/login",
-    signOut: "/login",
   },
   callbacks: {
     async signIn({ user }) {
       return true;
     },
     async session(args: any) {
-      const { session } = args as { session: Session };
+      const { session,token } = args as { session: Session,token:JWT };
       console.log('user in session', { session })
-      const { user } = await getUserByEmail(session.user.email as string)
-      if (user && session.user) {
-        session.user.id = user?.id as string;
-      }
+      const { user } = await getUserById(token.sub as string)
+      // if (user && session.user) {
+      //   session.user.id = user?.id as string;
+      // }
 
-      if (user) {
-        session.user.roles = user.roles;
-      }
+      // if (user) {
+      //   session.user.roles = user.roles;
+      // }
       console.log('user in db', { user })
 
       return session;
@@ -44,6 +43,6 @@ export const {
   },
 
   adapter: PrismaAdapter(prisma),
-  session: { strategy: "jwt" },
   ...authConfig,
 });
+
