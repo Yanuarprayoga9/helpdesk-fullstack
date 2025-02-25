@@ -47,6 +47,7 @@ export const columns: ColumnDef<UserType>[] = [
   {
     id: "actions",
     header: "Actions",
+    /* eslint-disable @typescript-eslint/no-unused-vars */
     cell: ({ row }) => <div>...</div>, // Bisa diganti dengan tombol edit/delete
   },
 ];

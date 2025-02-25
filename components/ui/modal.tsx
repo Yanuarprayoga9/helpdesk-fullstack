@@ -29,10 +29,7 @@ export const Modal: React.FC<ModalProps> = ({
       onClose();
     }
   };
-  //default false 
-  // jika open = false maka 
-  // onClose <<< onclose == ()=>({isOpen:true}) || ()=>({isOpen:false})
-  console.log()
+
   return (
     <Dialog open={isOpen} onOpenChange={onChange}>
       <DialogContent>

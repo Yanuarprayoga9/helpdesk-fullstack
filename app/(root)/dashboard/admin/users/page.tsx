@@ -5,7 +5,6 @@ import { getUsers } from '@/actions/users'
 
 const page = async () => {
   const { users } = await getUsers()
-  console.log(users)
   return (
     <div>
       <DataTable searchKey='id' columns={columns} data={users || []} />
