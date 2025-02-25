@@ -14,7 +14,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
                 <SidebarInset>
                     <AppNavbar user={user} />
                     <main className="flex flex-1 flex-col gap-4 p-4 pt-0">
-                        <div className="bg-red-200 md:p-4 md:mx-4 md:my-5 rounded-md ">
+                        <div className="md:p-4 md:mx-4 md:my-5 rounded-md ">
                             {children}
                         </div>
                     </main>
