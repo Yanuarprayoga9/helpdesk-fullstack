@@ -1,15 +1,14 @@
 "use client"
+/* eslint-disable react/no-unescaped-entities */
 
 import { ThumbsUp, MessageSquare, MoreHorizontal, Edit2, Award, Bell, Circle, AlertCircle } from "lucide-react"
 import { Avatar, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { useTheme } from "next-themes"
 import { JSX, SVGProps } from "react"
 import Image from "next/image"
 
 export default function GitHubDiscussion() {
-  const { theme } = useTheme()
 
   const latestChanges = [
     {
