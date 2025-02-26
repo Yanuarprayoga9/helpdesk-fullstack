@@ -27,16 +27,6 @@ model User {
   history                 TicketHistory[] // Relasi dengan riwayat perubahan tiket
   ProjectUser             ProjectUser[]
   TicketAssignmentRequest TicketAssignmentRequest[]
-  Session                 Session[]
-}
-
-model Session {
-  id           String   @id @default(uuid()) @db.VarChar(36) // ID unik untuk sesi
-  userId       String   @db.VarChar(36) // ID pengguna yang memiliki sesi ini
-  expires      DateTime // Waktu kedaluwarsa sesi
-  sessionToken String   @unique @db.VarChar(255) // Token sesi yang unik
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 // Model Project untuk menyimpan daftar proyek
