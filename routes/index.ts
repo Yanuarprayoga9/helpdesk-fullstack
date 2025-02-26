@@ -10,7 +10,7 @@ export const publicRoutes = ["/", "/login",
 * Routes that start with this prefix are used for default redirect if not login
 * @type {string[]}
 */
-export const protectedRoutes = ["/dashboard/tickets", "/dashboard/projects", "/dashboard", "/dashboard"];
+export const protectedRoutes = ["/dashboard/tickets", "/dashboard/projects", "/dashboard/users", "/dashboard"];
 
 /**
  * An array of routes that are used for authentication
