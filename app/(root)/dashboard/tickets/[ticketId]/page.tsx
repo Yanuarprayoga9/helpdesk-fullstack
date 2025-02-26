@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { useTheme } from "next-themes"
 import { JSX, SVGProps } from "react"
+import Image from "next/image"
 
 export default function GitHubDiscussion() {
   const { theme } = useTheme()
@@ -65,7 +66,7 @@ export default function GitHubDiscussion() {
 
               {/* Added image */}
               <div className="mb-4 overflow-hidden rounded-md border border-border">
-                <img
+                <Image
                   src="/placeholder.svg?height=400&width=800"
                   alt="Azure DevOps Pipeline Error Screenshot"
                   className="w-full"
