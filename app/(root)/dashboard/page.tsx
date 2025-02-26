@@ -10,7 +10,7 @@ const page = async () => {
 
   return (
     <Suspense fallback="Loading...">
-      <div className="flex justify-between space-x-4">
+      <div className="flex justify-evenly ">
         <form
           action={async () => {
             "use server"
@@ -19,7 +19,8 @@ const page = async () => {
         >
           <Button type="submit" className="bg-red-500">logout</Button>
         </form>
-        <Link href={"/dashboard/admin/users"}>redirect to users</Link>
+        <Link href={"/dashboard/admin/users"} type="button" className="text-blue-500 cursor-pointer">redirect to users</Link>
+        <Link href={"/dashboard/tickets"} type="button" className="text-green-500 cursor-pointer" >redirect to Tickets</Link>
         <div>
           <h1>toggle</h1>
           <ModeToggle />
