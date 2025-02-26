@@ -7,7 +7,7 @@ export function TicketHeader() {
       <p className="text-sm md:text-base text-muted-foreground">
         Start a codebase from a template and get to developing with the power of a virtual machine in the cloud.
       </p>
-      <Separator className="my-4" />
+      <Separator className="my-4 max-w-screen" />
     </div>
   )
 }

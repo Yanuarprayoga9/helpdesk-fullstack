@@ -5,7 +5,7 @@ import { TicketList } from "@/components/ticket/ticket-list";
 
 export default function TicketsPage() {
     return (
-        <div className="mx-2  xl:sm-28 h-screen flex  bg-background text-foreground">
+        <div className="max-w-screen mx-2  xl:sm-28 h-screen flex  bg-background text-foreground">
             <div className="w-full mx-auto   flex flex-col h-full">
                 {/* Sticky Header Section */}
                 <div className="w-full sticky top-0 z-10 bg-background/80 backdrop-blur-sm border-b">
