@@ -18,7 +18,7 @@ interface TicketCardProps {
 
 export function TicketCard({ ticket }: TicketCardProps) {
   return (
-    <div className="rounded-lg border bg-card p-4 text-card-foreground">
+    <div className="rounded-lg border bg-card p-4 text-card-foreground  cursor-pointer">
       <div className="flex items-start justify-between gap-4 flex-col sm:flex-row">
         <div className="flex items-start gap-3 w-full">
           <div className="min-w-0 flex-1">
