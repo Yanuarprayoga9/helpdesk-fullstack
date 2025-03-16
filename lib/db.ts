@@ -1,16 +1,21 @@
-import { PrismaClient } from '@prisma/client/edge'
-import { withAccelerate } from '@prisma/extension-accelerate'
+const isProd = process.env.NODE_ENV === 'production';
+
+// Import Prisma berdasarkan environment
+const { PrismaClient } = isProd 
+  ? require('@prisma/client/edge') 
+  : require('@prisma/client');
 
 const prismaClientSingleton = () => {
-  return new PrismaClient().$extends(withAccelerate())
+  const prisma = new PrismaClient();
+  return isProd ? prisma.$extends(require('@prisma/extension-accelerate').withAccelerate()) : prisma;
 }
 
 declare const globalThis: {
   prismaGlobal: ReturnType<typeof prismaClientSingleton>;
 } & typeof global;
 
-const prisma = globalThis.prismaGlobal ?? prismaClientSingleton()
+const prisma = globalThis.prismaGlobal ?? prismaClientSingleton();
 
-export default prisma
+export default prisma;
 
-if (process.env.NODE_ENV !== 'production') globalThis.prismaGlobal = prisma
+if (!isProd) globalThis.prismaGlobal = prisma;

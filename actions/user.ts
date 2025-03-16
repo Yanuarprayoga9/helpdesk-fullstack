@@ -46,7 +46,7 @@ export const getUserByEmail = async (email: string): Promise<getUserReturn> => {
         }
         const userMapped: UserType = {
             ...user,
-            roles: user.roles.map((role) => role.role)
+            roles: user.roles.map((role: any) => role.role)
         }
 
         return { success: true, user: userMapped };
@@ -56,7 +56,7 @@ export const getUserByEmail = async (email: string): Promise<getUserReturn> => {
     }
 };
 
-export const getUserById = async (id: string):Promise<getUserReturn> => {
+export const getUserById = async (id: string): Promise<getUserReturn> => {
     try {
         const user = await prisma.user.findUnique({
             where: { id },
@@ -71,7 +71,7 @@ export const getUserById = async (id: string):Promise<getUserReturn> => {
         }
         const userMapped: UserType = {
             ...user,
-            roles: user.roles.map((role) => role.role)
+            roles: user.roles.map((role: any) => role.role)
         }
 
         return { success: true, user: userMapped };

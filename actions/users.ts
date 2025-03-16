@@ -36,9 +36,9 @@ export const getUsers = async (name?: string, roleName?: string): Promise<getUse
             return { success: false, error: "Users not found" };
         }
 
-        const userMapped: UserType[] = users.map((user) => ({
+        const userMapped: UserType[] = users.map((user:any) => ({
             ...user,
-            roles: user.roles.map((role) => role.role),
+            roles: user.roles.map((role:any) => role.role),
         }));
 
         return { success: true, users: userMapped };
