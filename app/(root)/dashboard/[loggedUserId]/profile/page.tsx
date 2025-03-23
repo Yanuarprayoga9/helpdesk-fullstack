@@ -1,9 +1,14 @@
 import React from 'react'
+type PageParams = {
+  params: Promise<{ loggedUserId: string }>;
+};
 
-export default function ProfilePage({ params }: { params: { loggedInUserId: string } }) {
+export default async function ProfilePage({ params }:PageParams) {
+  const { loggedUserId } = await params; // Awaiting the params Promise
+
   return (
     <>
-    <h1>{params.loggedInUserId}</h1>
+    <h1>{loggedUserId}</h1>
     </>
   )
 }
