@@ -14,21 +14,16 @@ export const getUsers = async (name?: string, roleName?: string): Promise<getUse
                 deleted: false,
                 ...(name && { name: { contains: name } }), 
                 ...(roleName && {
-                    roles: {
-                        some: {
                             role: {
                                 name: {
                                     contains: roleName, 
                                 },
-                            },
-                        },
+                        
                     },
                 }),
             },
             include: {
-                roles: {
                     include: { role: true },
-                },
             },
         });
 
@@ -38,7 +33,6 @@ export const getUsers = async (name?: string, roleName?: string): Promise<getUse
 
         const userMapped: UserType[] = users.map((user:any) => ({
             ...user,
-            roles: user.roles.map((role:any) => role.role),
         }));
 
         return { success: true, users: userMapped };
