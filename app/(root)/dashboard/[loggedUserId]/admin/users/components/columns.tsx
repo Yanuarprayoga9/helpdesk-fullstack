@@ -1,6 +1,6 @@
 "use client";
 
-import { RoleType, UserType } from "@/@types/user";
+import {  UserType } from "@/@types/user";
 import { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
 
