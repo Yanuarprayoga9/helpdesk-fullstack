@@ -6,10 +6,9 @@ type PageParams = {
     params: {
         loggedUserId: string
     },
-    children: React.ReactNode
 }
 
-const ProfilePage: React.FC<PageParams> = async ({ params, children }) => {
+const ProfilePage: React.FC<PageParams> = async ({ params }) => {
         const { loggedUserId } = await params; // Tambahkan await
         const response = await getUserById(loggedUserId);
         const me = response.success ? response.user : null;
