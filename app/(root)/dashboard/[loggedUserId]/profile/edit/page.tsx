@@ -9,7 +9,7 @@ type PageParams = {
 }
 
 const ProfilePage: React.FC<PageParams> = async ({ params }) => {
-        const { loggedUserId } = await params; // Tambahkan await
+        const { loggedUserId } =  params; // Tambahkan await
         const response = await getUserById(loggedUserId);
         const me = response.success ? response.user : null;
     return (
