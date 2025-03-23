@@ -1,14 +1,17 @@
-const isProd = process.env.NODE_ENV === 'production';
+const isProd = process.env.NODE_ENV === "production";
 
 // Import Prisma berdasarkan environment
-const { PrismaClient } = isProd 
-  ? require('@prisma/client/edge') 
-  : require('@prisma/client');
+const { PrismaClient } = isProd
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+  ? require("@prisma/client/edge")
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  : require("@prisma/client");
 
 const prismaClientSingleton = () => {
   const prisma = new PrismaClient();
-  return isProd ? prisma.$extends(require('@prisma/extension-accelerate').withAccelerate()) : prisma;
-}
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  return isProd ? prisma.$extends(require("@prisma/extension-accelerate").withAccelerate()) : prisma;
+};
 
 declare const globalThis: {
   prismaGlobal: ReturnType<typeof prismaClientSingleton>;

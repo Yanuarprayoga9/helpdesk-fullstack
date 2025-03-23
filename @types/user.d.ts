@@ -4,7 +4,7 @@ export type UserType = {
     name: string;
     email: string;
     imageUrl: string;
-    roles: RoleType[]
+    role: RoleType
 }
 
 export type RoleType = {

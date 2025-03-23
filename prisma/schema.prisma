@@ -22,38 +22,39 @@ model User {
   role                    Role                      @relation(fields: [roleId], references: [id]) // Relasi dengan prioritas tiket
   // roles                   UserRole[] // Relasi dengan model UserRole, yang menyimpan peran-peran yang dimiliki oleh user
   createdTickets          Ticket[]                  @relation("TicketCreatedBy") // Relasi dengan tiket yang dibuat oleh user
-  assignedTickets         Ticket[]                  @relation("TicketAssignedBy") // Relasi dengan tiket yang ditugaskan kepada user
   comments                TicketComment[] // Relasi dengan komentar-komentar yang dibuat oleh user di tiket
   // feedbacks       TicketFeedback[] // Relasi dengan feedback yang diberikan oleh user untuk tiket
   assignees               TicketAssignee[] // Relasi dengan assignee yang ditugaskan ke tiket
   history                 TicketHistory[] // Relasi dengan riwayat perubahan tiket
   // ProjectUser             ProjectUser[]
   TicketAssignmentRequest TicketAssignmentRequest[]
+  ProjectUser             ProjectUser[]
 }
 
 // Model Project untuk menyimpan daftar proyek
 model Project {
-  id        String   @id @default(uuid()) @db.VarChar(36) // ID unik proyek
-  name      String   @db.VarChar(100) // Nama proyek
-  imageUrl  String?  @db.VarChar(100) // URL gambar yang terkait dengan komentar (opsional)
-  tickets   Ticket[] // Relasi dengan tiket
+  id          String        @id @default(uuid()) @db.VarChar(36) // ID unik proyek
+  name        String        @db.VarChar(100) // Nama proyek
+  imageUrl    String?       @db.VarChar(100) // URL gambar yang terkait dengan komentar (opsional)
+  tickets     Ticket[] // Relasi dengan tiket
   // users     ProjectUser[] // Relasi dengan pengguna dalam proyek
-  createdAt DateTime @default(now()) // Timestamp pembuatan proyek
-  updatedAt DateTime @updatedAt // Timestamp update proyek
-  deleted   Boolean  @default(false)
+  createdAt   DateTime      @default(now()) // Timestamp pembuatan proyek
+  updatedAt   DateTime      @updatedAt // Timestamp update proyek
+  deleted     Boolean       @default(false)
+  ProjectUser ProjectUser[]
 }
 
-// model ProjectUser {
-//   id        String  @id @default(uuid()) @db.VarChar(36)
-//   projectId String  @db.VarChar(36)
-//   userId    String  @db.VarChar(36)
-//   deleted   Boolean @default(false)
+model ProjectUser {
+  id        String  @id @default(uuid()) @db.VarChar(36)
+  projectId String  @db.VarChar(36)
+  userId    String  @db.VarChar(36)
+  deleted   Boolean @default(false)
 
-//   project Project @relation(fields: [projectId], references: [id])
-//   user    User    @relation(fields: [userId], references: [id])
+  project Project @relation(fields: [projectId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
 
-//   createdAt DateTime @default(now())
-// }
+  createdAt DateTime @default(now())
+}
 
 // Model Role yang menyimpan informasi tentang peran
 // Role harus salah satu dari 'Developer', 'DevOps', 'Admin','Manager'
@@ -127,7 +128,6 @@ model Ticket {
   priorityId              String                    @db.VarChar(36) // ID dari prioritas yang diberikan pada tiket
   statusId                String                    @db.VarChar(36) // ID dari status tiket (opsional)
   createdById             String                    @db.VarChar(36) // ID dari pengguna yang membuat tiket
-  assignedById            String                    @db.VarChar(36) // ID dari pengguna yang menugaskan tiket (opsional)
   categoryId              String                    @db.VarChar(36) // ID kategori tiket (opsional)
   projectId               String                    @db.VarChar(36)
   createdAt               DateTime                  @default(now()) // Waktu pembuatan tiket, otomatis diisi dengan waktu sekarang
@@ -136,7 +136,6 @@ model Ticket {
   priority                Priority                  @relation(fields: [priorityId], references: [id]) // Relasi dengan prioritas tiket
   status                  Status                    @relation(fields: [statusId], references: [id]) // Relasi dengan status tiket (opsional)
   createdBy               User                      @relation("TicketCreatedBy", fields: [createdById], references: [id]) // Relasi dengan pengguna yang membuat tiket
-  assignedBy              User                      @relation("TicketAssignedBy", fields: [assignedById], references: [id]) // Relasi dengan pengguna yang menugaskan tiket (opsional)
   category                Category                  @relation(fields: [categoryId], references: [id]) // Relasi dengan kategori tiket (opsional)
   assignees               TicketAssignee[] // Relasi dengan assignee yang ditugaskan ke tiket
   history                 TicketHistory[] // Relasi dengan riwayat perubahan status tiket

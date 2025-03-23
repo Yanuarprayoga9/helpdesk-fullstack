@@ -4,7 +4,7 @@ import Credentials from "next-auth/providers/credentials";
 import type { NextAuthConfig } from "next-auth";
 
 import { JWT } from "next-auth/jwt";
-import { RoleType, UserType } from "@/@types/user";
+import {  UserType } from "@/@types/user";
 import prisma from "./db";
 import { LoginSchema } from "@/schemas";
 
@@ -26,17 +26,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (token.sub && session.user) {
         session.user.id = token.sub;
       }
-      if (session.user && token) {
-        session.user.roles = token?.roles as RoleType[];
-      }
+   
       return session;
     },
     async jwt(args: any) {// eslint-disable-line @typescript-eslint/no-explicit-any
-      const { user, token } = args as { user: UserType, token: JWT };
-
-      if (user) {
-        token.roles = user.roles;
-      }
+      const { token } = args as { user: UserType, token: JWT };
       return token;
     },
   },
@@ -51,7 +45,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         const user = await prisma.user.findFirst({
           where: { email },
-          include: { roles: true },
+          include: { role: true },
         });
 
         if (!user || !user.password) return null;

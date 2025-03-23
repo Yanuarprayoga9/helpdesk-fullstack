@@ -57,7 +57,7 @@ async function main() {
       name: 'Admin User',
       email: 'admin@example.com',
       password: 'password123',
-      roles: { create: [{ roleId: '3' },{ roleId: '1' },{ roleId: '2' }] },
+      roleId : '3'
     },
   });
 
@@ -66,7 +66,6 @@ async function main() {
     data: {
       id: '1',
       name: 'Project A',
-      users: { create: [{ userId: '1' }] },
     },
   });
 
@@ -79,7 +78,6 @@ async function main() {
       priorityId: '1',
       statusId: '1',
       createdById: '1',
-      assignedById: '1',
       categoryId: '1',
       projectId: '1',
     },

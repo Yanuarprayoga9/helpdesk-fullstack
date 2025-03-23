@@ -3,7 +3,7 @@ import { JWT } from "next-auth/jwt";
 
 export type ExtendedUser = DefaultSession["user"] & {
   id: string;
-  roles: RoleType[];
+  role: RoleType;
 };
 /** Example on how to extend the built-in session types */
 declare module "next-auth" {
@@ -17,6 +17,6 @@ declare module "next-auth" {
 declare module "next-auth/jwt" {
   interface JWT {
     /** This is an example. You can find me in types/next-auth.d.ts */
-    id:string
+    id: string
   }
 }
