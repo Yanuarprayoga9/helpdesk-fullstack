@@ -6,9 +6,7 @@ import EditProfileButton from './components/edit-button'
 import ProfileImage from '@/components/ProfileImageUploader'
 
 type PageParams = {
-    params: {
-        loggedUserId: string
-    },
+    params: Promise<{ loggedUserId: string }>,
     children: React.ReactNode
 }
 
