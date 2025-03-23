@@ -32,15 +32,11 @@ export const columns: ColumnDef<UserType>[] = [
     ),
   },
   {
-    accessorKey: "roles",
-    header: "Roles",
+    accessorKey: "role",
+    header: "Role",
     cell: ({ row }) => (
       <div>
-        {row.original.roles.map((role:RoleType) => (
-          <span key={role.id} className="px-2 py-1 text-xs bg-gray-200 rounded">
-            {role.name}
-          </span>
-        ))}
+        {row.original.role.name}
       </div>
     ),
   },
