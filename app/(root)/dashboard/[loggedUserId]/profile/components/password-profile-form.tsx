@@ -34,7 +34,7 @@ export function PasswordUpdateForm({ userId }: { userId: string }) {
         setLoading(false)
 
         if (!response.success) {
-            alert(response.error)
+            alert(response.message)
         } else {
             alert("Password updated successfully!")
         }

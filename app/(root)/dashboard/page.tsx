@@ -4,15 +4,12 @@ import { ModeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { signOut } from "@/lib/auth";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import React, { Suspense } from "react";
 
 const page = async () => {
   // const users = await getUsers()
   const { user } = await getCurrentUser()
-  // if (!user) {
-  //   // return redirect("/login")
-  // }
+
   return (
     <Suspense fallback="Loading...">
       <div className="flex justify-evenly ">
