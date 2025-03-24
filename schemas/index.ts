@@ -23,3 +23,7 @@ export const RegisterSchema = z.object({
     message: "Name is required",
   }),
 });
+
+export const categorySchema = z.object({
+  name: z.string().min(1, "Name is required").max(100, "Name too long"),
+});

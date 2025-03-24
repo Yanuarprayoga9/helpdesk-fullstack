@@ -48,7 +48,7 @@ export function GeneralProfileForm({ user }: GeneralProfileFormProps) {
     setLoading(false);
 
     if (!response.success) {
-      alert(response.error);
+      alert(response.message);
     } else {
       alert("Profile updated successfully!");
     }

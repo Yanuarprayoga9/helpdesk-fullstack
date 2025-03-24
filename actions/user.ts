@@ -12,18 +12,18 @@ export const getCurrentUser = async (): Promise<getUserReturn> => {
     try {
         const session = await auth();
         if (!session?.user) {
-            return { success: false, error: "unauthenticated" };
+            return { success: false, message: "unauthenticated" };
         }
 
         const user = session.user as UserType;
         if (!user.id) {
-            return { success: false, error: "user not found" };
+            return { success: false, message: "user not found" };
         }
 
         return { success: true, user: user };
     } catch (error) {
         console.error("Error fetching user:", error);
-        return { success: false, error: (error as Error).message };
+        return { success: false, message: (error as Error).message };
     }
 };
 
@@ -34,6 +34,7 @@ export const getCurrentUser = async (): Promise<getUserReturn> => {
 
 export const getUserByEmail = async (email: string): Promise<getUserReturn> => {
     try {
+        
         const user = await prisma.user.findUnique({
             where: { email },
             include: {
@@ -41,14 +42,14 @@ export const getUserByEmail = async (email: string): Promise<getUserReturn> => {
             },
         });
         if (!user) {
-            return { success: false, error: "User not found" };
+            return { success: false, message: "User not found" };
         }
 
 
         return { success: true, user: user };
     } catch (error) {
         console.error("Error fetching user by email:", error);
-        return { success: false, error: (error as Error).message };
+        return { success: false, message: (error as Error).message };
     }
 };
 
@@ -61,13 +62,13 @@ export const getUserById = async (id: string): Promise<getUserReturn> => {
             },
         });
         if (!user) {
-            return { success: false, error: "User not found" };
+            return { success: false, message: "User not found" };
         }
 
         return { success: true, user: user };
     } catch (error) {
         console.error("Error fetching user by email:", error);
-        return { success: false, error: (error as Error).message };
+        return { success: false, message: (error as Error).message };
     }
 };
 
@@ -80,7 +81,7 @@ export const updateUserById = async (
     try {
         const user = await prisma.user.findUnique({ where: { id } });
         if (!user) {
-            return { success: false, error: "User not found" };
+            return { success: false, message: "User not found" };
         }
 
         let updatedData: any = {
@@ -103,6 +104,6 @@ export const updateUserById = async (
         return { success: true, user: updatedUser };
     } catch (error) {
         console.error("Error updating user:", error);
-        return { success: false, error: (error as Error).message };
+        return { success: false, message: (error as Error).message };
     }
 };

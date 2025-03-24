@@ -12,32 +12,28 @@ export const getUsers = async (name?: string, roleName?: string): Promise<getUse
         const users = await prisma.user.findMany({
             where: {
                 deleted: false,
-                ...(name && { name: { contains: name } }), 
+                ...(name && { name: { contains: name } }),
                 ...(roleName && {
-                            role: {
-                                name: {
-                                    contains: roleName, 
-                                },
-                        
+                    role: {
+                        name: {
+                            contains: roleName,
+                        },
+
                     },
                 }),
             },
-            include: {
-                    include: { role: true },
-            },
+                include: { role: true },
+            
         });
 
         if (!users.length) {
-            return { success: false, error: "Users not found" };
+            return { success: false, message: "Users not found" };
         }
 
-        const userMapped: UserType[] = users.map((user:any) => ({
-            ...user,
-        }));
-
-        return { success: true, users: userMapped };
+       
+        return { success: true, users};
     } catch (error) {
         console.error("Error fetching users:", error);
-        return { success: false, error: (error as Error).message };
+        return { success: false, message: (error as Error).message };
     }
 };
