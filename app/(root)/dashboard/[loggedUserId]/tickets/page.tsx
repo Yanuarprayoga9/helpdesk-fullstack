@@ -1,5 +1,5 @@
+import { Header } from "@/components/header";
 import CategoriesMenu from "@/components/ticket/categories";
-import { PageHeader } from "@/components/header";
 import { SearchFilters } from "@/components/ticket/search-filters";
 import { TicketList } from "@/components/ticket/ticket-list";
 
@@ -10,7 +10,10 @@ export default function TicketsPage() {
                 {/* Sticky Header Section */}
                 <div className="w-full sticky top-0 z-10 bg-background/80 backdrop-blur-sm border-b">
                     <div className="p-4">
-                        <PageHeader title="Tickets" desc="Start a codebase from a template and get to developing with the power of a virtual machine in the cloud." />
+                        <Header
+                            title="Tickets"
+                            desc="Track and manage support tickets efficiently. View ticket statuses, priorities, and updates in real-time."
+                        />
                         <SearchFilters />
                     </div>
                 </div>

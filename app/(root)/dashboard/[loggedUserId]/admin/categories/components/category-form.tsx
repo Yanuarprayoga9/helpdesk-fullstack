@@ -18,7 +18,7 @@ import { createCategory } from "@/actions/category";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { categorySchema } from "@/schemas";
-import { PageHeader } from "@/components/header";
+import { Header } from "@/components/header";
 
 
 
@@ -51,7 +51,11 @@ export function CategoryForm() {
 
     return (
         <div className="space-y-4">
-            <PageHeader title="Create Category" desc="create category" />
+            <Header
+                variant="sub"
+                title="Create Category"
+                desc="Add a new category to organize your data effectively. Provide a name and description to make it easily identifiable."
+            />
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                     <FormField

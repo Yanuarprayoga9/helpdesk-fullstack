@@ -1,5 +1,5 @@
 
-import { PageHeader } from "@/components/header";
+import { Header } from "@/components/header";
 import { getProjects } from "@/actions/project";
 import { ProjectList } from "@/components/project/project-list";
 import { ProjectForm } from "./components/project-form";
@@ -11,16 +11,19 @@ const page = async () => {
     const fetchprojects = await getProjects(false);
     const fetchUsers = await getUsers()
 
-    const userMapped = fetchUsers.users?.map((user)=>(
+    const userMapped = fetchUsers.users?.map((user) => (
         {
-            label : user.name,
+            label: user.name,
             value: user.id
         }
     ))
     if (!fetchprojects.success) {
         return (
             <div className='flex flex-col'>
-                <PageHeader title='Category' desc='Category page' />
+                <Header
+                    title="Projects"
+                    desc="Manage all your projects in one place. Organize tasks, track progress, and collaborate with your team efficiently."
+                />
                 <p className="text-red-500">Error: {fetchprojects.message}</p>
             </div>
         );
@@ -28,8 +31,11 @@ const page = async () => {
 
     return (
         <div className='flex flex-col'>
-            <PageHeader title='Category' desc='Category page' />
-            <ProjectForm userMapped={userMapped}/>
+            <Header
+                title="Projects"
+                desc="Manage all your projects in one place. Organize tasks, track progress, and collaborate with your team efficiently."
+            />
+            <ProjectForm userMapped={userMapped} />
             <ProjectList projects={fetchprojects.projects} />
         </div>
     );

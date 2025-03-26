@@ -1,24 +1,34 @@
-import { Separator } from "@/components/ui/separator"
+import { Separator } from "@/components/ui/separator";
 
 type PageHeaderParams = {
   title: string;
-  desc: string;
-  children?: React.ReactNode
-}
-export function PageHeader(props: PageHeaderParams) {
-  return (
-    <div className="mt-7 md:mt-2 space-y-2 min-w-96">
-      <div className="flex justify-between">
-        <div className="">
-          <h1 className="text-xl md:text-2xl font-semibold">{props.title}</h1>
-          <p className="text-sm md:text-base text-muted-foreground">
-            {props.desc}
-          </p>
-        </div>
-        {props.children}
-      </div>
-      <Separator className="my-4 max-w-screen" />
-    </div>
-  )
-}
+  desc?: string;
+  variant?: "header" | "sub"; // "header" untuk utama, "sub" untuk sub-header
+  children?: React.ReactNode;
+};
 
+export function Header({
+  title,
+  desc,
+  variant = "header",
+  children,
+}: PageHeaderParams) {
+  return (
+    <div className={`w-full ${variant === "header" ? "mt-7  space-y-4 md:mt-2" : " space-y-2 mt-4"}`}>
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className={variant === "header" ? "text-2xl md:text-3xl font-bold" : "text-lg md:text-xl font-semibold"}>
+            {title}
+          </h1>
+          {desc && (
+            <p className={`text-sm ${variant === "header" ? "md:text-base" : "text-xs md:text-sm"} text-muted-foreground`}>
+              {desc}
+            </p>
+          )}
+        </div>
+        {children}
+      </div>
+       <Separator className="my-4" />
+    </div>
+  );
+}
