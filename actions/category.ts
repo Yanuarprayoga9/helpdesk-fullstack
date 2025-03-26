@@ -1,6 +1,6 @@
 "use server"
 
-import { CategoryType } from "@/@types/category"
+import { CategoriesReturn, CategoryReturn, CategoryType } from "@/@types/category"
 import { categorySchema } from "@/schemas";
 import { PrismaClient } from "@prisma/client";
 import { z } from "zod";
@@ -9,12 +9,8 @@ import { z } from "zod";
 
 const prisma = new PrismaClient();
 
-interface CategoryReturn extends ActionResult {
-    categories?: CategoryType[]
-}
 
-
-export const getCategories = async (isDeleted: boolean): Promise<CategoryReturn> => {
+export const getCategories = async (isDeleted: boolean): Promise<CategoriesReturn> => {
     try {
 
 
@@ -36,7 +32,7 @@ export const getCategories = async (isDeleted: boolean): Promise<CategoryReturn>
         return { success: false, message: (error as Error).message };
     }
 }
-export const createCategory = async (values: z.infer<typeof categorySchema>): Promise<CategoryReturn> => {
+export const createCategory = async (values: z.infer<typeof categorySchema>): Promise<CategoriesReturn> => {
     try {
         // Validasi input dengan Zod
         const parsedData = categorySchema.safeParse(values);

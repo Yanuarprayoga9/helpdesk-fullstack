@@ -24,7 +24,41 @@ async function main() {
     ],
     skipDuplicates: true,
   });
-
+  const projects = await prisma.project.createMany({
+    data: [
+      {
+        id: "proj-101",
+        name: "Helpdesk Automation System",
+        imageUrl: "https://placehold.co/600x400?text=Helpdesk+Automation",
+        deleted: false,
+      },
+      {
+        id: "proj-102",
+        name: "E-commerce Platform",
+        imageUrl: "https://placehold.co/600x400?text=E-commerce+Platform",
+        deleted: false,
+      },
+      {
+        id: "proj-103",
+        name: "AI Chatbot Development",
+        imageUrl: "https://placehold.co/600x400?text=AI+Chatbot",
+        deleted: false,
+      },
+      {
+        id: "proj-104",
+        name: "DevOps Pipeline Optimization",
+        imageUrl: "https://placehold.co/600x400?text=DevOps+Pipeline",
+        deleted: false,
+      },
+      {
+        id: "proj-105",
+        name: "Mobile Banking App",
+        imageUrl: "https://placehold.co/600x400?text=Mobile+Banking",
+        deleted: false,
+      },
+    ],
+    skipDuplicates: true,
+  });
   // Seed Priorities
   const priorities = await prisma.priority.createMany({
     data: [
@@ -51,36 +85,71 @@ async function main() {
   });
 
   // Seed Users
-  const user = await prisma.user.create({
-    data: {
-      id: '1',
-      name: 'Admin User',
-      email: 'admin@example.com',
-      password: 'password123',
-      roleId : '3'
-    },
+
+  // Seed Users (skip duplicates)
+  await prisma.user.createMany({
+    data: [
+      {
+        id: "1",
+        name: "Admin User",
+        email: "admin@example.com",
+        password: "password123",
+        roleId: "3", // Admin
+      },
+
+      {
+        id: "2",
+        name: "DevOps Engineer",
+        email: "devops@example.com",
+        password: "password123",
+        roleId: "2", // DevOps
+      },
+      {
+        id: "3",
+        name: "Software Developer",
+        email: "developer@example.com",
+        password: "password123",
+        roleId: "1", // Developer
+      },
+      {
+        id: "4",
+        name: "Project Manager",
+        email: "manager@example.com",
+        password: "password123",
+        roleId: "4", // Manager
+      },
+    ],
+    skipDuplicates: true, // Mencegah duplikasi
   });
 
-  // Seed Projects
-  const project = await prisma.project.create({
-    data: {
-      id: '1',
-      name: 'Project A',
-    },
-  });
+
 
   // Seed Tickets
-  const ticket = await prisma.ticket.create({
-    data: {
-      id: '1',
-      title: 'Bug in login system',
-      description: 'Users unable to login due to server error.',
-      priorityId: '1',
-      statusId: '1',
-      createdById: '1',
-      categoryId: '1',
-      projectId: '1',
-    },
+  const ticket = await prisma.ticket.createMany({
+    data: [
+      {
+        id: '1',
+        title: 'Bug in login system',
+        description: 'Users unable to login due to server error.',
+        priorityId: '1',
+        statusId: '1',
+        createdById: '1',
+        categoryId: '1',
+        projectId: '1',
+      },
+      {
+        id: '2',
+        title: 'Bug in login system',
+        description: 'Users unable to login due to server error.',
+        priorityId: '1',
+        statusId: '1',
+        createdById: '1',
+        categoryId: '1',
+        projectId: '1',
+      },
+    ],
+    skipDuplicates: true, // Mencegah duplikasi
+
   });
 
   console.log('Database seeded successfully!');

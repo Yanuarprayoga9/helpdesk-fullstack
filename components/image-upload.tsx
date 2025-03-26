@@ -52,7 +52,7 @@ export const ImageUpload = ({
           </div>
         ))}
       </div>
-      <CldUploadWidget onUpload={onUpload} uploadPreset="n3o8qwds">
+      <CldUploadWidget onSuccess={onUpload} uploadPreset="helpdesk">
         {({open})=>{
           const onClick = () => {
             open()

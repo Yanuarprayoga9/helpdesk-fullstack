@@ -20,8 +20,10 @@ const page = async () => {
         <div className='flex flex-col'>
             <PageHeader title='Category' desc='Category page' />
             <div className="grid grid-cols-1  md:grid-cols-2 gap-7 mt-7">
-                <DataTable searchKey='id' columns={columns} data={fetchcategories.categories || []} />
-                <div className="py-4">
+                <div className="order-2 md:order-1">
+                    <DataTable searchKey='id' columns={columns} data={fetchcategories.categories || []} />
+                </div>
+                <div className="py-4 order-1 md:order-2">
                     <CategoryForm />
 
                 </div>

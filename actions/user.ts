@@ -1,13 +1,11 @@
 "use server"
 
 import { hash } from "bcrypt-ts";
-import { UserType } from "@/@types/user"
+import { getUserReturn, UserType } from "@/@types/user"
 import { auth } from "@/lib/auth";
 import prisma from "@/lib/db"
 
-interface getUserReturn extends ActionResult {
-    user?: UserType
-}
+
 export const getCurrentUser = async (): Promise<getUserReturn> => {
     try {
         const session = await auth();

@@ -1,11 +1,9 @@
 "use server"
 
-import { UserType } from "@/@types/user";
+import { getUsersReturn } from "@/@types/user";
 import prisma from "@/lib/db";
 
-interface getUsersReturn extends ActionResult {
-    users?: UserType[];
-}
+
 
 export const getUsers = async (name?: string, roleName?: string): Promise<getUsersReturn> => {
     try {
@@ -31,9 +29,14 @@ export const getUsers = async (name?: string, roleName?: string): Promise<getUse
         }
 
        
-        return { success: true, users};
-    } catch (error) {
+        return { success: true, users:users};
+    } catch (error: unknown) {
         console.error("Error fetching users:", error);
-        return { success: false, message: (error as Error).message };
+    
+        if (error instanceof Error) {
+            return { success: false, message: error.message };
+        }
+    
+        return { success: false, message: "An unexpected error occurred." };
     }
 };
