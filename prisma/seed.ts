@@ -1,8 +1,20 @@
 import { PrismaClient } from '@prisma/client';
+import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
+async function hashPassword(password: string): Promise<string> {
+  const salt = await bcrypt.genSalt(10); // Generate salt dengan 10 rounds
+  const hashedPassword = await bcrypt.hash(password, salt);
+  return hashedPassword;
+}
+
 async function main() {
+  const DEFAULT_PASSWORD = process.env.PLAIN_SEED_PASSWORD as string; // Ambil langsung dari .env
+  if (!DEFAULT_PASSWORD) {
+    throw new Error("❌ PLAIN_SEED_PASSWORD is not set in .env");
+  }
+
   // Seed Roles
   const roles = await prisma.role.createMany({
     data: [
@@ -85,41 +97,38 @@ async function main() {
   });
 
   // Seed Users
-
-  // Seed Users (skip duplicates)
   await prisma.user.createMany({
-    data: [
+    data: await Promise.all([
       {
         id: "1",
         name: "Admin User",
         email: "admin@example.com",
-        password: "password123",
-        roleId: "3", // Admin
+        password: await hashPassword(DEFAULT_PASSWORD),
+        roleId: "3",
       },
-
       {
         id: "2",
         name: "DevOps Engineer",
         email: "devops@example.com",
-        password: "password123",
-        roleId: "2", // DevOps
+        password: await hashPassword(DEFAULT_PASSWORD),
+        roleId: "2",
       },
       {
         id: "3",
         name: "Software Developer",
         email: "developer@example.com",
-        password: "password123",
-        roleId: "1", // Developer
+        password: await hashPassword(DEFAULT_PASSWORD),
+        roleId: "1",
       },
       {
         id: "4",
         name: "Project Manager",
         email: "manager@example.com",
-        password: "password123",
-        roleId: "4", // Manager
+        password: await hashPassword(DEFAULT_PASSWORD),
+        roleId: "4",
       },
-    ],
-    skipDuplicates: true, // Mencegah duplikasi
+    ]),
+    skipDuplicates: true,
   });
 
 

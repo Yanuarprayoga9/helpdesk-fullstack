@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/form"
 import { useRouter, useSearchParams } from 'next/navigation'
 import toast from 'react-hot-toast' // Import toast
+import { DEFAULT_ISLOGIN_REDIRECT } from '@/constants/routes'
 
 export const LoginForm = () => {
   const searchParams = useSearchParams();
@@ -54,7 +55,7 @@ export const LoginForm = () => {
             setSuccess(data.success);
             form.reset();
             toast.success("Mengalihkan...", { id: "login" }); // Menampilkan toast sukses
-            router.push(callbackUrl || "/dashboard")
+            router.push(callbackUrl || DEFAULT_ISLOGIN_REDIRECT)
           }
         })
         .catch(() => {
