@@ -8,7 +8,7 @@ export default function TicketsPage() {
         <div className=" h-screen flex  bg-background ">
             <div className="w-full mx-auto   flex flex-col h-full">
                 {/* Sticky Header Section */}
-                <div className="w-full sticky top-0 z-10 bg-background/80 backdrop-blur-sm border-b">
+                <div className="w-full z-10 bg-background/80 backdrop-blur-sm border-b">
                     <div className="p-4">
                         <Header
                             title="Tickets"

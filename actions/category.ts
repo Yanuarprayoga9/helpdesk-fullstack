@@ -2,12 +2,10 @@
 
 import { CategoriesReturn, CategoryReturn, CategoryType } from "@/@types/category"
 import { categorySchema } from "@/schemas";
-import { PrismaClient } from "@prisma/client";
 import { z } from "zod";
-// import prisma from "@/lib/db"
+import prisma from "@/lib/db"
 
 
-const prisma = new PrismaClient();
 
 
 export const getCategories = async (isDeleted: boolean): Promise<CategoriesReturn> => {

@@ -1,14 +1,12 @@
 "use server"
 
 import { ProjectReturn, ProjectsReturn, ProjectType } from "@/@types/project";
-import { getUsersReturn } from "@/@types/user";
+import { getUsersReturn, UserType } from "@/@types/user";
 import { projectSchema } from "@/schemas";
-import { Prisma, PrismaClient } from "@prisma/client";
 import { z } from "zod";
-// import prisma from "@/lib/db"
+import prisma from "@/lib/db"
+import { Prisma } from "@prisma/client";
 
-
-const prisma = new PrismaClient();
 
 
 
@@ -65,7 +63,7 @@ export const createProject = async (
         select: { id: true },
       });
 
-      validUserIds = users.map((user) => user.id);
+      validUserIds = users.map((user:UserType) => user.id);
       const missingUsers = userIds.filter((id) => !validUserIds.includes(id));
 
       if (missingUsers.length > 0) {
@@ -135,8 +133,8 @@ export const getUsersByProjectId = async (projectId: string): Promise<getUsersRe
     if (!projectUsers.length) {
       return { success: false, message: "No users found for this project" };
     }
-
-    const userIds = projectUsers.map((pu) => pu.userId); // Ambil array userId
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const userIds = projectUsers.map((pu:any) => pu.userId); // Ambil array userId
 
     // Step 2: Fetch user detail berdasarkan userIds
     const users = await prisma.user.findMany({

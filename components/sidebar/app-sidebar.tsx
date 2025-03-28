@@ -13,7 +13,7 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar"
-import { SIDEBAR_DATA } from "@/constants"
+import { SIDEBAR_DATA } from "@/constants/sidebar-data"
 
 
 

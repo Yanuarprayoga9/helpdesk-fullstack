@@ -15,7 +15,7 @@ model User {
   imageUrl                String                    @default("https://avatar.iran.liara.run/public") @db.VarChar(100) // URL gambar yang terkait dengan komentar (opsional)
   email                   String                    @unique @db.VarChar(100) // Email yang unik dan memiliki panjang maksimal 50 karakter
   roleId                  String                    @db.VarChar(36)
-  password                String                    @db.VarChar(50)
+  password                String                    @db.VarChar(60)
   createdAt               DateTime                  @default(now()) // Waktu pembuatan, secara default diisi dengan waktu sekarang
   updatedAt               DateTime                  @updatedAt // Waktu pembaruan, secara otomatis diperbarui setiap kali terjadi perubahan
   deleted                 Boolean                   @default(false)
