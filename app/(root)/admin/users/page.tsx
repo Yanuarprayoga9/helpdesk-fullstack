@@ -8,7 +8,7 @@ const page = async () => {
   const { users } = await getUsers()
   return (
     <div className='w-full'>
-<Header title="Categories" desc="Manage and organize categories efficiently." />
+      <Header title="Categories" desc="Manage and organize categories efficiently." />
       <DataTable searchKey='id' columns={columns} data={users || []} />
     </div>
   )
