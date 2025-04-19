@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 // import { getUsers } from "@/actions/users";
 import { getCurrentUser } from "@/actions/user";
 import { ModeToggle } from "@/components/theme-toggle";

@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 
 // import { getUsers } from '@/actions/users';
 import Loader from '@/components/loader';

@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { DataTable } from '@/components/data-table'
 import React from 'react'
 import { columns } from './components/columns'
