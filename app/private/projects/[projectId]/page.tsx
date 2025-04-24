@@ -1,5 +1,7 @@
 
 
+export const dynamic = "force-dynamic";
+
 import Image from "next/image"
 
 import { getProjectById, getUsersByProjectId } from "@/actions/project"

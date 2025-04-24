@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { getCategories } from "@/actions/category";
 import { DataTable } from "@/components/data-table";
 import { Header } from "@/components/header";

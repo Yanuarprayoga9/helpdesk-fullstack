@@ -3,7 +3,7 @@
 * Routes that start with this prefix are used for default redirect if not login
 * @type {string}
 */
-export const DEFAULT_ISLOGIN_REDIRECT = "/tickets";
+export const DEFAULT_ISLOGIN_REDIRECT = "/private/tickets";
 
   /**
      * An array of routes that are used for authentication
