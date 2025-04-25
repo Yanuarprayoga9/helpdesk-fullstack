@@ -14,7 +14,7 @@ export function Header({
   children,
 }: PageHeaderParams) {
   return (
-    <div className={`w-full ${variant === "header" ? "mt-7  space-y-4 md:mt-2" : " space-y-2 mt-4"}`}>
+    <div className={`w-full ${variant === "header" ? "mt-7  space-y-4 md:mt-2" : " space-y-2 "}`}>
       <div className="flex justify-between items-center">
         <div>
           <h1 className={variant === "header" ? "text-2xl md:text-3xl font-bold" : "text-lg md:text-xl font-semibold"}>

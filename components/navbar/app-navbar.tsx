@@ -1,3 +1,4 @@
+"use client"
 import React from 'react'
 import { SidebarTrigger } from '../ui/sidebar'
 import { NavbarBreadCumb } from './navbar-bread-cumb'
@@ -8,15 +9,19 @@ import { UserType } from '@/@types/user'
 import { UserNav } from './navbar-user-nav'
 interface AppNavbarProps {
     user?: UserType;
+    isNavConsole? : boolean
 
 }
-const AppNavbar: React.FC<AppNavbarProps> = ({ user }) => {
+const AppNavbar: React.FC<AppNavbarProps> = ({ user,isNavConsole }) => {
+   
     return (
         <header className="sticky mx-1 top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
 
             <div className="flex py-4">
                 <div className="flex items-center gap-2 px-4">
-                    <SidebarTrigger />
+                    {
+                        isNavConsole && (<SidebarTrigger />)
+                    }
                     <Separator orientation="vertical" className="h-4" />
                     <NavbarBreadCumb />
                 </div>

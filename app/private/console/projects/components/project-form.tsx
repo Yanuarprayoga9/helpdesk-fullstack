@@ -19,7 +19,6 @@ import { ImageUpload } from "@/components/image-upload";
 import MultipleSelector from '@/components/ui/multiple-selector';
 import { createProject } from "@/actions/project";
 import toast from "react-hot-toast";
-import { Header } from "@/components/header";
 
 export const projectSchema = z.object({
     name: z.string().min(3, "Project name must be at least 3 characters"),
@@ -81,12 +80,8 @@ export function ProjectForm({ userMapped }: ProjectFormProps) {
     }
 
     return (
-        <div className="space-y-4">
-            <Header
-                variant="sub"
-                title="Create Project"
-                desc="Start a new project by defining its details and team members. Customize settings to fit your needs."
-            />
+        <div className="">
+    
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                     <FormField
