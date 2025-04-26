@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from 'react-hot-toast';
+import { SessionProvider } from "next-auth/react";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -25,6 +26,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+
+  
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -38,8 +42,11 @@ export default function RootLayout({
         >
             
           <Toaster />
+      <SessionProvider>
 
           {children}
+                </SessionProvider>
+          
         </ThemeProvider>
       </body>
     </html>
