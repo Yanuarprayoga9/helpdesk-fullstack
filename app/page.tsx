@@ -3,15 +3,15 @@ export const dynamic = "force-dynamic";
 import { getCurrentUser } from '@/actions/user';
 import React from 'react'
 
-const page =async () => {
-    const session = await getCurrentUser()
-    const isAuthenticated = !!session.user?.id;
-   
+const page = async () => {
+  const session = await getCurrentUser()
+  const isAuthenticated = !!session.user?.id;
+
   return (
     <div>
       {
-        isAuthenticated ? JSON.stringify(session.user) : "not logged in" 
-    }
+        isAuthenticated ? JSON.stringify(session.user) : "not logged in"
+      }
     </div>
   )
 }

@@ -41,46 +41,65 @@ export function NavMain({
       <SidebarMenu>
         {items.map((item) => {
           const isItemActive = pathname.startsWith(item.url)
-          return (
-            <Collapsible
-              key={item.title}
-              asChild
-              defaultOpen={isItemActive}
-              className="group/collapsible"
-            >
-              <SidebarMenuItem>
-                <CollapsibleTrigger asChild>
-                  <SidebarMenuButton
-                    tooltip={item.title}
-                    className={isItemActive ? "bg-muted text-primary" : ""}
-                  >
-                    {item.icon && <item.icon className="mr-2 h-4 w-4" />}
-                    <span>{item.title}</span>
-                    <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                  </SidebarMenuButton>
-                </CollapsibleTrigger>
-                <CollapsibleContent>
-                  <SidebarMenuSub>
-                    {item.items?.map((subItem) => {
-                      const isSubActive = pathname === subItem.url
 
-                      return (
-                        <SidebarMenuSubItem key={subItem.title}>
-                          <SidebarMenuSubButton
-                            asChild
-                            className={isSubActive ? "bg-muted text-primary" : ""}
-                          >
-                            <a href={subItem.url}>
-                              <span>{subItem.title}</span>
-                            </a>
-                          </SidebarMenuSubButton>
-                        </SidebarMenuSubItem>
-                      )
-                    })}
-                  </SidebarMenuSub>
-                </CollapsibleContent>
-              </SidebarMenuItem>
-            </Collapsible>
+          // Kondisi jika ada submenu
+          if (item.items && item.items.length > 0) {
+            return (
+              <Collapsible
+                key={item.title}
+                asChild
+                defaultOpen={isItemActive}
+                className="group/collapsible"
+              >
+                <SidebarMenuItem>
+                  <CollapsibleTrigger asChild>
+                    <SidebarMenuButton
+                      tooltip={item.title}
+                      className={isItemActive ? "bg-muted text-primary" : ""}
+                    >
+                      {item.icon && <item.icon className="mr-2 h-4 w-4" />}
+                      <span>{item.title}</span>
+                      <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                    </SidebarMenuButton>
+                  </CollapsibleTrigger>
+                  <CollapsibleContent>
+                    <SidebarMenuSub>
+                      {item.items.map((subItem) => {
+                        const isSubActive = pathname === subItem.url
+                        return (
+                          <SidebarMenuSubItem key={subItem.title}>
+                            <SidebarMenuSubButton
+                              asChild
+                              className={isSubActive ? "bg-muted text-primary" : ""}
+                            >
+                              <a href={subItem.url}>
+                                <span>{subItem.title}</span>
+                              </a>
+                            </SidebarMenuSubButton>
+                          </SidebarMenuSubItem>
+                        )
+                      })}
+                    </SidebarMenuSub>
+                  </CollapsibleContent>
+                </SidebarMenuItem>
+              </Collapsible>
+            )
+          }
+
+          // Kondisi jika tidak ada submenu
+          return (
+            <SidebarMenuItem key={item.title}>
+              <SidebarMenuButton
+                asChild
+                tooltip={item.title}
+                className={isItemActive ? "bg-muted text-primary" : ""}
+              >
+                <a href={item.url} className="flex items-center w-full">
+                  {item.icon && <item.icon className="mr-2 h-4 w-4" />}
+                  <span>{item.title}</span>
+                </a>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
           )
         })}
       </SidebarMenu>

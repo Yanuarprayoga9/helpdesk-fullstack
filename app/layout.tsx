@@ -4,6 +4,8 @@ import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from 'react-hot-toast';
 import { SessionProvider } from "next-auth/react";
+import { getCurrentUser } from "@/actions/user";
+import { NavbarWrapper } from "@/components/navbar/navbar-wrapper";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -21,14 +23,12 @@ export const metadata: Metadata = {
   description: "Manage Ticket Operation",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
-
-  
+  const user = await getCurrentUser()
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -40,13 +40,13 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-            
-          <Toaster />
-      <SessionProvider>
 
-          {children}
-                </SessionProvider>
-          
+          <Toaster />
+          <SessionProvider>
+            <NavbarWrapper user={user.user} />
+            {children}
+          </SessionProvider>
+
         </ThemeProvider>
       </body>
     </html>

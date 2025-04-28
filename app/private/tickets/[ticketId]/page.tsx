@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { JSX, SVGProps } from "react"
 import Image from "next/image"
+import { Container } from "@/components/container"
+import { TicketDetailHeader } from "@/components/ticket-detail/header"
 
 export default function GitHubDiscussion() {
 
@@ -26,18 +28,19 @@ export default function GitHubDiscussion() {
   ]
 
   return (
-    <div className="flex min-h-screen bg-background text-foreground">
+    <Container
+      className="flex flex-col items-center space-y-4 justify-center">
       {/* Main content */}
-      <div className="flex-1 mx-2 border-r border-border pb-24 lg:pb-0">
-        <div className="mx-auto max-w-4xl px-4 py-6 overflow-hidden">
-          {/* Discussion header */}
-          <div className="mb-6">
-            <h1 className="text-2xl font-semibold">Azure DevOps Pipeline Failures #111</h1>
-            <div className="mt-1 text-sm">
-              <span className="text-muted-foreground">DevOpsEngineer started this conversation in</span>{" "}
-              <span className="font-medium">Infrastructure</span>
-            </div>
-          </div>
+      <div className="  pb-24 lg:pb-0">
+        <div className=" max-w-4xl px-4 py-6 ">
+          {/* Discussion header */} 
+         <TicketDetailHeader 
+         category="Infrastructure" 
+         createdBy="DevOpsEngineer" 
+         title="Azure DevOps Pipeline Failures"
+         id="#111"
+         createdAt={new Date("2025-04-27T11:00:00Z")}
+         />
 
           {/* Original post with image */}
           <div className="mb-6 rounded-md border border-border bg-background">
@@ -69,23 +72,9 @@ export default function GitHubDiscussion() {
                   src="/placeholder.svg?height=400&width=800"
                   alt="Azure DevOps Pipeline Error Screenshot"
                   className="w-full"
+                  width={800}
+                  height={400}
                 />
-              </div>
-
-              <p className="mb-4 max-w-full break-words">
-                Could we implement a retry mechanism for the package restore step? Seems these failures can happen due
-                to temporary network issues but it would be better to have automatic recovery.
-              </p>
-
-              <div className="mt-6 rounded-md border border-border bg-accent p-4">
-                <pre className="overflow-x-auto whitespace-pre-wrap break-words text-sm">
-                  <code className="break-words">
-                    ##[error]The nuget command failed with exit code(1) and error(NU1301: Unable to load the service
-                    index for source https://pkgs.dev.azure.com/company/project/_packaging/feed/nuget/v3/index.json.)
-                    ##[error]Packages failed to restore ##[error]Error: The process '/usr/bin/dotnet' failed with exit
-                    code 1
-                  </code>
-                </pre>
               </div>
             </div>
             <div className="flex items-center justify-between border-t border-border p-2">
@@ -469,7 +458,7 @@ export default function GitHubDiscussion() {
           </Button>
         </div>
       </div>
-    </div>
+    </Container>
   )
 }
 

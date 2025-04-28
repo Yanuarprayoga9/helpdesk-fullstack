@@ -31,7 +31,7 @@ const page = async () => {
                 <ConsoleWrapper
                     title="Project List"
                     desc="List of your projects"
-                    className=" lg:w-3/4"
+                    className=" lg:w-8/12"
                 >
                     <DataTable searchKey='id' columns={columns} data={fetchcategories.categories || []} />
                 </ConsoleWrapper>

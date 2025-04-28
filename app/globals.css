@@ -1,10 +1,54 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* 1. Reset dasar dan border-box biar padding & border gak nambah ukuran */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+
+/* 3. Gambar dan media tidak melebihi parent */
+img,
+video,
+canvas,
+iframe {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* 4. Kontainer umum (bisa di-override per section) */
+.container {
+  width: 100%;
+  max-width: 1200px; /* batas maksimum */
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* 5. Responsive typography dasar */
+html {
+  font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 14px;
+  }
+}
 
 body {
   --font-geist-sans: sans-serif;
-  --font-geist-mono: monospace;}
+  --font-geist-mono: monospace;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+}
 
 @layer base {
   :root {

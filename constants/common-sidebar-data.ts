@@ -10,6 +10,7 @@ import {
   Settings2,
   SquareTerminal,
 } from "lucide-react"
+import {  CONSOLE_CATEGORIES_ROUTE, CONSOLE_PROJECTS_ROUTE, CONSOLE_TICKETS_ROUTE, CONSOLE_USERS_ROUTE} from "./routes";
 
 export const PRIVATE_ROUTE = "/private";
 
@@ -19,16 +20,16 @@ export const SIDEBAR_ROUTES = {
   Users: `${PRIVATE_ROUTE}/users`,
 } as const;
 
-function sidebarUser (name:string,email:string,avatar:string) {
+function sidebarUser(name: string, email: string, avatar: string) {
   return {
-    SIDEBAR_USER  :  {
+    SIDEBAR_USER: {
       name,
       email,
       avatar,
     }
   }
 }
-export const SIDEBAR_TEAMS  =[
+export const SIDEBAR_TEAMS = [
   {
     name: "Acme Inc",
     logo: GalleryVerticalEnd,
@@ -51,81 +52,37 @@ export const SIDEBAR_DATA = {
   navMain: [
     {
       title: "Tickets",
-      url: SIDEBAR_ROUTES.Tickets,
+      url: CONSOLE_TICKETS_ROUTE,
+      icon: SquareTerminal,
+    },
+    {
+      title: "Projects",
+      url: CONSOLE_PROJECTS_ROUTE,
+      icon: Bot,
+
+    },
+    {
+      title: "Categories",
+      url: CONSOLE_CATEGORIES_ROUTE,
+      icon: BookOpen,
+    },
+    {
+      title: "Users",
+      url: CONSOLE_USERS_ROUTE,
+      icon: Settings2,
+
+    }, {
+      title: "Test",
+      url: CONSOLE_TICKETS_ROUTE,
       icon: SquareTerminal,
       isActive: true,
       items: [
         {
           title: "my tickets",
-          url: "#",
+          url: CONSOLE_TICKETS_ROUTE,
         },
         {
           title: "Assign",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Models",
-      url: "#",
-      icon: Bot,
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
           url: "#",
         },
       ],

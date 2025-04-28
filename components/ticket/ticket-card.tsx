@@ -1,6 +1,8 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { CONSOLE_TICKETS_ROUTE } from "@/constants/routes"
+import Link from "next/link"
 
 interface TicketCardProps {
   ticket: {
@@ -54,9 +56,11 @@ export function TicketCard({ ticket }: TicketCardProps) {
             </div>
           </div>
         </div>
-        <Button variant="ghost" size="sm" className="ml-auto">
-          Open Ticket
-        </Button>
+        <Link href={`${CONSOLE_TICKETS_ROUTE}/${ticket.id}`} >
+          <Button variant="ghost" size="sm" className="ml-auto">
+            Open Ticket
+          </Button>
+        </Link>
       </div>
     </div>
   )
