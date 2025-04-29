@@ -1,5 +1,8 @@
 import { TicketCard } from "./ticket-card"
 
+// interface ITicketList = {
+//   tickets :TicketT
+// }
 const MOCK_TICKETS = Array.from({ length: 10 }, (_, i) => ({
   id: i + 1,
   title: "Project Loan Management",

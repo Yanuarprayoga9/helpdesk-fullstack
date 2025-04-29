@@ -3,6 +3,11 @@
       "env": {
         "NPM_FLAGS": "--legacy-peer-deps"
       }
+    },
+    "functions": {
+    "api/chat/route.ts": {
+      "maxDuration": 30
     }
+  }
   }
   
