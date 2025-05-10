@@ -20,7 +20,10 @@ export const ConsoleContainer: React.FC<IWrapper> = ({
         <Header title={title} desc={desc} />
         {/* Flex grid here */}
         <div className=" w-[400px] md:w-full flex flex-col lg:flex-row lg:flex-wrap space-x-4">
-          {children}
+          <div className="overflow-scroll">
+                      {children}
+
+          </div>
         </div>
       </div>
     </div>
