@@ -14,7 +14,7 @@ interface AppNavbarProps {
 const AppNavbar: React.FC<AppNavbarProps> = ({ user }) => {
 
     return (
-        <header className="sticky max-w-full mx-1 top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
+        <header className="sticky flex  justify-center overflow-scroll mx-1 top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
 
             <div className="flex py-4">
                 <div className="flex  gap-2 ">
