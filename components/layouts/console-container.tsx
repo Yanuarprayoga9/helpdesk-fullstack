@@ -1,5 +1,5 @@
 import React from "react";
-// import { Header } from "../header";
+import { Header } from "../header";
 
 interface IWrapper {
   children: React.ReactNode;
@@ -17,9 +17,9 @@ export const ConsoleContainer: React.FC<IWrapper> = ({
   return (
     <main className={`w-full ${className ?? ""}`}>
       <div className="mx-4 w-full pt-0 max-w-full md:max-w-7xl md:my-5 flex flex-col justify-center items-center gap-6">
-        {/* <Header title={title} desc={desc} /> */}
+        <Header title={title} desc={desc} />
         {/* Flex grid here */}
-        <div className=" w-full flex flex-col lg:flex-row lg:flex-wrap gap-4 overflow-scroll hidden">
+        <div className=" w-full flex flex-col lg:flex-row lg:flex-wrap gap-4 overflow-scroll ">
           {children}
         </div>
       </div>

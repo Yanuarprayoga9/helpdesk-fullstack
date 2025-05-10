@@ -12,7 +12,6 @@ const tickets =await  getTicketsShow({createdById:"1"})
         <ConsoleContainer
             title="Tickets"
             desc="Track and manage support tickets efficiently. View ticket statuses, priorities, and updates in real-time."
-            className="flex justify-center"
         >
             <ConsoleWrapper>
                 <div className="w-full mx-auto   flex flex-col h-full">
