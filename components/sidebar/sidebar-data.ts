@@ -10,7 +10,7 @@ import {
   Settings2,
   SquareTerminal,
 } from "lucide-react"
-import {  CONSOLE_CATEGORIES_ROUTE, CONSOLE_PROJECTS_ROUTE, CONSOLE_TICKETS_ROUTE, CONSOLE_USERS_ROUTE} from "./routes";
+import { CONSOLE_CATEGORIES_ROUTE, CONSOLE_PROJECTS_ROUTE, CONSOLE_TICKETS_ROUTE, CONSOLE_USERS_ROUTE, TICKETS_ROUTE } from "../../constants/routes";
 
 export const PRIVATE_ROUTE = "/private";
 
@@ -51,15 +51,15 @@ export const SIDEBAR_DATA = {
   teams: SIDEBAR_TEAMS,
   navMain: [
     {
-      title: "Tickets",
-      url: CONSOLE_TICKETS_ROUTE,
-      icon: SquareTerminal,
-    },
-    {
       title: "Projects",
       url: CONSOLE_PROJECTS_ROUTE,
       icon: Bot,
 
+    },
+    {
+      title: "Tickets",
+      url: CONSOLE_TICKETS_ROUTE,
+      icon: SquareTerminal,
     },
     {
       title: "Categories",
