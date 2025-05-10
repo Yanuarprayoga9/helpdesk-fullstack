@@ -21,7 +21,7 @@ export function Header({
             {title}
           </h1>
           {desc && (
-            <p className={`text-sm ${variant === "header" ? "md:text-base" : "text-xs md:text-sm"} text-muted-foreground`}>
+            <p className={`text-sm break-words ${variant === "header" ? "md:text-base" : "text-xs md:text-sm"} text-muted-foreground`}>
               {desc}
             </p>
           )}
