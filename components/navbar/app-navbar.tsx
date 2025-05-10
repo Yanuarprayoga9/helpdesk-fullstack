@@ -2,7 +2,6 @@
 import React from 'react'
 import { SidebarTrigger } from '../ui/sidebar'
 import { NavbarBreadCumb } from './navbar-bread-cumb'
-import Notification from './navbar-notification'
 import { Separator } from '../ui/separator'
 import { ModeToggle } from '../theme-toggle'
 import { UserType } from '@/@types/user'
@@ -19,7 +18,7 @@ const AppNavbar: React.FC<AppNavbarProps> = ({ user }) => {
 
             <div className="flex py-4">
                 <div className="flex items-center gap-2 px-4">
-                    (<SidebarTrigger />)
+                    <SidebarTrigger />
                     
                     <Separator orientation="vertical" className="h-4" />
                     <NavbarBreadCumb />
@@ -27,7 +26,7 @@ const AppNavbar: React.FC<AppNavbarProps> = ({ user }) => {
                 <div className="ml-auto flex items-center space-x-4">
                     {user?.id  ? <ConsoleButton /> : null}
                     <ModeToggle />
-                    <Notification />
+                    {/* <Notification /> */}
                     <UserNav user={user} />
                 </div>
             </div>

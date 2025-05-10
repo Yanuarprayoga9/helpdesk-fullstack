@@ -13,7 +13,7 @@ export const ConsoleButton = () => {
 
     return (
         <Link href={!isConsole ? CONSOLE_ROUTE : DEFAULT_ISLOGIN_REDIRECT_ROUTE
-        } > <Button className="bg-green-500 flex-1 sm:flex-none" variant={'outline'}>{text}</Button></Link>
+        } > <Button className="bg-green-500 flex-1 text-sm sm:flex-none" variant={'outline'}>{text}</Button></Link>
     )
 }
 
