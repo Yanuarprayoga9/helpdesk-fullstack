@@ -1,7 +1,7 @@
 "use client"
 import React from 'react'
 import { SidebarTrigger } from '../ui/sidebar'
-// import { NavbarBreadCumb } from './navbar-bread-cumb'
+import { NavbarBreadCumb } from './navbar-bread-cumb'
 import { Separator } from '../ui/separator'
 import { ModeToggle } from '../theme-toggle'
 import { UserType } from '@/@types/user'
@@ -21,7 +21,7 @@ const AppNavbar: React.FC<AppNavbarProps> = ({ user }) => {
                     <SidebarTrigger />
                     
                     <Separator orientation="vertical" className="h-4" />
-                    {/* <NavbarBreadCumb /> */}
+                    <NavbarBreadCumb />
                 </div>
                 <div className="ml-auto flex items-center space-x-4">
                     {user?.id  ? <ConsoleButton /> : null}
