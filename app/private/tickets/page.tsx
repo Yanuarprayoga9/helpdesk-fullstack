@@ -12,7 +12,6 @@ export default async function TicketsPage() {
         <ConsoleContainer
             title="Tickets"
             desc="Track and manage support tickets efficiently. View ticket statuses, priorities, and updates in real-time."
-            className="flex justify-center"
 
         >
             <ConsoleWrapper>
