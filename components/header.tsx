@@ -1,7 +1,7 @@
 import { Separator } from "@/components/ui/separator";
 
 type PageHeaderParams = {
-  title: string;
+  title?: string;
   desc?: string;
   variant?: "header" | "sub"; // "header" untuk utama, "sub" untuk sub-header
   children?: React.ReactNode;

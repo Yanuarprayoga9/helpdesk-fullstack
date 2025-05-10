@@ -4,8 +4,6 @@ import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from 'react-hot-toast';
 import { SessionProvider } from "next-auth/react";
-import { getCurrentUser } from "@/actions/user";
-import { NavbarWrapper } from "@/components/navbar/navbar-wrapper";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -28,7 +26,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const user = await getCurrentUser()
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -43,7 +40,6 @@ export default async function RootLayout({
 
           <Toaster />
           <SessionProvider>
-            <NavbarWrapper user={user.user} />
             {children}
           </SessionProvider>
 

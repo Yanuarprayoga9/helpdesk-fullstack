@@ -3,8 +3,8 @@ import { Header } from "./header";
 
 interface IWrapper {
   children: React.ReactNode;
-  title: string;
-  desc: string;
+  title?: string;
+  desc?: string;
   className?: string;
 }
 

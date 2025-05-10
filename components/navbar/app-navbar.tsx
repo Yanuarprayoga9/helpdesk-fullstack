@@ -10,19 +10,17 @@ import { UserNav } from './navbar-user-nav'
 import { ConsoleButton } from '../console-button'
 interface AppNavbarProps {
     user?: UserType;
-    isNavConsole?: boolean
 
 }
-const AppNavbar: React.FC<AppNavbarProps> = ({ user, isNavConsole }) => {
+const AppNavbar: React.FC<AppNavbarProps> = ({ user }) => {
 
     return (
         <header className="sticky mx-1 top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
 
             <div className="flex py-4">
                 <div className="flex items-center gap-2 px-4">
-                    {
-                        isNavConsole && (<SidebarTrigger />)
-                    }
+                    (<SidebarTrigger />)
+                    
                     <Separator orientation="vertical" className="h-4" />
                     <NavbarBreadCumb />
                 </div>

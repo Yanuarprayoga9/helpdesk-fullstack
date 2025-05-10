@@ -11,6 +11,7 @@ export const CONSOLE_PROJECTS_ROUTE = `${CONSOLE_ROUTE}/projects`;
 export const CONSOLE_CATEGORIES_ROUTE = `${CONSOLE_ROUTE}/categories`;
 export const CONSOLE_USERS_ROUTE = `${CONSOLE_ROUTE}/users`;
 export const CONSOLE_TICKETS_ROUTE = `${CONSOLE_ROUTE}/tickets`;
+export const TICKETS_ROUTE = `${PRIVATE_ROUTE}/tickets`;
   /**
      * An array of routes that are used for authentication
      * These routes will redirect logged in users to /settings

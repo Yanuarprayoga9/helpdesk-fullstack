@@ -1,9 +1,10 @@
+
 export const dynamic = "force-dynamic";
 
-const page = () => {
-
+const page = async () => {
+  
   return (
-    <div>
+    <div className="py">
       hello guys this is private page
     </div>
   )

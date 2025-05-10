@@ -2,10 +2,7 @@
 
 import * as React from "react"
 
-import { NavMain } from "@/components/sidebar/nav-main"
-import { NavProjects } from "@/components/sidebar/nav-projects"
-import { NavUser } from "@/components/sidebar/nav-user"
-import { TeamSwitcher } from "@/components/sidebar/team-switcher"
+
 import {
   Sidebar,
   SidebarContent,
@@ -16,6 +13,10 @@ import {
 import { SIDEBAR_DATA } from "@/constants/common-sidebar-data"
 import { useSession } from "next-auth/react"
 import { UserType } from "@/@types/user"
+import { TeamSwitcher } from "./console/team-switcher"
+import { NavMain } from "./console/nav-main"
+import { NavProjects } from "./console/nav-projects"
+import { NavUser } from "./console/nav-user"
 
 
 

@@ -141,7 +141,7 @@ model Ticket {
   history                 TicketHistory[] // Relasi dengan riwayat perubahan status tiket
   comments                TicketComment[] // Relasi dengan komentar-komentar yang ada pada tiket
   // feedback     TicketFeedback[] // Relasi dengan feedback yang diberikan pada tiket
-  Project                 Project                   @relation(fields: [projectId], references: [id])
+  project                 Project                   @relation(fields: [projectId], references: [id])
   TicketAssignmentRequest TicketAssignmentRequest[]
 }
 

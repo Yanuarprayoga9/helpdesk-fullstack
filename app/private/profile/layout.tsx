@@ -11,9 +11,6 @@ type LayoutProps = {
 const Layout: React.FC<LayoutProps> = async ({ children }) => {
   const { user } = await getCurrentUser();
   if (!user?.id) return <div className="text-red-500 text-center">User not found.</div>;
-
-
-
   return (
     <div className="w-full min-h-screen">
       <div className="p-4 w-full md:grid md:grid-cols-5 gap-7">

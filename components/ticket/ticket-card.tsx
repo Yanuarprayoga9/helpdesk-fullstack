@@ -1,24 +1,16 @@
+import { TicketShowType } from "@/@types/ticket"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { CONSOLE_TICKETS_ROUTE } from "@/constants/routes"
+import {  TICKETS_ROUTE } from "@/constants/routes"
+import { format } from "date-fns"
 import Link from "next/link"
 
-interface TicketCardProps {
-  ticket: {
-    id: number
-    title: string
-    description: string
-    error: string
-    user: {
-      name: string
-      avatar: string
-    }
-    timestamp: string
-  }
+interface ITicketCard {
+  ticket: TicketShowType
 }
 
-export function TicketCard({ ticket }: TicketCardProps) {
+export function TicketCard({ ticket }: ITicketCard) {
   return (
     <div className="rounded-lg border bg-card p-4 text-card-foreground  cursor-pointer">
       <div className="flex items-start justify-between gap-4 flex-col sm:flex-row">
@@ -31,20 +23,20 @@ export function TicketCard({ ticket }: TicketCardProps) {
                 High Risk
               </Badge>
             </div>
-            <p className="text-sm text-muted-foreground">{ticket.error}</p>
+            <p className="text-sm text-muted-foreground">{ticket.title}</p>
             <p className="mt-2 text-sm text-muted-foreground">{ticket.description}</p>
             <div className="mt-4 flex items-center gap-4 flex-wrap">
               <div className="flex items-center gap-2">
                 <Avatar className="h-6 w-6">
-                  <AvatarImage src={ticket.user.avatar} />
+                  <AvatarImage src={ticket.createdBy} />
                   <AvatarFallback>
-                    {ticket.user.name
+                    {/* {ticket..name
                       .split(" ")
                       .map((n) => n[0])
-                      .join("")}
+                      .join("")} */}
                   </AvatarFallback>
                 </Avatar>
-                <span className="text-sm">{ticket.user.name}</span>
+                <span className="text-sm">{ticket.createdBy}</span>
               </div>
               <Badge variant="secondary" className="rounded-sm">
                 Infrastructure
@@ -52,11 +44,11 @@ export function TicketCard({ ticket }: TicketCardProps) {
               <Badge variant="secondary" className="bg-emerald-500/10 text-emerald-500 rounded-sm">
                 On Progress
               </Badge>
-              <span className="text-sm text-muted-foreground">{ticket.timestamp}</span>
+              <span className="text-sm text-muted-foreground">{format(ticket.createdAt, "MMM d, yyyy")}</span>
             </div>
           </div>
         </div>
-        <Link href={`${CONSOLE_TICKETS_ROUTE}/${ticket.id}`} >
+        <Link href={`${TICKETS_ROUTE}/${ticket.id}`} >
           <Button variant="ghost" size="sm" className="ml-auto">
             Open Ticket
           </Button>

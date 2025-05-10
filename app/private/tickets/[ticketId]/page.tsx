@@ -7,8 +7,8 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { JSX, SVGProps } from "react"
 import Image from "next/image"
-import { Container } from "@/components/container"
 import { TicketDetailHeader } from "@/components/ticket-detail/header"
+import { ConsoleContainer } from "@/components/console-container"
 
 export default function GitHubDiscussion() {
 
@@ -28,7 +28,7 @@ export default function GitHubDiscussion() {
   ]
 
   return (
-    <Container
+    <ConsoleContainer
       className="flex flex-col items-center space-y-4 justify-center">
       {/* Main content */}
       <div className="  pb-24 lg:pb-0">
@@ -458,7 +458,7 @@ export default function GitHubDiscussion() {
           </Button>
         </div>
       </div>
-    </Container>
+    </ConsoleContainer>
   )
 }
 

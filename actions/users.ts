@@ -24,6 +24,7 @@ export const getUsers = async (name?: string, roleName?: string): Promise<getUse
             
         });
 
+        
         if (!users.length) {
             return { success: false, message: "Users not found" };
         }

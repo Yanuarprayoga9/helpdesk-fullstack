@@ -6,6 +6,12 @@ export interface UserType  {
     imageUrl: string;
     role: RoleType
 }
+export interface UserTypeWtRole  {
+    id: string;
+    name: string;
+    email: string;
+    imageUrl: string;
+}
 
 export type RoleType = {
     id: string;

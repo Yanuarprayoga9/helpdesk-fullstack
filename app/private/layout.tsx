@@ -1,4 +1,7 @@
 import { getCurrentUser } from "@/actions/user";
+import AppNavbar from "@/components/navbar/app-navbar";
+import { AppSidebar } from "@/components/sidebar/app-sidebar";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -14,7 +17,14 @@ export default async function Layout({ children }: { children: React.ReactNode }
   
     return (
       <>
-        {children}
-      </>
+              <SidebarProvider>
+                  <AppSidebar />
+                  <SidebarInset>
+                      <AppNavbar user={user}/>
+                          {children}
+                  </SidebarInset>
+              </SidebarProvider>
+          </>
     );
   }
+
