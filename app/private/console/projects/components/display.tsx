@@ -6,7 +6,7 @@ import { columns } from "@/app/private/console/projects/components/columns"
 import ViewToggle from "@/components/view-toggle"
 import { useSearchParams } from "next/navigation"
 import { ProjectType } from "@/@types/project"
-import { ConsoleWrapper } from "@/components/console-wrapper"
+import { ConsoleWrapper } from "@/components/layouts/console-wrapper"
 
 interface ProjectDisplayProps {
   projects: ProjectType[]

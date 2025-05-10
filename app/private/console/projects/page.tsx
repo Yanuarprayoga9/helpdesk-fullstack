@@ -6,8 +6,8 @@ import { ProjectForm } from "./components/project-form"
 import { getUsers } from "@/actions/users"
 import Loader from "@/components/loader"
 import { Suspense } from "react"
-import { ConsoleWrapper } from "@/components/console-wrapper"
-import { ConsoleContainer } from "@/components/console-container"
+import { ConsoleWrapper } from "@/components/layouts/console-wrapper"
+import { ConsoleContainer } from "@/components/layouts/console-container"
 import { ProjectDisplay } from "./components/display"
 
 const Page = async () => {

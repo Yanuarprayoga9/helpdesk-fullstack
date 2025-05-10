@@ -1,6 +1,6 @@
 import {  getTicketsShow } from "@/actions/ticket";
-import { ConsoleContainer } from "@/components/console-container";
-import { ConsoleWrapper } from "@/components/console-wrapper";
+import { ConsoleContainer } from "@/components/layouts/console-container";
+import { ConsoleWrapper } from "@/components/layouts/console-wrapper";
 import CategoriesMenu from "@/components/ticket/categories";
 import { SearchFilters } from "@/components/ticket/search-filters";
 import { TicketList } from "@/components/ticket/ticket-list";

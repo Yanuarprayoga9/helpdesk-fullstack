@@ -9,8 +9,8 @@ import { AppTab } from "./components/app-tab"
 import { FileText } from "lucide-react"
 import Loader from "@/components/loader";
 import { Suspense } from "react";
-import { ConsoleContainer } from "@/components/console-container";
-import { ConsoleWrapper } from "@/components/console-wrapper";
+import { ConsoleContainer } from "@/components/layouts/console-container";
+import { ConsoleWrapper } from "@/components/layouts/console-wrapper";
 
 
 type PageParams = {

@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge"
 import { JSX, SVGProps } from "react"
 import Image from "next/image"
 import { TicketDetailHeader } from "@/components/ticket-detail/header"
-import { ConsoleContainer } from "@/components/console-container"
+import { ConsoleContainer } from "@/components/layouts/console-container"
 
 export default function GitHubDiscussion() {
 

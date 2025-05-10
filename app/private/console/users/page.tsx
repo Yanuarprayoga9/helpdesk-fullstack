@@ -5,8 +5,8 @@ import React, { Suspense } from 'react'
 import { columns } from './components/columns'
 import { getUsers } from '@/actions/users'
 import Loader from '@/components/loader';
-import { ConsoleContainer } from '@/components/console-container';
-import { ConsoleWrapper } from '@/components/console-wrapper';
+import { ConsoleContainer } from '@/components/layouts/console-container';
+import { ConsoleWrapper } from '@/components/layouts/console-wrapper';
 
 const page = async () => {
   const { users } = await getUsers()

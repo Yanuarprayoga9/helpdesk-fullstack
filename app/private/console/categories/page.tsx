@@ -7,8 +7,8 @@ import { columns } from "./components/columns";
 import { CategoryForm } from "./components/category-form";
 import { Suspense } from "react";
 import Loader from "@/components/loader";
-import { ConsoleWrapper } from "@/components/console-wrapper";
-import { ConsoleContainer } from "@/components/console-container";
+import { ConsoleWrapper } from "@/components/layouts/console-wrapper";
+import { ConsoleContainer } from "@/components/layouts/console-container";
 
 const page = async () => {
     const fetchcategories = await getCategories(false);

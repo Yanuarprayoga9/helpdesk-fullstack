@@ -1,5 +1,5 @@
 import React from "react";
-import { Header } from "./header";
+import { Header } from "../header";
 
 interface IWrapper {
   children: React.ReactNode;
