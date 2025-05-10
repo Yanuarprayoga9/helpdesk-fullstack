@@ -53,8 +53,9 @@ export function DataTable<TData, TValue>({
     });
 
     return (
-        <div>
-            <div className="flex items-center py-2">
+        <div className="w-[350px] md:w-full ">
+        <div className="overflow-scroll ">
+            <div className=" flex items-center py-2">
                 <Input
                     placeholder="search"
                     value={(table.getColumn(searchKey)?.getFilterValue() as string) ?? ""}
@@ -132,6 +133,7 @@ export function DataTable<TData, TValue>({
                     Next
                 </Button>
             </div>
+        </div>
         </div>
     );
 }

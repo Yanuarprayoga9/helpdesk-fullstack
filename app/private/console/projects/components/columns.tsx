@@ -29,8 +29,8 @@ export const columns: ColumnDef<ProjectType>[] = [
       <Image
         src={row.original.imageUrl || ""}
         alt={row.original.name}
-        width={40}
-        height={40}
+        width={20}
+        height={20}
         className="rounded-full"
       />
     ),

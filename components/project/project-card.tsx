@@ -13,7 +13,9 @@ interface ProjectCardProps {
 
 export function ProjectCard({ project }: ProjectCardProps) {
   return (
-    <Card className="overflow-hidden">
+    <Card 
+         className="w-[350px] md:w-full "
+    >
       {project.imageUrl ? (
         <div className="relative h-40 w-full">
           <Image src={project.imageUrl} alt={project.name} unoptimized fill className="object-cover" />
