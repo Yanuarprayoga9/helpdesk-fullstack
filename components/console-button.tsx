@@ -9,7 +9,7 @@ export const ConsoleButton = () => {
     const pathname = usePathname()
     const isConsole = pathname.includes("console")
 
-    const text = !isConsole ? "Go to Console" : "Go To Main Page"
+    const text = !isConsole ? "redirect console" : "redirect main"
 
     return (
         <Link href={!isConsole ? CONSOLE_ROUTE : DEFAULT_ISLOGIN_REDIRECT_ROUTE

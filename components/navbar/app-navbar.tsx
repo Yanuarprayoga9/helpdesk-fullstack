@@ -17,7 +17,7 @@ const AppNavbar: React.FC<AppNavbarProps> = ({ user }) => {
         <header className="sticky max-w-full mx-1 top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
 
             <div className="flex py-4">
-                <div className="flex items-center gap-2 px-4">
+                <div className="flex  gap-2 ">
                     <SidebarTrigger />
                     
                     <Separator orientation="vertical" className="h-4" />
