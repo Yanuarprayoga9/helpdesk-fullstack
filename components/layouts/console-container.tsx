@@ -16,11 +16,11 @@ export const ConsoleContainer: React.FC<IWrapper> = ({
 }) => {
   return (
     <div className={`mx-2 w-full ${className ?? ""}`}>
-      <div className=" w-full pt-0 max-w-full md:max-w-7xl md:my-5 flex flex-col justify-center items-center gap-6">
+      <div className=" w-full pt-0 max-w-full md:max-w-7xl md:my-5 space-y-4 gap-6">
         <Header title={title} desc={desc} />
         {/* Flex grid here */}
-        <div className=" w-[400px] md:w-full flex flex-col lg:flex-row lg:flex-wrap space-x-4">
-          <div className="overflow-scroll">
+        <div className="">
+          <div className="overflow-scroll w-full  md:w-full flex flex-col lg:flex-row lg:flex-wrap space-x-4">
                       {children}
 
           </div>

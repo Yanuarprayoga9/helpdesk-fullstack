@@ -17,11 +17,13 @@ export default async function Layout({ children }: { children: React.ReactNode }
   
     return (
       <>
-              <SidebarProvider>
+              <SidebarProvider >
                   <AppSidebar />
                   <SidebarInset>
-                      <AppNavbar user={user}/>
+          
+                        <AppNavbar user={user}/>
                           {children}
+                     
                   </SidebarInset>
               </SidebarProvider>
           </>
