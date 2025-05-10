@@ -41,12 +41,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       {
         isConsolePage ? (
           <SidebarContent>
-            <NavMain items={SIDEBAR_DATA.navMain} />
+            <NavMain items={SIDEBAR_DATA.console} />
             <NavProjects projects={SIDEBAR_DATA.projects} />
           </SidebarContent>
         ) : (
           <SidebarContent>
-            <NavMain items={SIDEBAR_DATA.navMain} />
+            <NavMain items={SIDEBAR_DATA.main} />
             <NavProjects projects={SIDEBAR_DATA.projects} />
           </SidebarContent>
         )

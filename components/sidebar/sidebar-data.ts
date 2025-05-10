@@ -10,38 +10,9 @@ import {
   Settings2,
   SquareTerminal,
 } from "lucide-react"
-import { CONSOLE_CATEGORIES_ROUTE, CONSOLE_PROJECTS_ROUTE, CONSOLE_TICKETS_ROUTE, CONSOLE_USERS_ROUTE } from "../../constants/routes";
+import { CONSOLE_CATEGORIES_ROUTE, CONSOLE_PROJECTS_ROUTE, CONSOLE_TICKETS_ROUTE, CONSOLE_USERS_ROUTE, TICKETS_ROUTE } from "../../constants/routes";
 
-export const PRIVATE_ROUTE = "/private";
-
-export const SIDEBAR_ROUTES = {
-  Tickets: `${PRIVATE_ROUTE}/tickets`,
-  Categories: `${PRIVATE_ROUTE}/categories`,
-  Users: `${PRIVATE_ROUTE}/users`,
-} as const;
-
-
-export const SIDEBAR_TEAMS = [
-  {
-    name: "Acme Inc",
-    logo: GalleryVerticalEnd,
-    plan: "Enterprise",
-  },
-  {
-    name: "Acme Corp.",
-    logo: AudioWaveform,
-    plan: "Startup",
-  },
-  {
-    name: "Evil Corp.",
-    logo: Command,
-    plan: "Free",
-  },
-]
-// This is sample data.
-export const SIDEBAR_DATA = {
-  teams: SIDEBAR_TEAMS,
-  navMain: [
+const CONSOLE_NAV = [
     {
       title: "Projects",
       url: CONSOLE_PROJECTS_ROUTE,
@@ -79,7 +50,44 @@ export const SIDEBAR_DATA = {
         },
       ],
     },
-  ],
+  ]
+const MAIN_NAV = [
+  {
+      title: "Tickets",
+      url: TICKETS_ROUTE,
+      icon: SquareTerminal,
+    },
+    {
+      title: "Projects",
+      url: CONSOLE_PROJECTS_ROUTE,
+      icon: Bot,
+
+    },
+
+    
+  ]
+export const SIDEBAR_TEAMS = [
+  {
+    name: "Acme Inc",
+    logo: GalleryVerticalEnd,
+    plan: "Enterprise",
+  },
+  {
+    name: "Acme Corp.",
+    logo: AudioWaveform,
+    plan: "Startup",
+  },
+  {
+    name: "Evil Corp.",
+    logo: Command,
+    plan: "Free",
+  },
+]
+// This is sample data.
+export const SIDEBAR_DATA = {
+  teams: SIDEBAR_TEAMS,
+  console: CONSOLE_NAV,
+  main:MAIN_NAV,
   projects: [
     {
       name: "Design Engineering",
