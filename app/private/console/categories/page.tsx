@@ -27,7 +27,9 @@ const page = async () => {
             <ConsoleContainer
                 title="Projects"
                 desc="Manage all your projects in one place. Organize tasks, track progress, and collaborate with your team efficiently."
-            >
+                            className="flex justify-center"
+
+           >
                 <ConsoleWrapper
                     title="Project List"
                     desc="List of your projects"

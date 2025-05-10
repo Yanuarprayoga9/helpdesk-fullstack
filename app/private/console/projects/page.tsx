@@ -33,6 +33,7 @@ const Page = async () => {
             <ConsoleContainer
                 title="Projects"
                 desc="Manage all your projects in one place. Organize tasks, track progress, and collaborate with your team efficiently."
+                 className="flex justify-center"
 
            >
                 {/* Grid/List toggle & display */}
