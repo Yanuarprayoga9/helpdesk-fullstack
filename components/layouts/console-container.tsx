@@ -15,7 +15,7 @@ export const ConsoleContainer: React.FC<IWrapper> = ({
   className,
 }) => {
   return (
-    <main className={`w-full ${className ?? ""}`}>
+    <main className={`container w-full ${className ?? ""}`}>
       <div className="mx-4 w-full pt-0 max-w-full md:max-w-7xl md:my-5 flex flex-col justify-center items-center gap-6">
         <Header title={title} desc={desc} />
         {/* Flex grid here */}
