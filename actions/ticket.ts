@@ -108,13 +108,14 @@ export const getTicketByid = async (id: string): Promise<TicketReturn> => {
 /* 
     createdBy , category ,priority, status, 
 */
-export const getTicketsShow = async ({ createdById, category, priority, status, projectId }: ITicketsShowParams): Promise<TicketsShowReturn> => {
+export const getTicketsShow = async ({ createdById, category, priority, status, projectId,categoryId }: ITicketsShowParams): Promise<TicketsShowReturn> => {
     try {
         const tickets = await prisma.ticket.findMany({
             where: {
                 deleted: false,
                 ...(category && { name: { contains: category } }),
                 ...(priority && { name: { contains: category } }),
+                ...(categoryId && { categoryId: categoryId }),
                 ...(createdById && { createdById: createdById }),
                 ...(projectId && { createdById: createdById }),
                 ...(status && { name: { contains: category } })

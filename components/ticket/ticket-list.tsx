@@ -5,14 +5,16 @@ interface ITicketList {
   tickets: TicketShowType[]
 }
 
-
-export function TicketList({tickets}:ITicketList) {
+export function TicketList({ tickets }: ITicketList) {
   return (
     <div className="space-y-4">
-      {tickets.map((ticket) => (
-        <TicketCard key={ticket.id} ticket={ticket} />
-      ))}
+      {tickets && tickets.length > 0 ? (
+        tickets.map((ticket) => (
+          <TicketCard key={ticket.id} ticket={ticket} />
+        ))
+      ) : (
+        <h1>No tickets found.</h1>
+      )}
     </div>
   )
 }
-

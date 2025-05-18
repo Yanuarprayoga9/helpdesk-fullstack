@@ -38,6 +38,7 @@ export type TicketShowType = {
 export interface ITicketsShowParams {
     createdById?: string;
     category?: string;
+    categoryId?: string;
     priority?: string;
     status?: string;
     projectId?: string;

@@ -47,7 +47,7 @@ export const TicketDetailSidebar = ({ assignedUsers,unnasignedUsersOptions }: IT
         },
     ]
     return (
-        <div className="hidden w-80 shrink-0 p-4 pt-16 lg:block">
+        <div className="w-full hidden shrink-0 p-4 pt-16 lg:block">
             <div className="mb-6">
                 <h3 className="mb-2 text-xs font-medium uppercase text-muted-foreground">Category</h3>
                 <div className="flex items-center gap-2">

@@ -64,7 +64,7 @@ export function TicketCard({ ticket }: ITicketCard) {
           </div>
         </div>
         <Link href={`${isConsole ? CONSOLE_TICKETS_ROUTE : TICKETS_ROUTE}/${ticket.id}`} >
-          <Button variant="ghost" size="sm" className="ml-auto">
+          <Button variant="ghost" size="sm" className="ml-auto text-green-500">
             Open Ticket
           </Button>
         </Link>

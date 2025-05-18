@@ -10,6 +10,7 @@ import { getTicketByid, getUsersTicketByTicketId } from "@/actions/ticket"
 import { getUsers } from "@/actions/users"
 import { mapAndSort } from "@/lib/utils"
 import { Suspense } from "react";
+import { ConsoleWrapper } from "@/components/layouts/console-wrapper";
 interface IEditTicketPage {
   params: Promise<{ ticketId: string }>
 }
@@ -44,32 +45,43 @@ const page = async ({ params }: IEditTicketPage) => {
     <Suspense fallback={<div>Loading ticket...</div>}>
 
       <ConsoleContainer
-        className="">
+      // className="flex"
+      >
         {/* Main content */}
-        <div className="  pb-24 lg:pb-0">
-          <div className=" max-w-4xl px-4 py-6 ">
-            {/* Discussion header */}
-            <TicketDetailHeader
-              category={ticket.ticket.category.name}
-              createdBy={ticket.ticket.createdBy.name}
-              title={ticket.ticket.title}
-              id={ticket.ticket.id}
-              createdAt={ticket.ticket.createdAt}
-            />
 
-            <AppTab ticket={ticket.ticket} assignedUsers={ticketUsers.users} />
+        <ConsoleWrapper
+          className=" lg:w-9/12"
+        >
+
+          {/* Discussion header */}
+          <TicketDetailHeader
+            category={ticket.ticket.category.name}
+            createdBy={ticket.ticket.createdBy.name}
+            title={ticket.ticket.title}
+            id={ticket.ticket.id}
+            createdAt={ticket.ticket.createdAt}
+          />
+
+          <AppTab ticket={ticket.ticket} assignedUsers={ticketUsers.users} />
 
 
-            <AppComment />
-            {/* Reply box */}
+          <AppComment />
+          {/* Reply box */}
 
-          </div>
-        </div>
+
+        </ConsoleWrapper>
 
         {/* Mobile sidebar */}
         <MobileSidebar />
-        {/* Sidebar with theme variables */}
-        <TicketDetailSidebar assignedUsers={ticketUsers.users} unnasignedUsersOptions={mappedUnassignedUsers} />
+
+        <ConsoleWrapper
+          className=" lg:w-1/4"
+        >
+
+          {/* Sidebar with theme variables */}
+          <TicketDetailSidebar assignedUsers={ticketUsers.users} unnasignedUsersOptions={mappedUnassignedUsers} />
+        </ConsoleWrapper>
+
       </ConsoleContainer>
     </Suspense>
   )

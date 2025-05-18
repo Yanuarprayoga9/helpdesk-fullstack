@@ -35,7 +35,7 @@ interface TicketFormProps {
 
 export const TicketForm = ({
   userOptions, categoryOptions, priorityOptions,
-  statusOptions, projectOptions, initialData
+   projectOptions, initialData
 }: TicketFormProps) => {
   const isEdit = !!initialData
   const [loading, setLoading] = useState(false)
@@ -50,7 +50,7 @@ export const TicketForm = ({
       images: [],
       assignees: [],
       priority: "",
-      status: "",
+      // status: "",
       project: "",
     },
   })
@@ -167,7 +167,7 @@ export const TicketForm = ({
                 </FormItem>
               )}
             />
-            <FormField
+            {/* <FormField
               control={form.control}
               name="status"
               render={({ field }) => (
@@ -192,7 +192,7 @@ export const TicketForm = ({
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
             <FormField
               control={form.control}
               name="project"
