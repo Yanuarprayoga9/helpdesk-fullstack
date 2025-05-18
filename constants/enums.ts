@@ -11,15 +11,7 @@ export enum PriorityLevel {
     Medium = 'Medium',     // Tidak mendesak
     Low = 'Low'            // Perbaikan minor
 }
-export enum TicketStatus {
-    Open = 'Open',
-    InProgress = 'InProgress',
-    Escalated = 'Escalated',
-    Resolved = 'Resolved',
-    Reopened = 'Reopened',
-    Closed = 'Closed',
-    OnHold = 'OnHold'
-}
+
 export enum Role {
     Developer = 'Developer',
     DevOps = 'DevOps',

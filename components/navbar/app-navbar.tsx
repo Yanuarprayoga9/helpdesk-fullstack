@@ -25,7 +25,6 @@ const AppNavbar: React.FC<AppNavbarProps> = ({ user }) => {
   // Tentukan max-w- class secara dinamis
   const headerMaxWidthClass =
     screenWidth > 0 ? `max-w-[${screenWidth}px]` : "max-w-full";
-
   return (
     <header
       className={`sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b px-1 ${headerMaxWidthClass}`}

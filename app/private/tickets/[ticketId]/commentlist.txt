@@ -1,0 +1,205 @@
+{/* Comment 1 */}
+          <div className="mb-6 rounded-md border border-border bg-background">
+            <div className="flex items-center justify-between border-b border-border p-4">
+              <div className="flex items-center gap-2">
+                <Avatar className="h-6 w-6 rounded-full bg-primary">
+                  <span className="text-xs text-primary-foreground">A</span>
+                </Avatar>
+                <span className="font-medium">AzureExpert</span>
+                <Badge variant="outline" className="border-border text-xs">
+                  Maintainer
+                </Badge>
+              </div>
+              <div className="flex items-center gap-2">
+                <Button variant="ghost" size="icon" className="h-8 w-8">
+                  <MoreHorizontal className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+            <div className="p-4">
+              <p className="mb-4 max-w-full break-words">
+                These Azure DevOps pipeline failures are often related to authentication or network connectivity issues.
+              </p>
+              <p className="mb-4 max-w-full break-words">
+                You need to use the service connection properly if you want to access private feeds consistently. That's
+                exactly how other teams in our organization handle it, they authenticate using a service principal with
+                the correct permissions to access the feed.
+              </p>
+            </div>
+            <div className="flex items-center justify-between border-t border-border p-2">
+              <div className="flex items-center gap-2">
+                <Button variant="ghost" size="sm" className="h-8">
+                  <ThumbsUp className="mr-1 h-4 w-4" />3
+                </Button>
+                <Button variant="ghost" size="sm" className="h-8">
+                  <MessageSquare className="h-4 w-4" />
+                </Button>
+              </div>
+              <div className="text-xs text-muted-foreground">2 replies</div>
+            </div>
+          </div>
+
+          {/* Comment 2 */}
+          <div className="mb-6 rounded-md border border-border bg-background">
+            <div className="flex items-center justify-between border-b border-border p-4">
+              <div className="flex items-center gap-2">
+                <Avatar className="h-6 w-6 rounded-full bg-primary">
+                  <span className="text-xs text-primary-foreground">D</span>
+                </Avatar>
+                <span className="font-medium">DevOpsEngineer</span>
+                <Badge variant="outline" className="border-border text-xs">
+                  Author
+                </Badge>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-muted-foreground">edited</span>
+                <Button variant="ghost" size="icon" className="h-8 w-8">
+                  <MoreHorizontal className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+            <div className="p-4">
+              <p className="mb-4 max-w-full break-words">
+                I don't think that's true. For example, I created a new pipeline that uses the official Microsoft-hosted
+                agents, and it still failed with the same error. Our service connection is properly configured with the
+                right permissions. Could there be some intermittent network issues where pings above what you can do
+                will result in error? That should be indication that the infrastructure is at scale.
+              </p>
+              <p className="mb-4 max-w-full break-words">
+                I did just end up adding a retry mechanism after initial pipeline failure, but some people reporting
+                still running out of errors while able to use the same mechanism on rebuild.
+              </p>
+            </div>
+            <div className="flex items-center justify-between border-t border-border p-2">
+              <div className="flex items-center gap-2">
+                <Button variant="ghost" size="sm" className="h-8">
+                  <ThumbsUp className="mr-1 h-4 w-4" />0
+                </Button>
+                <Button variant="ghost" size="sm" className="h-8">
+                  <MessageSquare className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+          </div>
+
+          {/* Comment 3 */}
+          <div className="mb-6 rounded-md border border-border bg-background">
+            <div className="flex items-center justify-between border-b border-border p-4">
+              <div className="flex items-center gap-2">
+                <Avatar className="h-6 w-6 rounded-full bg-primary">
+                  <span className="text-xs text-primary-foreground">A</span>
+                </Avatar>
+                <span className="font-medium">AzureExpert</span>
+                <Badge variant="outline" className="border-border text-xs">
+                  Maintainer
+                </Badge>
+              </div>
+              <div className="flex items-center gap-2">
+                <Button variant="ghost" size="icon" className="h-8 w-8">
+                  <MoreHorizontal className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+            <div className="p-4">
+              <p className="mb-4 max-w-full break-words">
+                If you look at the #111 issue code you see this is the function call used to authenticate with the feed:
+              </p>
+              <p className="mb-4 text-blue-500 break-all">
+                https://dev.azure.com/company/project/_git/repo?path=/azure-pipelines.yml
+              </p>
+              <p className="mb-4 max-w-full break-words">
+                You'll notice there's no explicit retry logic in the NuGet restore task.
+              </p>
+              <p className="mb-4 max-w-full break-words">
+                Instead there's this right after:
+                https://dev.azure.com/company/project/_git/repo?path=/scripts/retry-nuget.ps1
+              </p>
+              <p className="mb-4 max-w-full break-words">
+                This means it operates with the default retry policy and then scales afterwards to the exact
+                configuration you need.
+              </p>
+            </div>
+            <div className="flex items-center justify-between border-t border-border p-2">
+              <div className="flex items-center gap-2">
+                <Button variant="ghost" size="sm" className="h-8">
+                  <ThumbsUp className="mr-1 h-4 w-4" />2
+                </Button>
+                <Button variant="ghost" size="sm" className="h-8">
+                  <MessageSquare className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+          </div>
+
+          {/* Comment 4 */}
+          <div className="mb-6 rounded-md border border-border bg-background">
+            <div className="flex items-center justify-between border-b border-border p-4">
+              <div className="flex items-center gap-2">
+                <Avatar className="h-6 w-6 rounded-full bg-primary">
+                  <span className="text-xs text-primary-foreground">D</span>
+                </Avatar>
+                <span className="font-medium">DevOpsEngineer</span>
+                <Badge variant="outline" className="border-border text-xs">
+                  Author
+                </Badge>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-muted-foreground">edited</span>
+                <Button variant="ghost" size="icon" className="h-8 w-8">
+                  <MoreHorizontal className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+            <div className="p-4">
+              <p className="mb-4 max-w-full break-words">
+                Hi @AzureExpert, I just checked our YAML usage. You're right, we are able to use retries in many other
+                situations though. I'm sure it can be done.
+              </p>
+            </div>
+            <div className="flex items-center justify-between border-t border-border p-2">
+              <div className="flex items-center gap-2">
+                <Button variant="ghost" size="sm" className="h-8">
+                  <ThumbsUp className="mr-1 h-4 w-4" />0
+                </Button>
+                <Button variant="ghost" size="sm" className="h-8">
+                  <MessageSquare className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+          </div>
+
+          {/* Comment 5 */}
+          <div className="mb-6 rounded-md border border-border bg-background">
+            <div className="flex items-center justify-between border-b border-border p-4">
+              <div className="flex items-center gap-2">
+                <Avatar className="h-6 w-6 rounded-full bg-primary">
+                  <span className="text-xs text-primary-foreground">A</span>
+                </Avatar>
+                <span className="font-medium">AzureExpert</span>
+                <Badge variant="outline" className="border-border text-xs">
+                  Maintainer
+                </Badge>
+              </div>
+              <div className="flex items-center gap-2">
+                <Button variant="ghost" size="icon" className="h-8 w-8">
+                  <MoreHorizontal className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+            <div className="p-4">
+              <p className="mb-4 max-w-full break-words">
+                It's probably running out of memory in the VM/Container node. If you switch to the M2 agent pool the
+                problem will likely go away.
+              </p>
+            </div>
+            <div className="flex items-center justify-between border-t border-border p-2">
+              <div className="flex items-center gap-2">
+                <Button variant="ghost" size="sm" className="h-8">
+                  <ThumbsUp className="mr-1 h-4 w-4" />1
+                </Button>
+                <Button variant="ghost" size="sm" className="h-8">
+                  <MessageSquare className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+          </div>

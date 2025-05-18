@@ -126,7 +126,7 @@ model Ticket {
   description             String                    @db.Text // Deskripsi tiket yang panjangnya tidak terbatas
   imageUrl                String?                   @db.VarChar(100) // URL gambar yang terkait dengan komentar (opsional)
   priorityId              String                    @db.VarChar(36) // ID dari prioritas yang diberikan pada tiket
-  statusId                String                    @db.VarChar(36) // ID dari status tiket (opsional)
+  statusId                String                    @db.VarChar(36) @default("1") // ID dari status tiket (opsional)
   createdById             String                    @db.VarChar(36) // ID dari pengguna yang membuat tiket
   categoryId              String                    @db.VarChar(36) // ID kategori tiket (opsional)
   projectId               String                    @db.VarChar(36)

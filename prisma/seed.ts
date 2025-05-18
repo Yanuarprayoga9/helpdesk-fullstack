@@ -1,22 +1,22 @@
 import { PrismaClient } from '@prisma/client';
-import bcrypt from "bcryptjs";
+import bcrypt from 'bcryptjs';
 
 const prisma = new PrismaClient();
 
 async function hashPassword(password: string): Promise<string> {
-  const salt = await bcrypt.genSalt(10); // Generate salt dengan 10 rounds
-  const hashedPassword = await bcrypt.hash(password, salt);
-  return hashedPassword;
+  const salt = await bcrypt.genSalt(10);
+  return await bcrypt.hash(password, salt);
 }
 
 async function main() {
-  const DEFAULT_PASSWORD = process.env.PLAIN_SEED_PASSWORD as string; // Ambil langsung dari .env
+  const DEFAULT_PASSWORD = process.env.PLAIN_SEED_PASSWORD as string;
+
   if (!DEFAULT_PASSWORD) {
     throw new Error("❌ PLAIN_SEED_PASSWORD is not set in .env");
   }
 
   // Seed Roles
-  const roles = await prisma.role.createMany({
+  await prisma.role.createMany({
     data: [
       { id: '1', name: 'Developer' },
       { id: '2', name: 'DevOps' },
@@ -27,7 +27,7 @@ async function main() {
   });
 
   // Seed Categories
-  const categories = await prisma.category.createMany({
+  await prisma.category.createMany({
     data: [
       { id: '1', name: 'Bug Sistem' },
       { id: '2', name: 'Gangguan Infrastruktur' },
@@ -36,7 +36,9 @@ async function main() {
     ],
     skipDuplicates: true,
   });
-  const projects = await prisma.project.createMany({
+
+  // Seed Projects
+  await prisma.project.createMany({
     data: [
       {
         id: "proj-101",
@@ -71,8 +73,9 @@ async function main() {
     ],
     skipDuplicates: true,
   });
+
   // Seed Priorities
-  const priorities = await prisma.priority.createMany({
+  await prisma.priority.createMany({
     data: [
       { id: '1', name: 'Critical', color: 'red' },
       { id: '2', name: 'High', color: 'orange' },
@@ -83,15 +86,14 @@ async function main() {
   });
 
   // Seed Statuses
-  const statuses = await prisma.status.createMany({
+  await prisma.status.createMany({
     data: [
-      { id: '1', name: 'Open', color: 'blue' },
+      { id: '1', name: 'New', color: 'blue' },
       { id: '2', name: 'InProgress', color: 'yellow' },
-      { id: '3', name: 'Escalated', color: 'red' },
-      { id: '4', name: 'Resolved', color: 'green' },
-      { id: '5', name: 'Reopened', color: 'purple' },
-      { id: '6', name: 'Closed', color: 'gray' },
-      { id: '7', name: 'OnHold', color: 'orange' },
+      { id: '3', name: 'Resolved', color: 'green' },
+      { id: '4', name: 'Reopened', color: 'purple' },
+      { id: '5', name: 'Closed', color: 'gray' },
+      { id: '6', name: 'OnHold', color: 'orange' },
     ],
     skipDuplicates: true,
   });
@@ -131,10 +133,8 @@ async function main() {
     skipDuplicates: true,
   });
 
-
-
   // Seed Tickets
-  const ticket = await prisma.ticket.createMany({
+  await prisma.ticket.createMany({
     data: [
       {
         id: '1',
@@ -144,29 +144,28 @@ async function main() {
         statusId: '1',
         createdById: '1',
         categoryId: '1',
-        projectId: '1',
+        projectId: 'proj-101', // ✅ FIXED
       },
       {
         id: '2',
-        title: 'Bug in login system',
-        description: 'Users unable to login due to server error.',
-        priorityId: '1',
-        statusId: '1',
-        createdById: '1',
-        categoryId: '1',
-        projectId: '1',
+        title: 'UI tidak responsive',
+        description: 'Layout pecah di layar kecil.',
+        priorityId: '2',
+        statusId: '2',
+        createdById: '2',
+        categoryId: '2',
+        projectId: 'proj-102', // ✅ FIXED
       },
     ],
-    skipDuplicates: true, // Mencegah duplikasi
-
+    skipDuplicates: true,
   });
 
-  console.log('Database seeded successfully!');
+  console.log('✅ Database seeded successfully!');
 }
 
 main()
   .catch((e) => {
-    console.error(e);
+    console.error('❌ Seeding error:', e);
     process.exit(1);
   })
   .finally(async () => {

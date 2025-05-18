@@ -33,3 +33,21 @@ export const projectSchema = z.object({
   imageUrl: z.string().url({ message: "Invalid image URL" }).optional().nullable(),
   userIds: z.array(z.string()).optional().default([]), // Default ke array kosong
 });
+
+export const ticketSchema = z.object({
+  title: z.string().min(1, "Title is required").max(100, "Title too long"),
+  description: z.string().min(1, "Title is required").max(100, "Title too long"),
+  images: z.object({ url: z.string() }).array(),
+  assignees: z.array(z.string()).default([]), // Default ke array kosong
+  status: z.string().optional(),
+  priority: z.string().min(1, "Status is required").max(100, "Status too long"),
+  project: z.string().min(1, "Project is required").max(100, "Project too long"),
+  category: z.string().min(1, "Category is required").max(100, "Category too long"),
+});
+
+
+export const addAssigneesSchema = z.object({
+    ticketId: z.string().min(1, "Ticket Id is required").max(100, "Title too long"),
+  assignees: z.array(z.string()).default([]), 
+
+});

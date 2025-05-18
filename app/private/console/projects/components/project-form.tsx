@@ -26,19 +26,6 @@ export const projectSchema = z.object({
     userIds: z.array(z.string().optional()), // Bisa kosong
 });
 
-// const OPTIONS: Option[] = [
-//     { label: 'Next.js', value: 'nextjs' },
-//     { label: 'React', value: 'react' },
-//     { label: 'Remix', value: 'remix' },
-//     { label: 'Vite', value: 'vite' },
-//     { label: 'Nuxt', value: 'nuxt' },
-//     { label: 'Vue', value: 'vue' },
-//     { label: 'Svelte', value: 'svelte' },
-//     { label: 'Angular', value: 'angular' },
-//     { label: 'Ember', value: 'ember' },
-//     { label: 'Gatsby', value: 'gatsby' },
-//     { label: 'Astro', value: 'astro' },
-// ];
 
 type SelectorsType = {
     label: string

@@ -7,14 +7,15 @@ import { UserType } from "./user"
 export type TicketType = {
     id: string
     title: string
-    description: string
+    description: string;
+    imageUrl: string | null;
     priority: PriorityType
     status: StatusType
-    createdBy:UserType
-    category:CategoryType
-    project:ProjectType
-    createdAt:Date
-    updatedAt:Date
+    createdBy: UserType
+    category: CategoryType
+    project: ProjectType
+    createdAt: Date
+    updatedAt: Date
 }
 
 export type TicketShowType = {
@@ -24,22 +25,22 @@ export type TicketShowType = {
     priority: string
     priorityColor: string
     status: string;
-    statusColor:string
-    createdBy:string
-    createdByRole:string
-    category:string
-    project:string
-    createdAt:Date
-    updatedAt:Date
+    statusColor: string
+    createdBy: string
+    createdByRole: string
+    category: string
+    project: string
+    createdAt: Date
+    updatedAt: Date
 }
 
 
-export interface ITicketsShowParams  {
-    createdById?: string ;
-    category? : string ;
-    priority?: string ;
-    status?: string ;
-    projectId?:string;
+export interface ITicketsShowParams {
+    createdById?: string;
+    category?: string;
+    priority?: string;
+    status?: string;
+    projectId?: string;
 }
 export interface TicketsShowReturn extends ActionResult {
     tickets?: TicketShowType[]
@@ -53,5 +54,19 @@ export interface TicketsReturn extends ActionResult {
 }
 
 export interface TicketReturn extends ActionResult {
-    Tickets?: TicketType
+    ticket?: TicketType
+}
+
+
+
+
+export interface TicketPayload {
+    title: string;
+    description: string;
+    images: string[]
+    assignees: string[]
+    priority: string;
+    status: string;
+    project: string;
+    category: string;
 }

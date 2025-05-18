@@ -15,12 +15,12 @@ export const ConsoleContainer: React.FC<IWrapper> = ({
   className,
 }) => {
   return (
-    <div className={`mx-2 w-full ${className ?? ""}`}>
+    <div className={`px-2 md:px-8 pb-24 w-full ${className ?? ""}`}>
       <div className=" w-full pt-0 max-w-full md:max-w-7xl md:my-5 space-y-4 gap-6">
         <Header title={title} desc={desc} />
         {/* Flex grid here */}
         <div className="">
-          <div className="overflow-scroll w-full  md:w-full flex flex-col lg:flex-row lg:flex-wrap space-x-4">
+          <div className="overflow-scroll w-full  md:w-full flex flex-col lg:flex-row lg:flex-wrap space-4">
                       {children}
 
           </div>

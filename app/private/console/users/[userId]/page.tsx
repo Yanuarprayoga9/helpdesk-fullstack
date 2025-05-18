@@ -1,11 +1,11 @@
 export const dynamic = "force-dynamic";
 
-const page = () => {
+const Page = async () => {
   return (
     <div>
-      
+      <h1>User ID: </h1>
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default Page;
