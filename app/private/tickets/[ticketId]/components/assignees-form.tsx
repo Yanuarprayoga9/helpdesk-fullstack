@@ -34,20 +34,20 @@ export function AssigneesForm({ userOptions, handleOpen, isOpen }: IAddAssignees
   const ticketId = params.ticketId as string
   const form = useForm<z.infer<typeof addAssigneesSchema>>({
     resolver: zodResolver(addAssigneesSchema),
-    defaultValues: { assignees: [], ticketId: "" },
+    defaultValues: { assignees: [] },
   });
 
   async function onSubmit(values: z.infer<typeof addAssigneesSchema>) {
     setLoading(true);
-    values.ticketId = ticketId
-    const response = await addAssignees(values);
-
+    const response = await addAssignees(values,ticketId);
     if (!response.success) {
-      toast.error(response.message || "action error", { id: "category" });
+      toast.error(response.message || "action error", { id: "assignees" });
     } else {
       toast.success("Added user successfully!");
       form.reset();
       router.refresh();
+        handleOpen(false);
+
     }
     setLoading(false);
   }

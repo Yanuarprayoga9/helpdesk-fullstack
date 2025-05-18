@@ -181,62 +181,80 @@ export const getTicketsShow = async ({ createdById, category, priority, status, 
     }
 };
 
-
 export const editTicket = async (
-  id: string,
-  values: Partial<z.infer<typeof ticketSchema>>
+    id: string,
+    values: Partial<z.infer<typeof ticketSchema>>
 ): Promise<TicketReturn> => {
-  try {
-    const me = await getCurrentUser();
-    if (!me.user?.id) {
-      return { success: false, message: "UNAUTHENTICATED" };
+    try {
+        const me = await getCurrentUser();
+        if (!me.user?.id) {
+            return { success: false, message: "UNAUTHENTICATED" };
+        }
+
+        const parsedData = ticketSchema.partial().safeParse(values);
+        if (!parsedData.success) {
+            return { success: false, message: parsedData.error.errors[0].message };
+        }
+
+        const { title, description, category, priority, status, project, images, assignees } = parsedData.data;
+
+        const dataToUpdate: any = {
+            ...(title !== undefined && { title }),
+            ...(description !== undefined && { description }),
+            ...(category !== undefined && { categoryId: category }),
+            ...(priority !== undefined && { priorityId: priority }),
+            ...(status !== undefined && { statusId: status }),
+            ...(project !== undefined && { projectId: project }),
+            ...(images?.[0]?.url !== undefined && { imageUrl: images[0].url }),
+        };
+
+        console.log({assignees})
+        if (assignees !== undefined) {
+            // Hapus assignee lama
+            await prisma.ticketAssignee.deleteMany({
+                where: { ticketId: id },
+            });
+
+            // Tambah assignee baru kalau ada
+            if (assignees.length > 0) {
+                await prisma.ticketAssignee.createMany({
+                    data: assignees.map((userId: string) => ({
+                        ticketId: id,
+                        userId,
+                    })),
+                });
+            }
+        }
+
+        if (Object.keys(dataToUpdate).length === 0) {
+            return { success: false, message: "No fields to update." };
+        }
+
+        await prisma.ticket.update({
+            where: { id },
+            data: dataToUpdate,
+        });
+
+        return { success: true, message: "Ticket updated successfully." };
+
+    } catch (error: any) {
+        console.error("Error updating ticket:", error);
+
+        if (error.code === "P2002") {
+            return { success: false, message: "Ticket title must be unique." };
+        }
+
+        return { success: false, message: error.message || "Internal server error." };
     }
-
-    // Validasi input parsial (field tidak wajib semuanya)
-    const parsedData = ticketSchema.partial().safeParse(values);
-    if (!parsedData.success) {
-      return { success: false, message: parsedData.error.errors[0].message };
-    }
-
-    const dataToUpdate: any = {};
-
-    if (values.title !== undefined) dataToUpdate.title = values.title;
-    if (values.description !== undefined) dataToUpdate.description = values.description;
-    if (values.category !== undefined) dataToUpdate.categoryId = values.category;
-    if (values.priority !== undefined) dataToUpdate.priorityId = values.priority;
-    if (values.status !== undefined) dataToUpdate.statusId = values.status;
-    if (values.project !== undefined) dataToUpdate.projectId = values.project;
-    if (values.images?.[0]?.url !== undefined) dataToUpdate.imageUrl = values.images[0].url;
-
-    // Jika tidak ada field yang ingin diubah
-    if (Object.keys(dataToUpdate).length === 0) {
-      return { success: false, message: "No fields to update." };
-    }
-
-    await prisma.ticket.update({
-      where: { id },
-      data: dataToUpdate,
-    });
-
-    return { success: true, message: "Ticket updated successfully." };
-
-  } catch (error: any) {
-    console.error("Error updating ticket:", error);
-
-    if (error.code === "P2002") {
-      return { success: false, message: "Ticket title must be unique." };
-    }
-
-    return { success: false, message: error.message || "Internal server error." };
-  }
 };
 
-export const getUsersTicketByTicketId = async (ticketId: string): Promise<getUsersReturn> => {
-    const cacheKey = `ticket_users:${ticketId}`;
 
-    // Cek cache dulu
-    const cached = await getCache<getUsersReturn>(cacheKey);
-    if (cached) return cached;
+export const getUsersTicketByTicketId = async (ticketId: string): Promise<getUsersReturn> => {
+    // const cacheKey = `ticket_users:${ticketId}`;
+
+    // // Cek cache dulu
+    // const cached = await getCache<getUsersReturn>(cacheKey);
+    // if (cached) return cached;
 
     try {
         const assigneeUsers = await prisma.ticketAssignee.findMany({
@@ -259,7 +277,7 @@ export const getUsersTicketByTicketId = async (ticketId: string): Promise<getUse
         };
 
         // Simpan ke cache
-        await setCache(cacheKey, result, 60); // cache selama 1 menit
+        // await setCache(cacheKey, result, 60); // cache selama 1 menit
 
         return result;
 
@@ -283,6 +301,7 @@ export const createTicket = async (values: z.infer<typeof ticketSchema>): Promis
         if (!parsedData.success) {
             return { success: false, message: parsedData.error.errors[0].message };
         }
+        console.log({ parsedData })
         await prisma.ticket.create({
             data: {
                 title: values.title,
@@ -294,7 +313,6 @@ export const createTicket = async (values: z.infer<typeof ticketSchema>): Promis
                 },
                 categoryId: values.category,
                 priorityId: values.priority,
-                statusId: values.status,
                 imageUrl: values.images[0].url,
                 projectId: values.project,
                 createdById: me.user.id,
@@ -314,20 +332,22 @@ export const createTicket = async (values: z.infer<typeof ticketSchema>): Promis
         return { success: false, message: error.message };
     }
 }
-
 export const addAssignees = async (
-  values: z.infer<typeof addAssigneesSchema>
+  values: z.infer<typeof addAssigneesSchema>,
+  ticketId: string
 ): Promise<ActionResult> => {
   try {
-    // Validasi input
+    // Validasi assignees saja
     const parsedData = addAssigneesSchema.safeParse(values);
     if (!parsedData.success) {
       return { success: false, message: parsedData.error.errors[0].message };
     }
 
-    const { ticketId, assignees } = parsedData.data;
+    const { assignees } = parsedData.data;
 
-    // Cek apakah ticket ada
+    console.log({ assignees })
+
+    // Cek ticket
     const ticket = await prisma.ticket.findUnique({
       where: { id: ticketId },
     });
@@ -336,13 +356,16 @@ export const addAssignees = async (
       return { success: false, message: "Ticket not found." };
     }
 
-    // Tambahkan assignees baru
+    if (assignees.length === 0) {
+      return { success: false, message: "No users selected." };
+    }
+
+    // Insert assignees
     await prisma.ticketAssignee.createMany({
       data: assignees.map(userId => ({
         ticketId,
         userId,
       })),
-      skipDuplicates: true, // Hindari duplikasi (user yang sudah ditugaskan tidak ditambah ulang)
     });
 
     return { success: true, message: "Assigned users added successfully." };
@@ -357,3 +380,4 @@ export const addAssignees = async (
     return { success: false, message: error.message || "Internal server error." };
   }
 };
+

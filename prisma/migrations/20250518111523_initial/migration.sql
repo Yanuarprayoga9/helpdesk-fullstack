@@ -88,7 +88,7 @@ CREATE TABLE `Ticket` (
     `description` TEXT NOT NULL,
     `imageUrl` VARCHAR(100) NULL,
     `priorityId` VARCHAR(36) NOT NULL,
-    `statusId` VARCHAR(36) NOT NULL,
+    `statusId` VARCHAR(36) NOT NULL DEFAULT '1',
     `createdById` VARCHAR(36) NOT NULL,
     `categoryId` VARCHAR(36) NOT NULL,
     `projectId` VARCHAR(36) NOT NULL,

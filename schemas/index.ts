@@ -47,7 +47,6 @@ export const ticketSchema = z.object({
 
 
 export const addAssigneesSchema = z.object({
-    ticketId: z.string().min(1, "Ticket Id is required").max(100, "Title too long"),
-  assignees: z.array(z.string()).default([]), 
+  assignees: z.array(z.string()).default([]),
 
 });

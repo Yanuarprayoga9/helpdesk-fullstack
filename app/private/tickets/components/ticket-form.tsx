@@ -13,6 +13,7 @@ import {
   SelectTrigger, SelectValue
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
+import { TICKETS_ROUTE } from '@/constants/routes'
 import { ticketSchema } from '@/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
@@ -70,7 +71,13 @@ export const TicketForm = ({
     } else {
       toast.success(isEdit ? "Ticket updated!" : "Ticket created!")
       form.reset()
-      router.refresh()
+      if (isEdit) {
+        router.push(`${TICKETS_ROUTE}/${initialData?.id}`)
+        router.refresh()  // <= ini untuk force server re-fetch kalau caching diaktifin
+      } else {
+        router.push(`${TICKETS_ROUTE}`)
+        router.refresh()
+      }
     }
   }
 
