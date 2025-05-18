@@ -1,6 +1,6 @@
 export const dynamic = "force-dynamic";
 
-import { getCurrentUser } from "@/actions/user";
+import { getCurrentUser } from "@/@data/user";
 import { GeneralProfileForm } from "../components/general-profile-form";
 import { PasswordUpdateForm } from "../components/password-profile-form";
 

@@ -1,14 +1,15 @@
 import { getCategories } from '@/actions/category'
 import { getPriorities } from '@/actions/priotity'
-import { getProjects } from '@/actions/project'
 import { getStatuses } from '@/actions/status'
-import { getTicketByid, getUsersTicketByTicketId } from '@/actions/ticket'
-import { getUsers } from '@/actions/users'
+import { getUsers } from '@/@data/users'
 import { ConsoleContainer } from '@/components/layouts/console-container'
 import { mapAndSort } from '@/lib/utils'
 import React from 'react'
 import { ConsoleWrapper } from '@/components/layouts/console-wrapper'
 import { TicketForm } from '../../components/ticket-form'
+import { getTicketByid } from '@/@data/ticket'
+import { getUsersTicketByTicketId } from '@/@data/ticket-assignee'
+import { getProjects } from '@/@data/project'
 
 interface IEditTicketPage {
   params: Promise<{ ticketId: string }>

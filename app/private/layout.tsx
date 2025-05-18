@@ -1,4 +1,4 @@
-import { getCurrentUser } from "@/actions/user";
+import { getCurrentUser } from "@/@data/user";
 import AppNavbar from "@/components/navbar/app-navbar";
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";

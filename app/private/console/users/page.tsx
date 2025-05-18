@@ -3,7 +3,7 @@ export const dynamic = "force-dynamic";
 import { DataTable } from '@/components/data-table'
 import React, { Suspense } from 'react'
 import { columns } from './components/columns'
-import { getUsers } from '@/actions/users'
+import { getUsers } from '@/@data/users'
 import Loader from '@/components/loader';
 import { ConsoleContainer } from '@/components/layouts/console-container';
 import { ConsoleWrapper } from '@/components/layouts/console-wrapper';

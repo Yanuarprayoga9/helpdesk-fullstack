@@ -19,7 +19,7 @@ import { addAssigneesSchema } from "@/schemas";
 import MultipleSelector from "@/components/ui/multiple-selector";
 import { SelectorsType } from "@/lib/utils";
 import { Modal } from "@/components/modal/modal";
-import { addAssignees } from "@/actions/ticket";
+import { addAssignees } from "@/actions/ticket-assignee";
 interface IAddAssigneesForm {
   userOptions: SelectorsType[];
   isOpen: boolean;

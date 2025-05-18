@@ -1,8 +1,8 @@
-import { getCurrentUser } from '@/actions/user';
 import { Header } from '@/components/header';
 import React from 'react';
 import EditProfileButton from './components/edit-button';
 import ProfileImage from '@/components/ProfileImageUploader';
+import { getCurrentUser } from '@/@data/user';
 
 type LayoutProps = {
   children: React.ReactNode;

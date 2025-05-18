@@ -6,11 +6,12 @@ import AppComment from "@/components/comment/app-comment"
 import { MobileSidebar } from "./components/mobile-sidebar"
 import { TicketDetailSidebar } from "./components/ticket-detail-sidebar"
 import { AppTab } from "./components/app-tab"
-import { getTicketByid, getUsersTicketByTicketId } from "@/actions/ticket"
-import { getUsers } from "@/actions/users"
+import { getUsers } from "@/@data/users"
 import { mapAndSort } from "@/lib/utils"
 import { Suspense } from "react";
 import { ConsoleWrapper } from "@/components/layouts/console-wrapper";
+import { getTicketByid } from "@/@data/ticket";
+import { getUsersTicketByTicketId } from "@/@data/ticket-assignee";
 interface IEditTicketPage {
   params: Promise<{ ticketId: string }>
 }

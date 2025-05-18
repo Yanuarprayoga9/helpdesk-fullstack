@@ -1,12 +1,12 @@
 import { ConsoleContainer } from '@/components/layouts/console-container';
-import { getUsers } from '@/actions/users';
+import { getUsers } from '@/@data/users';
 import { getCategories } from '@/actions/category';
 import { getPriorities } from '@/actions/priotity';
 import { getStatuses } from '@/actions/status';
 import { ConsoleWrapper } from '@/components/layouts/console-wrapper';
 import { mapAndSort } from '@/lib/utils';
-import { getProjects } from '@/actions/project';
 import { TicketForm } from '../components/ticket-form';
+import { getProjects } from '@/@data/project';
 
 const Page = async () => {
   const { users } = await getUsers();

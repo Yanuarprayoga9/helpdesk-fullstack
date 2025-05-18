@@ -4,13 +4,13 @@ export const dynamic = "force-dynamic";
 
 import Image from "next/image"
 
-import { getProjectById, getUsersByProjectId } from "@/actions/project"
 import { AppTab } from "./components/app-tab"
 import { FileText } from "lucide-react"
 import Loader from "@/components/loader";
 import { Suspense } from "react";
 import { ConsoleContainer } from "@/components/layouts/console-container";
 import { ConsoleWrapper } from "@/components/layouts/console-wrapper";
+import { getProjectById, getUsersByProjectId } from "@/@data/project";
 
 
 type PageParams = {

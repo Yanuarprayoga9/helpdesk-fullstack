@@ -1,6 +1,6 @@
 export const dynamic = "force-dynamic";
 
-import { getCurrentUser } from '@/actions/user'
+import { getCurrentUser } from '@/@data/user';
 import React from 'react'
 
 export default async function ProfilePage() {

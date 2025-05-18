@@ -1,4 +1,3 @@
-import { getTicketsShow } from "@/actions/ticket"
 import { ConsoleContainer } from "@/components/layouts/console-container"
 import { ConsoleWrapper } from "@/components/layouts/console-wrapper"
 import AppSideFilter from "@/components/ticket/side-filter/app-side-filter"
@@ -8,6 +7,7 @@ import { mapAndSort } from "@/lib/utils"
 
 // ⬅️ import ini buat ambil searchParams
 import AppTickets from "@/components/ticket/app-ticket"
+import { getTicketsShow } from "@/@data/ticket"
 
 interface TicketsPageProps {
     searchParams:

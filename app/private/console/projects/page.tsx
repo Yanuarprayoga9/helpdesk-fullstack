@@ -1,14 +1,14 @@
 export const dynamic = "force-dynamic"
 
 import { Header } from "@/components/header"
-import { getProjects } from "@/actions/project"
 import { ProjectForm } from "./components/project-form"
-import { getUsers } from "@/actions/users"
+import { getUsers } from "@/@data/users"
 import Loader from "@/components/loader"
 import { Suspense } from "react"
 import { ConsoleWrapper } from "@/components/layouts/console-wrapper"
 import { ConsoleContainer } from "@/components/layouts/console-container"
 import { ProjectDisplay } from "./components/display"
+import { getProjects } from "@/@data/project"
 
 const Page = async () => {
     const fetchprojects = await getProjects(false)
