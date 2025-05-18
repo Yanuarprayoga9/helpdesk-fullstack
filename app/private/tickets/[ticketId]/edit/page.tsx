@@ -1,4 +1,4 @@
-import { getCategories } from '@/actions/category'
+import { getCategories } from '@/@data/category'
 import { getPriorities } from '@/actions/priotity'
 import { getStatuses } from '@/actions/status'
 import { getUsers } from '@/@data/users'

@@ -14,12 +14,12 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { updateCategoryById } from "@/actions/category";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { categorySchema } from "@/schemas";
 import { Modal } from "@/components/modal/modal";
 import { Pen } from "lucide-react";
+import { updateCategoryById } from "@/actions/category";
 
 
 type CategoryFormProps = {

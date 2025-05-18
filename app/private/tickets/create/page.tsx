@@ -1,6 +1,6 @@
 import { ConsoleContainer } from '@/components/layouts/console-container';
 import { getUsers } from '@/@data/users';
-import { getCategories } from '@/actions/category';
+import { getCategories } from '@/@data/category';
 import { getPriorities } from '@/actions/priotity';
 import { getStatuses } from '@/actions/status';
 import { ConsoleWrapper } from '@/components/layouts/console-wrapper';

@@ -2,7 +2,7 @@ import { ConsoleContainer } from "@/components/layouts/console-container"
 import { ConsoleWrapper } from "@/components/layouts/console-wrapper"
 import AppSideFilter from "@/components/ticket/side-filter/app-side-filter"
 import { SearchFilters } from "@/components/ticket/top-filter/search-filters"
-import { getCategories } from "@/actions/category"
+import { getCategories } from "@/@data/category"
 import { mapAndSort } from "@/lib/utils"
 
 // ⬅️ import ini buat ambil searchParams
