@@ -3,6 +3,8 @@
 import { hash } from "bcrypt-ts";
 import { getUserReturn, UserType } from "@/@types/user"
 import prisma from "@/lib/db"
+import { revalidatePath } from "next/cache";
+import { CONSOLE_USERS_ROUTE } from "@/constants/routes";
 
 export const updateUserById = async (
     id: string,
@@ -30,6 +32,8 @@ export const updateUserById = async (
             where: { id },
             data: updatedData,
         });
+
+        revalidatePath(`${CONSOLE_USERS_ROUTE}/${id}`);
 
         return { success: true, user: updatedUser };
     } catch (error) {

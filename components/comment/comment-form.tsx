@@ -3,6 +3,8 @@
 import { useState } from "react";
 import dynamic from "next/dynamic";
 import "react-quill-new/dist/quill.snow.css";
+import { createTicketComment } from "@/actions/ticket-comment";
+import toast from "react-hot-toast";
 
 const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
 
@@ -35,12 +37,33 @@ const formats = [
   "image",
 ];
 
-export const CommentForm = () => {
+export const CommentForm = ({ ticketId, userId }: { ticketId: string; userId: string }) => {
   const [value, setValue] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // bisa kirim ke API, simpan state global, dll
+    setLoading(true);
+
+    const result = await createTicketComment({
+      ticketId,
+      userId,
+      comment: value,
+    });
+
+    if (result.success) {
+      setValue(""); // reset editor
+      toast.success(result.message as string)
+      // bisa tambahin toast success atau refresh data
+      // console.log("Comment created:", result.data);
+    } else {
+      // bisa tambahin toast error
+      toast.error(result.message as string)
+    }
+
+    setLoading(false);
   };
 
   return (
@@ -56,9 +79,10 @@ export const CommentForm = () => {
       />
       <button
         type="submit"
-        className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md"
+        disabled={loading}
+        className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md disabled:opacity-50"
       >
-        Submit
+        {loading ? "Submitting..." : "Submit"}
       </button>
     </form>
   );

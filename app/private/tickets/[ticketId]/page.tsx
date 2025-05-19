@@ -13,13 +13,14 @@ import { ConsoleWrapper } from "@/components/layouts/console-wrapper";
 import { getTicketByid } from "@/@data/ticket";
 import { getUsersTicketByTicketId } from "@/@data/ticket-assignee";
 import { getParentCommentsByTicketId } from "@/@data/ticket-comment";
+import { getCurrentUser } from "@/@data/user";
 interface IEditTicketPage {
   params: Promise<{ ticketId: string }>
 }
 
 
 const page = async ({ params }: IEditTicketPage) => {
-
+  const me =await getCurrentUser()
   const ticketId = (await params).ticketId; // ✅ Sudah benar, tidak perlu await
 
   const ticket = await getTicketByid(ticketId);
@@ -68,7 +69,7 @@ const page = async ({ params }: IEditTicketPage) => {
           <AppTab ticket={ticket.ticket} assignedUsers={ticketUsers.users} />
 
 
-          <AppComment  parentComments={ticketComments.comments || []}/>
+          <AppComment  ticketId={ticketId} userId={me?.user?.id || ""} parentComments={ticketComments.comments || []}/>
           {/* Reply box */}
 
 

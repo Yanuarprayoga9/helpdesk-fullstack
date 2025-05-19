@@ -1,7 +1,9 @@
 "use server"
 
+import { TICKETS_ROUTE } from "@/constants/routes";
 import { addAssigneesSchema } from "@/schemas";
 import { PrismaClient } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 import { z } from "zod";
 const prisma = new PrismaClient();
 
@@ -40,6 +42,7 @@ export const addAssignees = async (
         userId,
       })),
     });
+    revalidatePath(`${TICKETS_ROUTE}/${ticketId}`);
 
     return { success: true, message: "Assigned users added successfully." };
 

@@ -1,10 +1,12 @@
 "use server"
 
-import {  TicketReturn } from "@/@types/ticket";
+import { TicketReturn } from "@/@types/ticket";
 import { getCurrentUser } from "@/@data/user";
 import { ticketSchema } from "@/schemas";
 import { PrismaClient } from "@prisma/client";
 import { z } from "zod";
+import { revalidatePath } from "next/cache";
+import { TICKETS_ROUTE } from "@/constants/routes";
 
 
 
@@ -37,7 +39,7 @@ export const editTicket = async (
             ...(images?.[0]?.url !== undefined && { imageUrl: images[0].url }),
         };
 
-        console.log({assignees})
+        console.log({ assignees })
         if (assignees !== undefined) {
             // Hapus assignee lama
             await prisma.ticketAssignee.deleteMany({
@@ -63,6 +65,7 @@ export const editTicket = async (
             where: { id },
             data: dataToUpdate,
         });
+        revalidatePath(`${TICKETS_ROUTE}/${id}`);
 
         return { success: true, message: "Ticket updated successfully." };
 

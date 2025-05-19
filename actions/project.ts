@@ -6,6 +6,8 @@ import { projectSchema } from "@/schemas";
 import { z } from "zod";
 import prisma from "@/lib/db"
 import { Prisma } from "@prisma/client";
+import { revalidatePath } from "next/cache";
+import { CONSOLE_PROJECTS_ROUTE } from "@/constants/routes";
 
 
 
@@ -61,6 +63,8 @@ export const createProject = async (
       },
     });
 
+            revalidatePath(`${CONSOLE_PROJECTS_ROUTE}`);
+    
     return { success: true, message: "Project successfully created" };
   } catch (error: unknown) {
     console.error("Error fetching project:", error);

@@ -1,5 +1,5 @@
 .ticket-comment {
-  border: 1px solid #e5e7eb;
+  
   border-radius: 0.5rem;
   padding: 1rem;
   margin-top: 1rem;
@@ -38,7 +38,13 @@
 }
 
 .ticket-comment code {
-  background-color: #f3f4f6;
+  background-color: #04348e;
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.25rem;
+  font-family: monospace;
+}
+.ticket-comment .ql-code-block-container {
+  background-color: #54565b;
   padding: 0.2rem 0.4rem;
   border-radius: 0.25rem;
   font-family: monospace;

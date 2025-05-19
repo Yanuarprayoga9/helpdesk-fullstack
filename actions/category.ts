@@ -4,6 +4,8 @@ import { CategoriesReturn, CategoryReturn, CategoryType } from "@/@types/categor
 import { categorySchema } from "@/schemas";
 import { z } from "zod";
 import prisma from "@/lib/db"
+import { CONSOLE_CATEGORIES_ROUTE } from "@/constants/routes";
+import { revalidatePath } from "next/cache";
 
 
 
@@ -28,6 +30,7 @@ export const createCategory = async (values: z.infer<typeof categorySchema>): Pr
         await prisma.category.create({
             data: { name: values.name },
         });
+        revalidatePath(`${CONSOLE_CATEGORIES_ROUTE}`);
 
         return { success: true, message: "Category successfully created" };
     } catch (error: any) {

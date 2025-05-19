@@ -65,7 +65,6 @@ model Role {
   User    User[]
 }
 
-
 // Model Category yang menyimpan kategori tiket
 // Kategeri harus salah satu dari ''Bug Sistem'', 'Gangguan Infrastruktur', 'Permintaan Deployment', 'Permintaan Perubahan'
 
@@ -115,7 +114,7 @@ model Ticket {
   description             String                    @db.Text // Deskripsi tiket yang panjangnya tidak terbatas
   imageUrl                String?                   @db.VarChar(100) // URL gambar yang terkait dengan komentar (opsional)
   priorityId              String                    @db.VarChar(36) // ID dari prioritas yang diberikan pada tiket
-  statusId                String                    @db.VarChar(36) @default("1") // ID dari status tiket (opsional)
+  statusId                String                    @default("1") @db.VarChar(36) // ID dari status tiket (opsional)
   createdById             String                    @db.VarChar(36) // ID dari pengguna yang membuat tiket
   categoryId              String                    @db.VarChar(36) // ID kategori tiket (opsional)
   projectId               String                    @db.VarChar(36)
@@ -136,33 +135,41 @@ model Ticket {
 
 // Model TicketAssignee yang menyimpan relasi antara tiket dan user yang ditugaskan
 model TicketAssignee {
-  id         String   @id @default(uuid()) @db.VarChar(36) // ID unik untuk assignee yang dihasilkan menggunakan UUID
-  ticketId   String   @db.VarChar(36) // ID dari tiket yang ditugaskan
-  userId     String   @db.VarChar(36) // ID dari pengguna yang ditugaskan
-  assignedAt DateTime @default(now()) // Waktu penugasan, secara otomatis diisi dengan waktu sekarang
-  deleted    Boolean  @default(false)
-  ticket     Ticket   @relation(fields: [ticketId], references: [id]) // Relasi dengan tiket yang ditugaskan
-  user       User     @relation(fields: [userId], references: [id]) // Relasi dengan pengguna yang ditugaskan
+  id         String         @id @default(uuid()) @db.VarChar(36) // ID unik untuk assignee yang dihasilkan menggunakan UUID
+  ticketId   String         @db.VarChar(36) // ID dari tiket yang ditugaskan
+  userId     String         @db.VarChar(36) // ID dari pengguna yang ditugaskan
+  assignedAt DateTime       @default(now()) // Waktu penugasan, secara otomatis diisi dengan waktu sekarang
+  role       AssignmentRole @default(member)
+  deleted    Boolean        @default(false)
+  ticket     Ticket         @relation(fields: [ticketId], references: [id]) // Relasi dengan tiket yang ditugaskan
+  user       User           @relation(fields: [userId], references: [id]) // Relasi dengan pengguna yang ditugaskan
 
   @@unique([ticketId, userId]) // Kombinasi unik tiket dan user sebagai pasangan unik
+}
+
+enum TicketHistoryAction {
+  changeStatus
+  editTicket
+  addMember
 }
 
 // Model TicketHistory yang menyimpan riwayat perubahan status tiket
 // Status validation:
 // Ensure that oldStatus and newStatus values are from the set of valid statuses ('Open', 'InProgress', 'Escalated', etc.)
 model TicketHistory {
-  id          String   @id @default(uuid()) @db.VarChar(36)
-  ticketId    String   @db.VarChar(36)
-  changedById String   @db.VarChar(36)
-  oldStatusId String   @db.VarChar(36)
-  newStatusId String   @db.VarChar(36)
-  changeNotes String   @db.Text
-  changedAt   DateTime @default(now())
-  deleted     Boolean  @default(false)
-  ticket      Ticket   @relation(fields: [ticketId], references: [id])
-  changedBy   User     @relation(fields: [changedById], references: [id])
-  oldStatus   Status   @relation("TicketHistoryOldStatus", fields: [oldStatusId], references: [id])
-  newStatus   Status   @relation("TicketHistoryNewStatus", fields: [newStatusId], references: [id])
+  id          String              @id @default(uuid()) @db.VarChar(36)
+  ticketId    String              @db.VarChar(36)
+  changedById String              @db.VarChar(36)
+  oldStatusId String              @db.VarChar(36)
+  newStatusId String              @db.VarChar(36)
+  action      TicketHistoryAction @default(changeStatus)
+  changeNotes String              @db.Text
+  changedAt   DateTime            @default(now())
+  deleted     Boolean             @default(false)
+  ticket      Ticket              @relation(fields: [ticketId], references: [id])
+  changedBy   User                @relation(fields: [changedById], references: [id])
+  oldStatus   Status              @relation("TicketHistoryOldStatus", fields: [oldStatusId], references: [id])
+  newStatus   Status              @relation("TicketHistoryNewStatus", fields: [newStatusId], references: [id])
 }
 
 // Model TicketComment yang menyimpan komentar pada tiket
@@ -181,13 +188,24 @@ model TicketComment {
   replies         TicketComment[] @relation("TicketCommentParent") // Relasi dengan balasan-balasannya
 }
 
+enum AssignmentRequestStatus {
+  Pending
+  Accepted
+  Rejected
+}
+
+enum AssignmentRole {
+  maintainer
+  member
+}
+
 model TicketAssignmentRequest {
-  id            String   @id @default(uuid()) @db.VarChar(36)
-  ticketId      String   @db.VarChar(36)
-  requestedById String   @db.VarChar(36) // Pengguna yang mengajukan diri
-  status        String   @db.VarChar(20) // Pending, Rejected
-  notes         String?  @db.Text
-  requestedAt   DateTime @default(now())
+  id            String                  @id @default(uuid()) @db.VarChar(36)
+  ticketId      String                  @db.VarChar(36)
+  requestedById String                  @db.VarChar(36) // Pengguna yang mengajukan diri
+  status        AssignmentRequestStatus @default(Pending)
+  notes         String?                 @db.Text
+  requestedAt   DateTime                @default(now())
 
   ticket      Ticket @relation(fields: [ticketId], references: [id])
   requestedBy User   @relation(fields: [requestedById], references: [id])
