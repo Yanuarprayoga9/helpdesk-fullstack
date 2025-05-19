@@ -40,7 +40,6 @@ export const CommentForm = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Editor value:", value);
     // bisa kirim ke API, simpan state global, dll
   };
 

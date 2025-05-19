@@ -43,7 +43,6 @@ const page = async ({ params }: IEditTicketPage) => {
     user => user.name,
     user => user.id
   );
-  console.log({ticketComments})
 
   return (
     <Suspense fallback={<div>Loading ticket...</div>}>
