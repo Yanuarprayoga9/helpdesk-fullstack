@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 /* 1. Reset dasar dan border-box biar padding & border gak nambah ukuran */
 
 * {

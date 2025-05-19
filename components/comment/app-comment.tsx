@@ -2,12 +2,15 @@ import React from 'react'
 import CommentFilter from './comment-filter'
 import { CommentList } from './comment-list'
 import { CommentForm } from './comment-form'
-
-const AppComment = () => {
+import { CommentType } from '@/@types/ticket-comment'
+interface IAppTicketComments {
+parentComments:CommentType[]
+}
+const AppComment:React.FC<IAppTicketComments> = ({parentComments}) => {
   return (
     <div>
         <CommentFilter/>
-        <CommentList/>
+        <CommentList parentComments={parentComments}/>
         <CommentForm/>
     </div>
   )

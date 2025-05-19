@@ -160,6 +160,55 @@ async function main() {
     skipDuplicates: true,
   });
 
+await prisma.ticketComment.createMany({
+  data: [
+    // Parent comment
+    {
+      id: '1',
+      userId: '2', // DevOps Engineer
+      ticketId: '1',
+      comment: "These Azure DevOps pipeline failures are often related to authentication or network connectivity issues.",
+      parentCommentId: null,
+      deleted: false,
+    },
+    {
+      id: '2',
+      userId: '3', // Software Developer
+      ticketId: '1',
+      comment: "I don't think that's true. I created a new pipeline and still failed.",
+      parentCommentId: null,
+      deleted: false,
+    },
+    {
+      id: '3',
+      userId: '2', // AzureExpert = DevOps Engineer
+      ticketId: '1',
+      comment: "Check issue #111. Retry policy is handled by retry-nuget.ps1 script.",
+      parentCommentId: null,
+      deleted: false,
+    },
+    // Reply comment
+    {
+      id: '4',
+      userId: '3',
+      ticketId: '1',
+      comment: "Hi @AzureExpert, you're right — it's possible to retry in other cases.",
+      parentCommentId: '3',
+      deleted: false,
+    },
+    {
+      id: '5',
+      userId: '2',
+      ticketId: '1',
+      comment: "It might be a memory issue in the agent. Try switching to M2 agent pool.",
+      parentCommentId: '4',
+      deleted: false,
+    },
+  ],
+  skipDuplicates: true,
+});
+
+
   console.log('✅ Database seeded successfully!');
 }
 

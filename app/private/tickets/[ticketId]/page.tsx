@@ -12,6 +12,7 @@ import { Suspense } from "react";
 import { ConsoleWrapper } from "@/components/layouts/console-wrapper";
 import { getTicketByid } from "@/@data/ticket";
 import { getUsersTicketByTicketId } from "@/@data/ticket-assignee";
+import { getParentCommentsByTicketId } from "@/@data/ticket-comment";
 interface IEditTicketPage {
   params: Promise<{ ticketId: string }>
 }
@@ -23,6 +24,7 @@ const page = async ({ params }: IEditTicketPage) => {
 
   const ticket = await getTicketByid(ticketId);
   const ticketUsers = await getUsersTicketByTicketId(ticketId);
+  const ticketComments = await getParentCommentsByTicketId(ticketId);
   const allUsers = await getUsers();
 
   if (!ticket.ticket || !ticketUsers.users) return "ERROR";
@@ -41,6 +43,7 @@ const page = async ({ params }: IEditTicketPage) => {
     user => user.name,
     user => user.id
   );
+  console.log({ticketComments})
 
   return (
     <Suspense fallback={<div>Loading ticket...</div>}>
@@ -66,7 +69,7 @@ const page = async ({ params }: IEditTicketPage) => {
           <AppTab ticket={ticket.ticket} assignedUsers={ticketUsers.users} />
 
 
-          <AppComment />
+          <AppComment  parentComments={ticketComments.comments || []}/>
           {/* Reply box */}
 
 

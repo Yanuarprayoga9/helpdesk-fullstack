@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import 'react-quill-new/dist/quill.snow.css';
+
 import { ThemeProvider } from "next-themes";
 import { Toaster } from 'react-hot-toast';
 import { SessionProvider } from "next-auth/react";

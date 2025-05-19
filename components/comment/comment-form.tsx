@@ -1,40 +1,66 @@
-import React from 'react'
-import { Button } from '../ui/button'
-import { Edit2 } from 'lucide-react'
+"use client";
 
-export  const CommentForm = () => {
+import { useState } from "react";
+import dynamic from "next/dynamic";
+import "react-quill-new/dist/quill.snow.css";
+
+const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
+
+const modules = {
+  toolbar: [
+    [{ header: [1, 2, 3, 4, 5, false] }],
+    ["bold", "italic", "underline"],
+    [{ color: [] }, { background: [] }],
+    ["blockquote", "code-block"],
+    [{ list: "ordered" }, { list: "bullet" }],
+    [{ align: [] }],
+    [{ size: ["small", false, "large", "huge"] }],
+    ["link", "image"],
+  ],
+};
+
+const formats = [
+  "header",
+  "bold",
+  "color",
+  "background",
+  "italic",
+  "underline",
+  "blockquote",
+  "code-block",
+  "list",
+  "align",
+  "size",
+  "link",
+  "image",
+];
+
+export const CommentForm = () => {
+  const [value, setValue] = useState("");
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Editor value:", value);
+    // bisa kirim ke API, simpan state global, dll
+  };
+
   return (
-   <div className="rounded-md border border-border bg-background p-4">
-               <div className="mb-2 text-sm">Write a reply</div>
-               <div className="rounded-md border border-border bg-background p-2">
-                 <div className="flex justify-between">
-                   <div className="flex gap-2">
-                     <Button variant="ghost" size="sm" className="h-8">
-                       Write
-                     </Button>
-                     <Button variant="ghost" size="sm" className="h-8">
-                       Preview
-                     </Button>
-                   </div>
-                   <div className="flex gap-1">
-                     <Button variant="ghost" size="icon" className="h-8 w-8">
-                       <Edit2 className="h-4 w-4" />
-                     </Button>
-                   </div>
-                 </div>
-                 <textarea
-                   className="mt-2 h-24 w-full resize-none bg-background p-2 text-foreground placeholder:text-muted-foreground focus:outline-none"
-                   placeholder="Write a comment"
-                 ></textarea>
-                 <div className="mt-2 flex justify-between">
-                   <div className="text-xs text-muted-foreground">
-                     Attach files by dragging & dropping, selecting or pasting them.
-                   </div>
-                   <Button className="bg-primary text-primary-foreground hover:bg-primary/90">Comment</Button>
-                 </div>
-               </div>
-             </div>
-  )
-}
-
-
+    <form onSubmit={handleSubmit} className="rounded-md mx-auto mt-10">
+      <ReactQuill
+        theme="snow"
+        className="rounded-md border-none"
+        modules={modules}
+        formats={formats}
+        value={value}
+        onChange={setValue}
+        placeholder="Write something awesome..."
+      />
+      <button
+        type="submit"
+        className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md"
+      >
+        Submit
+      </button>
+    </form>
+  );
+};

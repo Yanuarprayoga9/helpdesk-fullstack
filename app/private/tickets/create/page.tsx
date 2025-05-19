@@ -1,8 +1,8 @@
 import { ConsoleContainer } from '@/components/layouts/console-container';
 import { getUsers } from '@/@data/users';
 import { getCategories } from '@/@data/category';
-import { getPriorities } from '@/actions/priotity';
-import { getStatuses } from '@/actions/status';
+import { getPriorities } from '@/@data/priotity';
+import { getStatuses } from '@/@data/status';
 import { ConsoleWrapper } from '@/components/layouts/console-wrapper';
 import { mapAndSort } from '@/lib/utils';
 import { TicketForm } from '../components/ticket-form';

@@ -1,0 +1,51 @@
+.ticket-comment {
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-top: 1rem;
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+.ticket-comment h1,
+.ticket-comment h2,
+.ticket-comment h3,
+.ticket-comment h4,
+.ticket-comment h5 {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.ticket-comment p {
+  margin-bottom: 0.75rem;
+}
+
+.ticket-comment a {
+  text-decoration: underline;
+}
+
+.ticket-comment ul,
+.ticket-comment ol {
+  padding-left: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.ticket-comment blockquote {
+  border-left: 4px solid #d1d5db;
+  padding-left: 1rem;
+  font-style: italic;
+  margin: 0.75rem 0;
+}
+
+.ticket-comment code {
+  background-color: #f3f4f6;
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.25rem;
+  font-family: monospace;
+}
+
+.ticket-comment img {
+  max-width: 100%;
+  border-radius: 0.5rem;
+  margin: 0.75rem 0;
+}

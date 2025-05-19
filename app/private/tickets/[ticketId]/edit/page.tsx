@@ -1,6 +1,6 @@
 import { getCategories } from '@/@data/category'
-import { getPriorities } from '@/actions/priotity'
-import { getStatuses } from '@/actions/status'
+import { getPriorities } from '@/@data/priotity'
+import { getStatuses } from '@/@data/status'
 import { getUsers } from '@/@data/users'
 import { ConsoleContainer } from '@/components/layouts/console-container'
 import { mapAndSort } from '@/lib/utils'
