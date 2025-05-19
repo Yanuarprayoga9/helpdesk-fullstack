@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import "react-quill-new/dist/quill.snow.css";
 import { createTicketComment } from "@/actions/ticket-comment";
 import toast from "react-hot-toast";
+import { Button } from "@/components/ui/button";
 
 const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
 
@@ -37,11 +38,15 @@ const formats = [
   "image",
 ];
 
-export const CommentForm = ({ ticketId, userId }: { ticketId: string; userId: string }) => {
+type CommentFormProps = {
+  ticketId: string;
+  userId: string;
+  onClose: () => void;
+};
+
+export const CommentForm = ({ ticketId, userId, onClose }: CommentFormProps) => {
   const [value, setValue] = useState("");
   const [loading, setLoading] = useState(false);
-
-
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -54,20 +59,18 @@ export const CommentForm = ({ ticketId, userId }: { ticketId: string; userId: st
     });
 
     if (result.success) {
-      setValue(""); // reset editor
-      toast.success(result.message as string)
-      // bisa tambahin toast success atau refresh data
-      // console.log("Comment created:", result.data);
+      setValue("");
+      toast.success(result.message as string);
+      onClose(); // close drawer kalau sukses
     } else {
-      // bisa tambahin toast error
-      toast.error(result.message as string)
+      toast.error(result.message as string);
     }
 
     setLoading(false);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="rounded-md mx-auto mt-10">
+    <form onSubmit={handleSubmit} className="space-y-4">
       <ReactQuill
         theme="snow"
         className="rounded-md border-none"
@@ -77,13 +80,14 @@ export const CommentForm = ({ ticketId, userId }: { ticketId: string; userId: st
         onChange={setValue}
         placeholder="Write something awesome..."
       />
-      <button
+
+      <Button
         type="submit"
         disabled={loading}
-        className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md disabled:opacity-50"
+        className="w-full bg-blue-600 text-white"
       >
         {loading ? "Submitting..." : "Submit"}
-      </button>
+      </Button>
     </form>
   );
 };
