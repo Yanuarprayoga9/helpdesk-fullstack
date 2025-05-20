@@ -105,6 +105,7 @@ CREATE TABLE `TicketAssignee` (
     `ticketId` VARCHAR(36) NOT NULL,
     `userId` VARCHAR(36) NOT NULL,
     `assignedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `role` ENUM('maintainer', 'member') NOT NULL DEFAULT 'member',
     `deleted` BOOLEAN NOT NULL DEFAULT false,
 
     UNIQUE INDEX `TicketAssignee_ticketId_userId_key`(`ticketId`, `userId`),
@@ -118,6 +119,7 @@ CREATE TABLE `TicketHistory` (
     `changedById` VARCHAR(36) NOT NULL,
     `oldStatusId` VARCHAR(36) NOT NULL,
     `newStatusId` VARCHAR(36) NOT NULL,
+    `action` ENUM('changeStatus', 'editTicket', 'addMember') NOT NULL DEFAULT 'changeStatus',
     `changeNotes` TEXT NOT NULL,
     `changedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `deleted` BOOLEAN NOT NULL DEFAULT false,
@@ -144,7 +146,7 @@ CREATE TABLE `TicketAssignmentRequest` (
     `id` VARCHAR(36) NOT NULL,
     `ticketId` VARCHAR(36) NOT NULL,
     `requestedById` VARCHAR(36) NOT NULL,
-    `status` VARCHAR(20) NOT NULL,
+    `status` ENUM('Pending', 'Accepted', 'Rejected') NOT NULL DEFAULT 'Pending',
     `notes` TEXT NULL,
     `requestedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 

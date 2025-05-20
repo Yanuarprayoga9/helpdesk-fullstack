@@ -35,6 +35,8 @@ export const getParentCommentsByTicketId = async (ticketId: string): Promise<Com
     const mappedComments: CommentType[] = comments.map((comment) => ({
       id: comment.id,
       userId: comment.user.id,
+      ticketId: comment.ticketId,
+
       userName: comment.user.name,
       userImage: comment.user.imageUrl || "",
       userRole: comment.user.role?.name || "",
@@ -90,6 +92,7 @@ export const getRepliesByCommentId = async (parentCommentId: string): Promise<Co
       id: reply.id,
       userId: reply.user.id,
       userName: reply.user.name,
+      ticketId: reply.ticketId,
       userImage: reply.user.imageUrl || "",
       userRole: reply.user.role?.name || "",
       comment: reply.comment,

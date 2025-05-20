@@ -89,7 +89,6 @@ export const createTicket = async (values: z.infer<typeof ticketSchema>): Promis
         if (!me.user?.id) {
             return { success: false, message: "UNAUTHENTICATED" };
         }
-        // Validasi input dengan Zod
         const parsedData = ticketSchema.safeParse(values);
         if (!parsedData.success) {
             return { success: false, message: parsedData.error.errors[0].message };

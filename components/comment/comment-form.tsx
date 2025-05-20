@@ -3,7 +3,7 @@
 import { useState } from "react";
 import dynamic from "next/dynamic";
 import "react-quill-new/dist/quill.snow.css";
-import { createTicketComment } from "@/actions/ticket-comment";
+import { createTicketComment, updateTicketComment } from "@/actions/ticket-comment";
 import toast from "react-hot-toast";
 import { Button } from "@/components/ui/button";
 
@@ -40,31 +40,54 @@ const formats = [
 
 type CommentFormProps = {
   ticketId: string;
-  userId: string;
-  onClose: () => void;
+  commentId?: string; // kalau ada berarti edit
+  defaultValue?: string;
+  parentCommentId?: string | null;  
+  onSuccess?: () => void; // 👈 tambahan ini
+
 };
 
-export const CommentForm = ({ ticketId, userId, onClose }: CommentFormProps) => {
-  const [value, setValue] = useState("");
+export const CommentForm = ({
+  ticketId,
+  commentId,
+  defaultValue = "",
+  parentCommentId = null,
+  onSuccess
+}: CommentFormProps) => {
+  const [value, setValue] = useState(defaultValue);
   const [loading, setLoading] = useState(false);
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!value.trim()) {
+      toast.error("Comment cannot be empty.");
+      return;
+    }
     setLoading(true);
 
-    const result = await createTicketComment({
-      ticketId,
-      userId,
-      comment: value,
-    });
-
-    if (result.success) {
-      setValue("");
-      toast.success(result.message as string);
-      onClose(); // close drawer kalau sukses
+   
+    let result;
+    if (commentId) {
+      // kalau commentId ada, berarti update
+      result = await updateTicketComment({ id: commentId, comment: value });
     } else {
-      toast.error(result.message as string);
+      // create 
+      // kalau gak ada, berarti create
+      result = await createTicketComment({
+        ticketId,
+        comment: value,
+        parentCommentId,
+      });
     }
+if (result.success) {
+  toast.success(result.message as string);
+  // panggil onSuccess kalau ada
+  if (onSuccess) onSuccess();
+} else {
+  toast.error(result.message as string);
+}
 
     setLoading(false);
   };
@@ -86,7 +109,13 @@ export const CommentForm = ({ ticketId, userId, onClose }: CommentFormProps) => 
         disabled={loading}
         className="w-full bg-blue-600 text-white"
       >
-        {loading ? "Submitting..." : "Submit"}
+        {loading
+          ? commentId
+            ? "Updating..."
+            : "Submitting..."
+          : commentId
+            ? "Update Comment"
+            : "Submit"}
       </Button>
     </form>
   );

@@ -1,7 +1,7 @@
 
 export type CommentType = {
     id: string
-    // ticketId: string
+    ticketId?: string
     userId: string
     userName:string
     userImage:string

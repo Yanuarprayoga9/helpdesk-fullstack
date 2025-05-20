@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
+import Link from "next/link"
+import { TICKETS_ROUTE } from "@/constants/routes"
 
 function ActiveFilters() {
   return (
@@ -53,9 +55,11 @@ export function SearchFilters() {
               <DropdownMenuItem>Low Risk</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button variant="outline" className="bg-green-500 flex-1 sm:flex-none">
-            New Discussion
-          </Button>
+          <Link href={`${TICKETS_ROUTE}/create`}>
+            <Button variant="outline" className="bg-green-500 flex-1 sm:flex-none">
+              New Discussion
+            </Button>
+          </Link>
         </div>
       </div>
       <ActiveFilters />
