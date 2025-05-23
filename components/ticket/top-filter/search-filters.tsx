@@ -55,7 +55,7 @@ export function SearchFilters() {
               <DropdownMenuItem>Low Risk</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <Link href={`${TICKETS_ROUTE}/create`}>
+          <Link href={`${TICKETS_ROUTE}/create`} className="">
             <Button variant="outline" className="bg-green-500 flex-1 sm:flex-none">
               New Discussion
             </Button>

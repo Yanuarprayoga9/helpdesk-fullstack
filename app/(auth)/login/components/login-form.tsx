@@ -40,7 +40,7 @@ export const LoginForm = () => {
     setSuccess("");
 
     // Menampilkan toast bahwa login sedang diproses
-    toast.loading("Memproses login...", { id: "login" });
+    toast.loading("processing login...", { id: "login" });
 
     startTransition(() => {
       login(values, callbackUrl)
@@ -80,7 +80,7 @@ export const LoginForm = () => {
       <div className="flex items-center justify-center p-6 lg:p-10">
         <div className="mx-auto w-full max-w-[400px] space-y-6">
           <div className="space-y-2 text-center">
-            <h1 className="text-3xl font-bold">Welcome back!</h1>
+            <h1 className="text-3xl font-bold">Helpdesk Ticket System</h1>
             <p className="dark:text-gray-400 text-[#4F46E5]">Enter your email and password to sign in.</p>
           </div>
           <Form {...form}>
@@ -115,7 +115,7 @@ export const LoginForm = () => {
                 {success && <span className='text-green-500'>{success}</span>}
                 {error && <span className='text-red-500'>{error}</span>}
               </div>
-              <Button type="submit" disabled={isPending} className='dark:text-white dark:bg-green-500 dark:hover:bg-green-300'>
+              <Button type="submit" disabled={isPending} className='dark:text-white w-full dark:bg-green-500 dark:hover:bg-green-300'>
                 {isPending ? "Processing..." : "Login"}
               </Button>
             </form>

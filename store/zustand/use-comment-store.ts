@@ -9,7 +9,6 @@ interface CommentStore {
   editingReplyId: string | null;
   setEditingCommentId: (id: string | null) => void;
   setEditingReplyId: (id: string | null) => void;
-  setReplies: (commentId: string, replies: CommentType[]) => void;
   fetchReplies: (commentId: string) => Promise<void>;
 }
 
@@ -19,13 +18,6 @@ export const useCommentStore = create<CommentStore>((set) => ({
   editingReplyId: null,
   setEditingCommentId: (id) => set({ editingCommentId: id }),
   setEditingReplyId: (id) => set({ editingReplyId: id }),
-  setReplies: (commentId, replies) =>
-    set((state) => ({
-      replies: {
-        ...state.replies,
-        [commentId]: replies,
-      },
-    })),
   fetchReplies: async (commentId: string) => {
     const res = await getRepliesByCommentId(commentId);
     if (res.success) {

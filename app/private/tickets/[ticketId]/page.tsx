@@ -5,7 +5,7 @@ import { ConsoleContainer } from "@/components/layouts/console-container"
 import AppComment from "@/components/comment/app-comment"
 import { MobileSidebar } from "./components/mobile-sidebar"
 import { TicketDetailSidebar } from "./components/ticket-detail-sidebar"
-import { AppTab } from "./components/app-tab"
+import { AppTab } from "./components/tab-menu/app-tab"
 import { getUsers } from "@/@data/users"
 import { mapAndSort } from "@/lib/utils"
 import { Suspense } from "react";

@@ -3,7 +3,7 @@ import React from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { TabsContent } from "@/components/ui/tabs"
 import { UserType } from '@/@types/user'
-import TicketDetailCard from './ticket-detail-card'
+import TicketDetailCard from '../ticket-detail-card'
 import { TicketType } from '@/@types/ticket'
 
 interface TabContentProps {

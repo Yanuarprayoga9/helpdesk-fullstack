@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { TabNav } from "./tab-nav";
+import { TabNav } from "../tab-nav";
 import { UserType } from "@/@types/user";
 import { TabContent } from "./tab-content";
 import { Tabs } from "@/components/ui/tabs";

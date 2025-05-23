@@ -25,21 +25,20 @@ const page = async () => {
     return (
         <Suspense fallback={<Loader />}>
             <ConsoleContainer
-                title="Projects"
-                desc="Manage all your projects in one place. Organize tasks, track progress, and collaborate with your team efficiently."
-
-           >
+                title="Categories"
+                desc="Manage all your categories in one place. Organize, edit, and create categories efficiently."
+            >
                 <ConsoleWrapper
-                    title="Project List"
-                    desc="List of your projects"
-                    className=" lg:w-8/12"
+                    title="Category List"
+                    desc="List of your categories"
+                    className="lg:w-8/12"
                 >
                     <DataTable searchKey='id' columns={columns} data={fetchcategories.categories || []} />
                 </ConsoleWrapper>
                 <ConsoleWrapper
-                    title="Project List"
-                    desc="List of your projects"
-                    className=" lg:w-1/4"
+                    title="Create Category"
+                    desc="Add a new category to organize your data"
+                    className="lg:w-1/4"
                 >
                     <CategoryForm />
                 </ConsoleWrapper>

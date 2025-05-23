@@ -9,29 +9,24 @@ import { ConsoleContainer } from '@/components/layouts/console-container';
 import { ConsoleWrapper } from '@/components/layouts/console-wrapper';
 
 const page = async () => {
-  const { users } = await getUsers()
+  const { users } = await getUsers();
+
   return (
     <Suspense fallback={<Loader />}>
       <ConsoleContainer
-        title="Projects"
-        desc="Manage all your projects in one place. Organize tasks, track progress, and collaborate with your team efficiently."
-
+        title="Users"
+        desc="Manage and monitor your application users efficiently. View, search, and organize user data."
       >
-
         <ConsoleWrapper
-          title="Project List"
-          desc="List of your projects"
-          className=" lg:w-3/4"
+          title="User List"
+          desc="Browse and manage all registered users"
+          className="lg:w-3/4"
         >
-
           <DataTable searchKey='id' columns={columns} data={users || []} />
         </ConsoleWrapper>
       </ConsoleContainer>
-
-
-
     </Suspense>
   )
 }
 
-export default page
+export default page;

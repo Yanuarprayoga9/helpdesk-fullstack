@@ -61,12 +61,14 @@ export const CommentForm = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    
     if (!value.trim()) {
       toast.error("Comment cannot be empty.");
       return;
     }
     setLoading(true);
-
+    // console.log({ id: commentId, comment: value })
+    // console.log(typeof(value))
    
     let result;
     if (commentId) {
@@ -107,7 +109,7 @@ if (result.success) {
       <Button
         type="submit"
         disabled={loading}
-        className="w-full bg-blue-600 text-white"
+        className="w-full bg-green-500 text-white hover:bg-green-400 "
       >
         {loading
           ? commentId
