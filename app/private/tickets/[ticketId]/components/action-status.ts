@@ -5,7 +5,7 @@ export const getAvailableActions = (status: string) => {
     case 'InProgress':
       return [
         { label: 'Put On Hold', nextStatus: 'OnHold' },
-        { label: 'Resolve', nextStatus: 'Resolved' },
+        { label: 'Mark as Resolve', nextStatus: 'Resolved' },
       ];
     case 'OnHold':
       return [{ label: 'Resume', nextStatus: 'InProgress' }];

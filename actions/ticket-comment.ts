@@ -69,7 +69,7 @@ export async function updateTicketComment({
 }
 
 
-export const deleteTicketComment = async (id: string): Promise<CommentReturn> => {
+export const softDeleteTicketComment = async (id: string,ticketId:string): Promise<CommentReturn> => {
   try {
     const deleteComment = await prisma.ticketComment.update({
       where: { id },
@@ -78,6 +78,8 @@ export const deleteTicketComment = async (id: string): Promise<CommentReturn> =>
         deleted: true
       },
     });
+        revalidatePath(`${TICKETS_ROUTE}/${ticketId}/string`);
+
     return { success: true, message: "comment deleted successfully" };
 
   } catch (error) {

@@ -123,3 +123,26 @@ export const createTicket = async (values: z.infer<typeof ticketSchema>): Promis
         return { success: false, message: error.message };
     }
 }
+
+export const softDeleteTicket = async (id: string): Promise<TicketReturn> => {
+  try {
+    const me = await getCurrentUser();
+    if (!me.user?.id) {
+      return { success: false, message: "UNAUTHENTICATED" };
+    }
+
+    await prisma.ticket.update({
+      where: { id },
+      data: {
+        deleted: true,
+      },
+    });
+
+    revalidatePath(TICKETS_ROUTE);
+
+    return { success: true, message: "Ticket deleted successfully." };
+  } catch (error: any) {
+    console.error("Error soft deleting ticket:", error);
+    return { success: false, message: error.message || "Internal server error." };
+  }
+};

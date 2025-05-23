@@ -14,7 +14,7 @@ import { getParentCommentsByTicketId } from "@/@data/ticket-comment";
 import { AppTab } from "../components/tab-menu/app-tab";
 import { MobileSidebar } from "../components/mobile-sidebar";
 import { TicketDetailSidebar } from "../components/ticket-detail-sidebar";
-import TicketDetailCard from "../components/ticket-detail-card";
+import TicketDetailCard from "./components/ticket-detail-card";
 interface IEditTicketPage {
     params: Promise<{ ticketId: string }>
 }

@@ -15,7 +15,7 @@ export type TicketType = {
     category: CategoryType
     project: ProjectType
     createdAt: Date
-    updatedAt: Date
+    updatedAt: Date | null 
 }
 
 export type TicketShowType = {
@@ -31,7 +31,7 @@ export type TicketShowType = {
     category: string
     project: string
     createdAt: Date
-    updatedAt: Date
+    updatedAt: Date | null 
 }
 
 

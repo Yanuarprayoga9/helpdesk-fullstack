@@ -8,11 +8,13 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
+import { CommentDeleteButton } from "./comment-delete-form";
 
 interface ICommentActions {
   commentId: string;
   isParent: boolean;
 }
+
 
 export const CommentItemActions = ({ commentId, isParent }: ICommentActions) => {
   const { setEditingCommentId, setEditingReplyId } = useCommentStore();
@@ -33,10 +35,12 @@ export const CommentItemActions = ({ commentId, isParent }: ICommentActions) => 
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuItem onClick={handleEdit}>
-          Edit
+        <DropdownMenuItem onClick={handleEdit}>Edit</DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <CommentDeleteButton commentId={commentId} />
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
 };
+

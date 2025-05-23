@@ -164,7 +164,7 @@ model TicketHistory {
   changedById String              @db.VarChar(36)
   oldStatusId String              @db.VarChar(36)
   newStatusId String              @db.VarChar(36)
-  action      TicketHistoryAction @default(changeStatus)
+  action      String              @db.VarChar(36)
   changeNotes String              @db.Text
   changedAt   DateTime            @default(now())
   deleted     Boolean             @default(false)

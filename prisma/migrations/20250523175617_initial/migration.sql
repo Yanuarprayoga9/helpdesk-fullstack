@@ -7,7 +7,7 @@ CREATE TABLE `User` (
     `roleId` VARCHAR(36) NOT NULL,
     `password` VARCHAR(60) NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `updatedAt` DATETIME(3) NOT NULL,
+    `updatedAt` DATETIME(3) NULL,
     `deleted` BOOLEAN NOT NULL DEFAULT false,
 
     UNIQUE INDEX `User_email_key`(`email`),
@@ -20,7 +20,7 @@ CREATE TABLE `Project` (
     `name` VARCHAR(100) NOT NULL,
     `imageUrl` VARCHAR(100) NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `updatedAt` DATETIME(3) NOT NULL,
+    `updatedAt` DATETIME(3) NULL,
     `deleted` BOOLEAN NOT NULL DEFAULT false,
 
     PRIMARY KEY (`id`)
@@ -52,7 +52,7 @@ CREATE TABLE `Category` (
     `id` VARCHAR(36) NOT NULL,
     `name` VARCHAR(100) NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `updatedAt` DATETIME(3) NOT NULL,
+    `updatedAt` DATETIME(3) NULL,
     `deleted` BOOLEAN NOT NULL DEFAULT false,
 
     UNIQUE INDEX `Category_name_key`(`name`),
@@ -65,6 +65,7 @@ CREATE TABLE `Priority` (
     `color` VARCHAR(30) NOT NULL,
     `name` VARCHAR(50) NOT NULL,
     `deleted` BOOLEAN NOT NULL DEFAULT false,
+    `updatedAt` DATETIME(3) NULL,
 
     UNIQUE INDEX `Priority_name_key`(`name`),
     PRIMARY KEY (`id`)
@@ -93,7 +94,7 @@ CREATE TABLE `Ticket` (
     `categoryId` VARCHAR(36) NOT NULL,
     `projectId` VARCHAR(36) NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `updatedAt` DATETIME(3) NOT NULL,
+    `updatedAt` DATETIME(3) NULL,
     `deleted` BOOLEAN NOT NULL DEFAULT false,
 
     PRIMARY KEY (`id`)
@@ -107,6 +108,7 @@ CREATE TABLE `TicketAssignee` (
     `assignedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `role` ENUM('maintainer', 'member') NOT NULL DEFAULT 'member',
     `deleted` BOOLEAN NOT NULL DEFAULT false,
+    `updatedAt` DATETIME(3) NULL,
 
     UNIQUE INDEX `TicketAssignee_ticketId_userId_key`(`ticketId`, `userId`),
     PRIMARY KEY (`id`)
@@ -119,7 +121,7 @@ CREATE TABLE `TicketHistory` (
     `changedById` VARCHAR(36) NOT NULL,
     `oldStatusId` VARCHAR(36) NOT NULL,
     `newStatusId` VARCHAR(36) NOT NULL,
-    `action` ENUM('changeStatus', 'editTicket', 'addMember') NOT NULL DEFAULT 'changeStatus',
+    `action` VARCHAR(36) NOT NULL,
     `changeNotes` TEXT NOT NULL,
     `changedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `deleted` BOOLEAN NOT NULL DEFAULT false,
@@ -137,6 +139,7 @@ CREATE TABLE `TicketComment` (
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `parentCommentId` VARCHAR(191) NULL,
     `deleted` BOOLEAN NOT NULL DEFAULT false,
+    `updatedAt` DATETIME(3) NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

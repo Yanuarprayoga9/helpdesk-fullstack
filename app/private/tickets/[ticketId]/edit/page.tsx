@@ -32,7 +32,6 @@ const page = async ({ params }: IEditTicketPage) => {
       getProjects(false),
     ]);
 
-  // ✅ Map ke options
   const userOptions = mapAndSort(userData.users, user => user.name, user => user.id);
   const categoryOptions = mapAndSort(categoryData.categories, cat => cat.name, cat => cat.id);
   const priorityOptions = mapAndSort(priorityData.priorities, p => p.name, p => p.id);

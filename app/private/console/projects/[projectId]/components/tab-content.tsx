@@ -66,7 +66,7 @@ export const TabContent = ({ users, project }: TabContentProps) => {
                                 </div>
                                 <div className="flex items-center text-sm">
                                     <Clock className="h-4 w-4 mr-2 text-muted-foreground" />
-                                    <span>Updated on {formatDate(project.updatedAt)}</span>
+                                    <span>Updated on {formatDate(project.updatedAt as string)}</span>
                                 </div>
                             </div>
                         </div>
