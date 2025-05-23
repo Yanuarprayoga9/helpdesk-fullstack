@@ -5,7 +5,6 @@ import { ConsoleContainer } from "@/components/layouts/console-container"
 import AppComment from "@/components/comment/app-comment"
 import { MobileSidebar } from "./components/mobile-sidebar"
 import { TicketDetailSidebar } from "./components/ticket-detail-sidebar"
-import { AppTab } from "./components/tab-menu/app-tab"
 import { getUsers } from "@/@data/users"
 import { mapAndSort } from "@/lib/utils"
 import { Suspense } from "react";
@@ -64,8 +63,7 @@ const page = async ({ params }: IEditTicketPage) => {
             createdAt={ticket.ticket.createdAt}
           />
 
-          <AppTab ticket={ticket.ticket} assignedUsers={ticketUsers.users} />
-
+        
 
           <AppComment  ticketId={ticketId} parentComments={ticketComments.comments || []}/>
           {/* Reply box */}
@@ -81,7 +79,7 @@ const page = async ({ params }: IEditTicketPage) => {
         >
 
           {/* Sidebar with theme variables */}
-          <TicketDetailSidebar assignedUsers={ticketUsers.users} unnasignedUsersOptions={mappedUnassignedUsers} />
+          <TicketDetailSidebar ticket={ticket.ticket} assignedUsers={ticketUsers.users} unnasignedUsersOptions={mappedUnassignedUsers} />
         </ConsoleWrapper>
 
       </ConsoleContainer>

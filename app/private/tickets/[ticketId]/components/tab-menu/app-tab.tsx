@@ -4,26 +4,25 @@ import { TabNav } from "./tab-nav";
 import { UserType } from "@/@types/user";
 import { TabContent } from "./tab-content";
 import { Tabs } from "@/components/ui/tabs";
-import { usePathname } from "next/navigation";
-import { TicketType } from "@/@types/ticket";
+
 
 interface AppTabProps {
   assignedUsers?: UserType[];
-  ticket: TicketType;
+  
+  children:React.ReactNode
+  pageName:string;
 }
 
-export const AppTab = ({ ticket, assignedUsers }: AppTabProps) => {
-  const pathname = usePathname();
-
-  // Ambil nama tab dari URL, contoh: "/project/123/detail"
-  const segments = pathname.split("/");
-  const currentTab = segments[segments.length - 1] || "detail";
+export const AppTab = ({  assignedUsers,children,pageName }: AppTabProps) => {
+ 
 
   return (
     <div>
-      <Tabs value={currentTab} className="mb-6">
+      <Tabs value={pageName} className="mb-6">
         <TabNav TeamRegisteredCount={assignedUsers?.length || 0} />
-        <TabContent ticket={ticket} assignedUsers={assignedUsers} />
+        <TabContent pageName={pageName}  >
+            {children}
+        </TabContent>
       </Tabs>
     </div>
   );

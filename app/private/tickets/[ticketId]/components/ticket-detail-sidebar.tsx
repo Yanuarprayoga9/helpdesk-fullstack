@@ -8,16 +8,30 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import React, {  useState } from 'react'
 import { AssigneesForm } from './assignees-form';
 import { SelectorsType } from '@/lib/utils';
+import { TicketType } from '@/@types/ticket';
 
 interface ITicketSidebar {
     assignedUsers: UserType[]
     unnasignedUsersOptions:SelectorsType[]
+        ticket: TicketType
+    
 }
-export const TicketDetailSidebar = ({ assignedUsers,unnasignedUsersOptions }: ITicketSidebar) => {
+
+const colorMap: Record<string, string> = {
+    red: "text-red-500",
+    blue: "text-blue-500",
+    green: "text-green-500",
+    yellow: "text-yellow-500",
+    orange: "text-orange-500",
+    gray: "text-gray-500",
+    purple: "text-purple-500",
+};
+export const TicketDetailSidebar = ({ assignedUsers,unnasignedUsersOptions,ticket }: ITicketSidebar) => {
     const router = useRouter();
     const pathname = usePathname(); // Ambil path saat ini
     const searchParams = useSearchParams(); // Ambil search params saat ini
     const [isOpen, setIsOpen] = useState(false);
+    const statusColor = colorMap[ticket.status.color] || "text-gray-500";
 
 
 
@@ -57,8 +71,8 @@ export const TicketDetailSidebar = ({ assignedUsers,unnasignedUsersOptions }: IT
             </div>
 
             <div className="mb-6">
-                <h3 className="mb-2 text-xs font-medium uppercase text-muted-foreground">Labels</h3>
-                <div className="text-sm text-muted-foreground">None yet</div>
+                <h3 className="mb-2 text-xs font-medium uppercase text-muted-foreground">Status</h3>
+                <div className={`text-sm text-muted-foreground ${statusColor}`}>{ticket.status.name}</div>
             </div>
 
             <div className="mb-6">

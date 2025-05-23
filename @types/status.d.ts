@@ -5,8 +5,8 @@ export type StatusType = {
     color: string
 }
 
-export interface statusReturn extends ActionResult {
-    statuses?: StatusType
+export interface StatusReturn extends ActionResult {
+    status?: StatusType
 }
 
 export interface StatusesReturn extends ActionResult {

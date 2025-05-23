@@ -1,5 +1,5 @@
 import React from 'react'
-import { Code, Users, Settings, GitPullRequest, History } from "lucide-react"
+import { Code, Users, Settings, History } from "lucide-react"
 import { TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import { useParams, useRouter } from 'next/navigation'

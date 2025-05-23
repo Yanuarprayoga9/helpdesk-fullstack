@@ -14,6 +14,7 @@ import { getParentCommentsByTicketId } from "@/@data/ticket-comment";
 import { AppTab } from "../components/tab-menu/app-tab";
 import { MobileSidebar } from "../components/mobile-sidebar";
 import { TicketDetailSidebar } from "../components/ticket-detail-sidebar";
+import TicketDetailCard from "../components/ticket-detail-card";
 interface IEditTicketPage {
   params: Promise<{ ticketId: string }>
 }
@@ -55,7 +56,6 @@ const page = async ({ params }: IEditTicketPage) => {
         <ConsoleWrapper
           className=" lg:w-9/12"
         >
-
           {/* Discussion header */}
           <TicketDetailHeader
             category={ticket.ticket.category.name}
@@ -64,14 +64,10 @@ const page = async ({ params }: IEditTicketPage) => {
             id={ticket.ticket.id}
             createdAt={ticket.ticket.createdAt}
           />
-
-          <AppTab ticket={ticket.ticket} assignedUsers={ticketUsers.users} />
-
-
-          <AppComment  ticketId={ticketId} parentComments={ticketComments.comments || []}/>
-          {/* Reply box */}
-
-
+          <AppTab assignedUsers={ticketUsers.users} pageName="detail" >
+            <TicketDetailCard ticket={ticket.ticket} />
+          </AppTab>
+          <AppComment ticketId={ticketId} parentComments={ticketComments.comments || []} />
         </ConsoleWrapper>
 
         {/* Mobile sidebar */}
@@ -82,8 +78,9 @@ const page = async ({ params }: IEditTicketPage) => {
         >
 
           {/* Sidebar with theme variables */}
-          <TicketDetailSidebar assignedUsers={ticketUsers.users} unnasignedUsersOptions={mappedUnassignedUsers} />
+          <TicketDetailSidebar ticket={ticket.ticket} assignedUsers={ticketUsers.users} unnasignedUsersOptions={mappedUnassignedUsers} />
         </ConsoleWrapper>
+
 
       </ConsoleContainer>
     </Suspense>

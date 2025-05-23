@@ -39,7 +39,6 @@ export const editTicket = async (
             ...(images?.[0]?.url !== undefined && { imageUrl: images[0].url }),
         };
 
-        console.log({ assignees })
         if (assignees !== undefined) {
             // Hapus assignee lama
             await prisma.ticketAssignee.deleteMany({
