@@ -17,7 +17,7 @@ model User {
   roleId                  String                    @db.VarChar(36)
   password                String                    @db.VarChar(60)
   createdAt               DateTime                  @default(now()) // Waktu pembuatan, secara default diisi dengan waktu sekarang
-  updatedAt               DateTime                  @updatedAt // Waktu pembaruan, secara otomatis diperbarui setiap kali terjadi perubahan
+updatedAt DateTime? // Tanpa @updatedAt
   deleted                 Boolean                   @default(false)
   role                    Role                      @relation(fields: [roleId], references: [id]) // Relasi dengan prioritas tiket
   // roles                   UserRole[] // Relasi dengan model UserRole, yang menyimpan peran-peran yang dimiliki oleh user
@@ -39,7 +39,7 @@ model Project {
   tickets     Ticket[] // Relasi dengan tiket
   // users     ProjectUser[] // Relasi dengan pengguna dalam proyek
   createdAt   DateTime      @default(now()) // Timestamp pembuatan proyek
-  updatedAt   DateTime      @updatedAt // Timestamp update proyek
+updatedAt DateTime? // Tanpa @updatedAt
   deleted     Boolean       @default(false)
   ProjectUser ProjectUser[]
 }
@@ -72,7 +72,7 @@ model Category {
   id        String   @id @default(uuid()) @db.VarChar(36) // ID unik kategori yang dihasilkan menggunakan UUID
   name      String   @unique @db.VarChar(100) // Nama kategori yang unik dengan panjang maksimal 100 karakter
   createdAt DateTime @default(now()) // Waktu pembuatan kategori, diisi dengan waktu sekarang
-  updatedAt DateTime @updatedAt // Waktu pembaruan kategori, otomatis diperbarui ketika ada perubahan
+updatedAt DateTime? // Tanpa @updatedAt
   deleted   Boolean  @default(false)
 
   tickets Ticket[] // Relasi dengan tiket-tiket yang tergabung dalam kategori ini
@@ -86,6 +86,7 @@ model Priority {
   color   String  @db.VarChar(30)
   name    String  @unique @db.VarChar(50) // Nama prioritas yang unik dengan panjang maksimal 20 karakter
   deleted Boolean @default(false)
+updatedAt DateTime? // Tanpa @updatedAt
 
   tickets Ticket[] // Relasi dengan tiket yang memiliki prioritas ini
 }
@@ -119,7 +120,7 @@ model Ticket {
   categoryId              String                    @db.VarChar(36) // ID kategori tiket (opsional)
   projectId               String                    @db.VarChar(36)
   createdAt               DateTime                  @default(now()) // Waktu pembuatan tiket, otomatis diisi dengan waktu sekarang
-  updatedAt               DateTime                  @updatedAt // Waktu pembaruan tiket, diperbarui otomatis  
+updatedAt DateTime? // Tanpa @updatedAt
   deleted                 Boolean                   @default(false)
   priority                Priority                  @relation(fields: [priorityId], references: [id]) // Relasi dengan prioritas tiket
   status                  Status                    @relation(fields: [statusId], references: [id]) // Relasi dengan status tiket (opsional)
@@ -143,6 +144,7 @@ model TicketAssignee {
   deleted    Boolean        @default(false)
   ticket     Ticket         @relation(fields: [ticketId], references: [id]) // Relasi dengan tiket yang ditugaskan
   user       User           @relation(fields: [userId], references: [id]) // Relasi dengan pengguna yang ditugaskan
+updatedAt DateTime? // Tanpa @updatedAt
 
   @@unique([ticketId, userId]) // Kombinasi unik tiket dan user sebagai pasangan unik
 }
@@ -185,6 +187,7 @@ model TicketComment {
   ticket          Ticket          @relation(fields: [ticketId], references: [id]) // Relasi dengan tiket yang dikomentari
   user            User            @relation(fields: [userId], references: [id]) // Relasi dengan pengguna yang memberikan komentar
   parentComment   TicketComment?  @relation("TicketCommentParent", fields: [parentCommentId], references: [id]) // Relasi dengan komentar induk (opsional)
+updatedAt DateTime? // Tanpa @updatedAt
   replies         TicketComment[] @relation("TicketCommentParent") // Relasi dengan balasan-balasannya
 }
 
