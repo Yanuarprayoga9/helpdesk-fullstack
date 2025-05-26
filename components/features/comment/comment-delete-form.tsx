@@ -3,7 +3,7 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useParams, useRouter } from "next/navigation";
-import { AlertModal } from "../confirm-modal";
+import { AlertModal } from "../../confirm-modal";
 import { softDeleteTicketComment } from "@/actions/ticket-comment";
 
 type CommentDeleteButtonProps = {

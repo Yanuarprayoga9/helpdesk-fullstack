@@ -2,13 +2,13 @@
 import { TicketShowType } from "@/@types/ticket"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { CONSOLE_ROUTE, CONSOLE_TICKETS_ROUTE, TICKETS_ROUTE } from "@/constants/routes"
+import { CONSOLE_TICKETS_ROUTE, TICKETS_ROUTE } from "@/constants/routes"
 import { format } from "date-fns"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
 
 interface ITicketCard {
-  ticket: TicketShowType
+  ticket: TicketShowType;
+  isConsole:boolean
 }
 const colorMap: Record<string, string> = {
   red: "bg-red-500",
@@ -20,10 +20,8 @@ const colorMap: Record<string, string> = {
   purple: "bg-purple-500",
 };
 
-export function TicketCard({ ticket }: ITicketCard) {
-  const pathname = usePathname()
+export function TicketCard({ ticket,isConsole }: ITicketCard) {
 
-  const isConsole = pathname.includes(CONSOLE_ROUTE)
 
   const priorityColor = colorMap[ticket.priorityColor] || "bg-gray-500";
   const statusColor = colorMap[ticket.statusColor] || "bg-gray-500";
@@ -63,7 +61,7 @@ export function TicketCard({ ticket }: ITicketCard) {
             </div>
           </div>
         </div>
-        <Link href={`${isConsole ? CONSOLE_TICKETS_ROUTE : TICKETS_ROUTE}/${ticket.id}`} >
+        <Link href={`${isConsole ? CONSOLE_TICKETS_ROUTE : TICKETS_ROUTE}/${ticket.id}/detail`} >
           <Button variant="ghost" size="sm" className="ml-auto text-green-500">
             Open Ticket
           </Button>

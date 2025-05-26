@@ -20,16 +20,6 @@ export const addAssignees = async (
 
     const { assignees } = parsedData.data;
 
-    console.log({ assignees })
-
-    // Cek ticket
-    const ticket = await prisma.ticket.findUnique({
-      where: { id: ticketId },
-    });
-
-    if (!ticket) {
-      return { success: false, message: "Ticket not found." };
-    }
 
     if (assignees.length === 0) {
       return { success: false, message: "No users selected." };

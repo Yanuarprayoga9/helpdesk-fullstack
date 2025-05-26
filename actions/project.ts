@@ -1,7 +1,7 @@
 "use server"
 
-import {  ProjectsReturn } from "@/@types/project";
-import {  UserType } from "@/@types/user";
+import { ProjectReturn, ProjectsReturn } from "@/@types/project";
+import { UserType } from "@/@types/user";
 import { projectSchema } from "@/schemas";
 import { z } from "zod";
 import prisma from "@/lib/db"
@@ -44,7 +44,7 @@ export const createProject = async (
         select: { id: true },
       });
 
-      validUserIds = users.map((user:UserType) => user.id);
+      validUserIds = users.map((user: UserType) => user.id);
       const missingUsers = userIds.filter((id) => !validUserIds.includes(id));
 
       if (missingUsers.length > 0) {
@@ -63,8 +63,8 @@ export const createProject = async (
       },
     });
 
-            revalidatePath(`${CONSOLE_PROJECTS_ROUTE}`);
-    
+    revalidatePath(`${CONSOLE_PROJECTS_ROUTE}`);
+
     return { success: true, message: "Project successfully created" };
   } catch (error: unknown) {
     console.error("Error fetching project:", error);
@@ -85,3 +85,64 @@ export const createProject = async (
 };
 
 
+export const updateProjectById = async (
+  id: string,
+  values: z.infer<typeof projectSchema>
+): Promise<ProjectReturn> => {
+  try {
+    const parsedData = projectSchema.safeParse(values);
+    if (!parsedData.success) {
+      return { success: false, message: parsedData.error.errors[0].message };
+    }
+
+    const { name, imageUrl, userIds } = parsedData.data;
+
+    // Cek apakah project ada
+    const existingProject = await prisma.project.findUnique({
+      where: { id },
+    });
+
+    if (!existingProject) {
+      return { success: false, message: "Project not found" };
+    }
+
+    // Cek user yang valid
+    let validUserIds: string[] = [];
+    if (userIds && userIds.length > 0) {
+      const users = await prisma.user.findMany({
+        where: { id: { in: userIds } },
+        select: { id: true },
+      });
+
+      validUserIds = users.map((u: UserType) => u.id);
+      const missing = userIds.filter((id) => !validUserIds.includes(id));
+      if (missing.length > 0) {
+        return { success: false, message: `Users not found: ${missing.join(", ")}` };
+      }
+    }
+
+    // Update project
+    await prisma.project.update({
+      where: { id },
+      data: {
+        name,
+        imageUrl,
+        ProjectUser: {
+          deleteMany: {}, // hapus relasi lama
+          create: validUserIds.map((userId) => ({ userId })),
+        },
+      },
+    });
+
+    revalidatePath(`${CONSOLE_PROJECTS_ROUTE}/${id}`);
+    return { success: true, message: "Project successfully updated" };
+  } catch (error: any) {
+    console.error("Error updating project:", error);
+
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
+      return { success: false, message: "Project name must be unique." };
+    }
+
+    return { success: false, message: error.message || "An unexpected error occurred." };
+  }
+};

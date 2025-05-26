@@ -29,13 +29,6 @@ export const TabNav = ({ TeamRegisteredCount }: TabeNavProps) => {
                     {TeamRegisteredCount}
                 </Badge>
             </TabsTrigger>
-            {/* <TabsTrigger value="issues" className="flex items-center gap-1">
-                        <CircleDot className="h-4 w-4" />
-                        <span>Issues</span>
-                        <Badge variant="secondary" className="ml-1">
-                            {issuesCount}
-                        </Badge>
-                    </TabsTrigger> */}
             <TabsTrigger value="ticket-created" className="flex items-center gap-1" onClick={() => router.push(`${TICKETS_ROUTE}/${ticketId}/history`)}>
                 <History className="h-4 w-4" />
                 <span>History</span>

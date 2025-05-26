@@ -1,9 +1,8 @@
 export const dynamic = "force-dynamic";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-import { TicketDetailHeader } from "@/components/ticket-detail/header"
+import { TicketDetailHeader } from "@/components/features/ticket-detail/ticket-detail-header";
 import { ConsoleContainer } from "@/components/layouts/console-container"
-import AppComment from "@/components/comment/app-comment"
+import AppComment from "@/components/features/comment/app-comment"
 
 import { getUsers } from "@/@data/users"
 import { mapAndSort } from "@/lib/utils"
@@ -15,13 +14,14 @@ import { getParentCommentsByTicketId } from "@/@data/ticket-comment";
 import { AppTab } from "../components/tab-menu/app-tab";
 import { MobileSidebar } from "../components/mobile-sidebar";
 import { TicketDetailSidebar } from "../components/ticket-detail-sidebar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 interface IEditTicketPage {
   params: Promise<{ ticketId: string }>
 }
 
 
 const page = async ({ params }: IEditTicketPage) => {
-  const ticketId = (await params).ticketId; // ✅ Sudah benar, tidak perlu await
+  const ticketId = (await params).ticketId; 
 
   const ticket = await getTicketByid(ticketId);
   const ticketUsers = await getUsersTicketByTicketId(ticketId);
@@ -66,7 +66,7 @@ const page = async ({ params }: IEditTicketPage) => {
             createdAt={ticket.ticket.createdAt}
           />
 
-            <AppTab assignedUsers={ticketUsers.users} pageName="team" >
+          <AppTab assignedUsers={ticketUsers.users} pageName="team" >
 
             <div className="border rounded-md p-6">
               <h3 className="text-lg font-medium mb-4">Team Members</h3>
@@ -100,7 +100,7 @@ const page = async ({ params }: IEditTicketPage) => {
             </div>
           </AppTab>
 
-          <AppComment  ticketId={ticketId} parentComments={ticketComments.comments || []}/>
+          <AppComment ticketId={ticketId} parentComments={ticketComments.comments || []} />
           {/* Reply box */}
 
 
@@ -112,11 +112,11 @@ const page = async ({ params }: IEditTicketPage) => {
         <ConsoleWrapper
           className=" lg:w-1/4"
         >
+
+          {/* Sidebar with theme variables */}
           <TicketDetailSidebar ticket={ticket.ticket} assignedUsers={ticketUsers.users} unnasignedUsersOptions={mappedUnassignedUsers} />
         </ConsoleWrapper>
-
        
-
       </ConsoleContainer>
     </Suspense>
   )

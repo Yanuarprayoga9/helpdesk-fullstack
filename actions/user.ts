@@ -41,3 +41,46 @@ export const updateUserById = async (
         return { success: false, message: (error as Error).message };
     }
 };
+
+
+export const createUser = async (data: any): Promise<getUserReturn> => {
+    try {
+        // Validasi data minimal
+        if (!data.email || !data.password || !data.name || !data.roleId) {
+            return { success: false, message: "Missing required fields" };
+        }
+
+        // Cek duplikat email
+        const existingUser = await prisma.user.findUnique({
+            where: { email: data.email },
+        });
+
+        if (existingUser) {
+            return { success: false, message: "Email already in use" };
+        }
+
+        // Hash password
+        const hashedPassword = await hash(data.password, 10);
+
+        const newUser = await prisma.user.create({
+            data: {
+                email: data.email,
+                name: data.name,
+                imageUrl: data.imageUrl || null,
+                password: hashedPassword,
+                roleId: data.roleId,
+                deleted: false,
+            },
+            include: {
+                role: true,
+            },
+        });
+
+        revalidatePath(CONSOLE_USERS_ROUTE);
+
+        return { success: true, user: newUser };
+    } catch (error) {
+        console.error("Error creating user:", error);
+        return { success: false, message: (error as Error).message };
+    }
+};

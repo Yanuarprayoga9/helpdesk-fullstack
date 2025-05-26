@@ -1,12 +1,12 @@
 "use client";
 import { useCommentStore } from "@/store/zustand/use-comment-store";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
+} from "../../ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
 import { CommentDeleteButton } from "./comment-delete-form";
 

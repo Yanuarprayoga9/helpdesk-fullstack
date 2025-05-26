@@ -1,6 +1,6 @@
 "use client"
 
-import { ProjectList } from "@/components/project/project-list"
+import { ProjectList } from "@/components/features/project/project-list"
 import { DataTable } from "@/components/data-table"
 import { columns } from "@/app/private/console/projects/components/columns"
 import ViewToggle from "@/components/view-toggle"

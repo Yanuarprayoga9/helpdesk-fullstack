@@ -69,11 +69,11 @@ export const LoginForm = () => {
     <div className="grid min-h-screen w-full grid-cols-1 lg:grid-cols-2">
       <div className="hidden bg-gray-100 lg:block dark:bg-gray-800">
         <Image
-          src="/placeholder.svg"
+          src="/login.jpg"
           alt="Login Illustration"
           width={1920}
           height={1080}
-          className="h-full w-full object-cover"
+          className="h-full w-full object-cover blur-sm"
           style={{ aspectRatio: "1920/1080", objectFit: "cover" }}
         />
       </div>

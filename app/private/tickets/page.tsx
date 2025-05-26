@@ -1,12 +1,12 @@
 import { ConsoleContainer } from "@/components/layouts/console-container"
 import { ConsoleWrapper } from "@/components/layouts/console-wrapper"
-import AppSideFilter from "@/components/ticket/side-filter/app-side-filter"
-import { SearchFilters } from "@/components/ticket/top-filter/search-filters"
+import AppSideFilter from "@/components/features/ticket/side-filter/app-side-filter"
+import { SearchFilters } from "@/components/features/ticket/top-filter/search-filters"
 import { getCategories } from "@/@data/category"
 import { mapAndSort } from "@/lib/utils"
 
 // ⬅️ import ini buat ambil searchParams
-import AppTickets from "@/components/ticket/app-ticket"
+import AppTickets from "@/components/features/ticket/app-ticket"
 import { getTicketsShow } from "@/@data/ticket"
 
 interface TicketsPageProps {
@@ -33,7 +33,7 @@ export default async function TicketsPage({ searchParams }: TicketsPageProps) {
         >
             <ConsoleWrapper className="w-8/12 flex flex-col space-y-4">
                 <SearchFilters />
-                <AppTickets tickets={tickets.tickets || []}/>
+                <AppTickets tickets={tickets.tickets || []} isConsole={false} />
             </ConsoleWrapper>
 
             <ConsoleWrapper className="w-3/12">

@@ -14,7 +14,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { TicketDeleteForm } from "../../components/ticket-delete-form";
 import Link from "next/link";
 import { TICKETS_ROUTE } from "@/constants/routes";
-import { InputConfirmModal } from "@/app/private/tickets/[ticketId]/detail/components/change-notes";
+import { InputConfirmModal } from "@/app/private/tickets/[ticketId]/(menu)/detail/components/change-notes";
 import { createHistory } from "@/actions/history";
 
 interface TicketDetailCardProps {

@@ -49,3 +49,10 @@ export const ticketSchema = z.object({
 export const addAssigneesSchema = z.object({
   assignees: z.array(z.string()).default([]),
 });
+
+
+export const assignmentRequestSchema = z.object({
+    ticketId: z.string(),
+    requestedById: z.string().uuid(),
+    notes: z.string().optional()
+});

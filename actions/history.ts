@@ -4,7 +4,7 @@ import prisma from "@/lib/db"
 import { revalidatePath } from "next/cache"
 import { getCurrentUser } from "@/@data/user"
 import { TICKETS_ROUTE } from "@/constants/routes"
-import { HistoryReturn, TicketHistoryActionEnum } from "@/@types/history"
+import { HistoryReturn } from "@/@types/history"
 
 export const createHistory = async (
   data: {

@@ -1,10 +1,9 @@
 export const dynamic = "force-dynamic";
 
-import { TicketDetailHeader } from "@/components/ticket-detail/header"
 import { ConsoleContainer } from "@/components/layouts/console-container"
-import AppComment from "@/components/comment/app-comment"
-import { MobileSidebar } from "./components/mobile-sidebar"
-import { TicketDetailSidebar } from "./components/ticket-detail-sidebar"
+import AppComment from "@/components/features/comment/app-comment"
+import { MobileSidebar } from "./(menu)/components/mobile-sidebar"
+import { TicketDetailSidebar } from "./(menu)/components/ticket-detail-sidebar"
 import { getUsers } from "@/@data/users"
 import { mapAndSort } from "@/lib/utils"
 import { Suspense } from "react";
@@ -12,12 +11,13 @@ import { ConsoleWrapper } from "@/components/layouts/console-wrapper";
 import { getTicketByid } from "@/@data/ticket";
 import { getUsersTicketByTicketId } from "@/@data/ticket-assignee";
 import { getParentCommentsByTicketId } from "@/@data/ticket-comment";
-interface IEditTicketPage {
+import { TicketDetailHeader } from "@/components/features/ticket-detail/ticket-detail-header";
+interface IAssigmentRequestPage {
   params: Promise<{ ticketId: string }>
 }
 
 
-const page = async ({ params }: IEditTicketPage) => {
+const AssigmentRequestPage = async ({ params }: IAssigmentRequestPage) => {
   const ticketId = (await params).ticketId; // ✅ Sudah benar, tidak perlu await
 
   const ticket = await getTicketByid(ticketId);
@@ -86,4 +86,4 @@ const page = async ({ params }: IEditTicketPage) => {
     </Suspense>
   )
 }
-export default page;
+export default AssigmentRequestPage;

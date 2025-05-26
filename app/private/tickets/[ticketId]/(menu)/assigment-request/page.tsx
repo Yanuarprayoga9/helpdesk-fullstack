@@ -1,8 +1,8 @@
 export const dynamic = "force-dynamic";
 
-import { TicketDetailHeader } from "@/components/ticket-detail/header"
+import { TicketDetailHeader } from "@/components/features/ticket-detail/ticket-detail-header";
 import { ConsoleContainer } from "@/components/layouts/console-container"
-import AppComment from "@/components/comment/app-comment"
+import AppComment from "@/components/features/comment/app-comment"
 
 import { getUsers } from "@/@data/users"
 import { mapAndSort } from "@/lib/utils"

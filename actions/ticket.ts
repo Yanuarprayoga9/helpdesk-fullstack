@@ -93,7 +93,7 @@ export const createTicket = async (values: z.infer<typeof ticketSchema>): Promis
             return { success: false, message: parsedData.error.errors[0].message };
         }
         console.log({ parsedData })
-        await prisma.ticket.create({
+        const ticket = await prisma.ticket.create({
             data: {
                 title: values.title,
                 description: values.description,
