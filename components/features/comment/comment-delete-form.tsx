@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { useParams, useRouter } from "next/navigation";
 import { AlertModal } from "../../confirm-modal";
 import { softDeleteTicketComment } from "@/actions/ticket-comment";
+import { Trash2 } from "lucide-react";
 
 type CommentDeleteButtonProps = {
   commentId: string;
@@ -19,7 +20,7 @@ export const CommentDeleteButton: React.FC<CommentDeleteButtonProps> = ({ commen
 
   const handleConfirm = async () => {
     setLoading(true);
-    const res = await softDeleteTicketComment(commentId,ticketId);
+    const res = await softDeleteTicketComment(commentId, ticketId);
     setLoading(false);
 
     if (!res.success) {
@@ -39,12 +40,9 @@ export const CommentDeleteButton: React.FC<CommentDeleteButtonProps> = ({ commen
         onClose={() => setOpen(false)}
         onConfirm={handleConfirm}
       />
-      <span
-        onClick={() => setOpen(true)}
-        className="w-full cursor-pointer text-red-500"
-      >
-        Hapus
-      </span>
+      <Trash2 className="text-red-500 w-4 h-4 cursor-pointer" onClick={() => setOpen(true)}
+      />
+
     </>
-  );
+  )
 };

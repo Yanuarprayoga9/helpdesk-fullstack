@@ -8,53 +8,20 @@ import toast from "react-hot-toast";
 import { Button } from "@/components/ui/button";
 
 const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
-const MAX_IMAGE_SIZE_MB = 2; // misal 2 MB
 
 const modules = {
-  toolbar: {
-    container: [
-      [{ header: [1, 2, 3, 4, 5, false] }],
-      ["bold", "italic", "underline"],
-      [{ color: [] }, { background: [] }],
-      ["blockquote", "code-block"],
-      [{ list: "ordered" }, { list: "bullet" }],
-      [{ align: [] }],
-      [{ size: ["small", false, "large", "huge"] }],
-      ["link", "image"],
-    ],
-    handlers: {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      image: function (this: any) {
-        const input = document.createElement("input");
-        input.setAttribute("type", "file");
-        input.setAttribute("accept", "image/*");
-        input.click();
-
-        input.onchange = async () => {
-          const file = input.files?.[0];
-          if (!file) return;
-
-          const sizeMB = file.size / (1024 * 1024);
-          if (sizeMB > MAX_IMAGE_SIZE_MB) {
-            toast.error(`Image too large. Max ${MAX_IMAGE_SIZE_MB}MB allowed.`);
-            return;
-          }
-
-          const reader = new FileReader();
-          reader.onload = () => {
-            const quill = this.quill; // ✅ valid sekarang
-            const range = quill.getSelection();
-            if (reader.result && typeof reader.result === "string") {
-              quill.insertEmbed(range?.index || 0, "image", reader.result);
-            }
-          };
-          reader.readAsDataURL(file);
-        };
-      },
-    }
-
-  },
+  toolbar: [
+    [{ header: [1, 2, 3, 4, 5, false] }],
+    ["bold", "italic", "underline"],
+    [{ color: [] }, { background: [] }],
+    ["blockquote", "code-block"],
+    [{ list: "ordered" }, { list: "bullet" }],
+    [{ align: [] }],
+    [{ size: ["small", false, "large", "huge"] }],
+    ["link", "image"],
+  ],
 };
+
 const formats = [
   "header",
   "bold",
@@ -95,7 +62,7 @@ export const CommentForm = ({
     e.preventDefault();
 
 
-    if (!value.trim()) {
+    if (!value.trim() || value == "") {
       toast.error("Comment cannot be empty.");
       return;
     }
@@ -115,6 +82,7 @@ export const CommentForm = ({
         comment: value,
         parentCommentId,
       });
+      setValue("")
     }
     if (result.success) {
       toast.success(result.message as string);
