@@ -3,6 +3,7 @@
 import { getCurrentUser } from "@/@data/user";
 import { CommentReturn } from "@/@types/ticket-comment";
 import { TICKETS_ROUTE } from "@/constants/routes";
+// import { sendMail } from "@/lib/mail";
 // import prisma from "@/lib/db";
 import { PrismaClient } from "@prisma/client";
 import { revalidatePath } from "next/cache";
@@ -32,6 +33,7 @@ export async function createTicketComment({
         parentCommentId,
       },
     });
+        // await sendMail("yanuarprayogat@gmail.com", "Pesan dari VR Jakarta 🚀", `<p>Ticket successfully created</p>`);
 
     revalidatePath(`${TICKETS_ROUTE}/${ticketId}`);
 

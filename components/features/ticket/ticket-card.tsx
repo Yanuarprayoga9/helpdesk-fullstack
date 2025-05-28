@@ -1,7 +1,6 @@
 "use client"
 import { TicketShowType } from "@/@types/ticket"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
 import { CONSOLE_TICKETS_ROUTE, TICKETS_ROUTE } from "@/constants/routes"
 import { format } from "date-fns"
 import Link from "next/link"
@@ -61,10 +60,10 @@ export function TicketCard({ ticket,isConsole }: ITicketCard) {
             </div>
           </div>
         </div>
-        <Link href={`${isConsole ? CONSOLE_TICKETS_ROUTE : TICKETS_ROUTE}/${ticket.id}/detail`} >
-          <Button variant="ghost" size="sm" className="ml-auto text-green-500">
+        <Link href={`${isConsole ? CONSOLE_TICKETS_ROUTE : TICKETS_ROUTE}/${ticket.id}/detail`} className="ml-auto text-green-500 text-sm"  >
             Open Ticket
-          </Button>
+          {/* <Button variant="ghost" size="sm" className="ml-auto text-green-500">
+          </Button> */}
         </Link>
       </div>
     </div>

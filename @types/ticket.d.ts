@@ -15,7 +15,7 @@ export type TicketType = {
     category: CategoryType
     project: ProjectType
     createdAt: Date
-    updatedAt: Date | null 
+    updatedAt: Date | null
 }
 
 export type TicketShowType = {
@@ -31,7 +31,7 @@ export type TicketShowType = {
     category: string
     project: string
     createdAt: Date
-    updatedAt: Date | null 
+    updatedAt: Date | null
 }
 
 
@@ -42,6 +42,10 @@ export interface ITicketsShowParams {
     priority?: string;
     status?: string;
     projectId?: string;
+    search?: string;
+    sort?: string;
+    labels?: string[];
+
 }
 export interface TicketsShowReturn extends ActionResult {
     tickets?: TicketShowType[]

@@ -42,7 +42,7 @@ export function CommentItem({ comment }: ICommentType) {
           </div>
           <Badge variant="outline" className="border-border text-xs">{comment.userRole}</Badge>
         </div>
-        <CommentItemActions commentId={comment.id} isParent={true} />
+        <CommentItemActions commentId={comment.id} isParent={true} ownerId={comment.userId}/>
       </div>
 
       {/* Content */}

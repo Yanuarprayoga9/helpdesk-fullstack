@@ -9,16 +9,17 @@ import { getAvailableActions } from "../../components/action-status";
 import { editTicket } from "@/actions/ticket";
 import { getStatuses } from "@/@data/status";
 import toast from "react-hot-toast";
-import { MoreHorizontal } from "lucide-react";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { TicketDeleteForm } from "../../components/ticket-delete-form";
-import Link from "next/link";
-import { TICKETS_ROUTE } from "@/constants/routes";
+
 import { InputConfirmModal } from "@/app/private/tickets/[ticketId]/(menu)/detail/components/change-notes";
 import { createHistory } from "@/actions/history";
+import TicketDetailAction from "./ticket-detail-card-action";
+import { UserType } from "@/@types/user";
+import { useSession } from "next-auth/react";
 
 interface TicketDetailCardProps {
   ticket: TicketType;
+  assignedUsers?: UserType[];
+
 }
 
 const statusColorClasses: Record<string, string> = {
@@ -31,10 +32,22 @@ const statusColorClasses: Record<string, string> = {
   purple: "text-purple-500",
 };
 
-const TicketDetailCard = ({ ticket }: TicketDetailCardProps) => {
+const TicketDetailCard = ({ ticket, assignedUsers }: TicketDetailCardProps) => {
   const [isPending, startTransition] = useTransition();
   const [statusColors, setStatusColors] = useState<Record<string, string>>({});
   const [activeActionKey, setActiveActionKey] = useState<string | false>(false);
+  const session = useSession();
+
+  // dapetin array user id yang ditugaskan ke ticket
+  const assignedUserIds = assignedUsers?.map((u) => u.id) || [];
+
+  // cek apakah user yang login adalah salah satu yang assigned
+  const isAvaliableToEdit = assignedUserIds.includes(session.data?.user?.id ?? "");
+
+  // cek apakah user yang login adalah owner ticket-nya
+  const isOwner = ticket.createdBy.id === (session.data?.user?.id ?? "");
+
+  // console.log({ assignedUserIds, isAvaliableToEdit, isOwner });
 
   useEffect(() => {
     const fetchAndSetStatusColors = async () => {
@@ -75,6 +88,7 @@ const TicketDetailCard = ({ ticket }: TicketDetailCardProps) => {
     });
   };
 
+
   const availableActions = getAvailableActions(ticket.status.name);
 
   return (
@@ -87,48 +101,41 @@ const TicketDetailCard = ({ ticket }: TicketDetailCardProps) => {
           <span className="font-medium">{ticket.createdBy.name}</span>
         </div>
 
-        <div className="flex items-center gap-2">
-          {availableActions.length === 0 ? (
-            <span className="text-muted-foreground text-sm">No available actions</span>
-          ) : (
-            availableActions.map((action) => (
-              <div key={action.nextStatus}>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  className={`h-7 text-xs ${statusColors[action.nextStatus] || "text-gray-500"}`}
-                  onClick={() => setActiveActionKey(action.nextStatus)}
-                  disabled={isPending}
-                >
-                  {action.label}
-                </Button>
+        {(isAvaliableToEdit || isOwner) && (
+          <>
+            <div className="flex items-center gap-2">
+              {availableActions.length === 0 ? (
+                <span className="text-muted-foreground text-sm">No available actions</span>
+              ) : (
+                availableActions.map((action) => (
+                  <div key={action.nextStatus}>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className={`h-7 text-xs ${statusColors[action.nextStatus] || "text-gray-500"}`}
+                      onClick={() => setActiveActionKey(action.nextStatus)}
+                      disabled={isPending}
+                    >
+                      {action.label}
+                    </Button>
 
-                <InputConfirmModal
-                  isOpen={activeActionKey === action.nextStatus}
-                  loading={isPending}
-                  onClose={() => setActiveActionKey(false)}
-                  onConfirm={(notes) => handleStatusChange(action.nextStatus, notes)}
-                />
-              </div>
-            ))
-          )}
-        </div>
+                    <InputConfirmModal
+                      isOpen={activeActionKey === action.nextStatus}
+                      loading={isPending}
+                      onClose={() => setActiveActionKey(false)}
+                      onConfirm={(notes) => handleStatusChange(action.nextStatus, notes)}
+                    />
+                  </div>
+                ))
+              )}
+            </div>
+            <TicketDetailAction ticketId={ticket.id} />
+          </>
+        )}
 
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="h-8 w-8">
-              <MoreHorizontal className="h-5 w-5" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem asChild>
-              <Link href={`${TICKETS_ROUTE}/${ticket.id}/edit`}>Edit</Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <TicketDeleteForm ticketId={ticket.id} />
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+
+
+
       </div>
 
       <div className="p-4">

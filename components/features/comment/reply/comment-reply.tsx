@@ -32,7 +32,7 @@ export function CommentReply({ reply, parentId }: CommentReplyProps) {
           <span className="text-sm font-medium">{reply.userName}</span>
           <Badge variant="outline" className="border-border text-[10px]">{reply.userRole}</Badge>
         </div>
-        <CommentItemActions commentId={reply.id} isParent={false} />
+        <CommentItemActions commentId={reply.id} isParent={false} ownerId={reply.userId}/>
       </div>
 
       {isEditing ? (

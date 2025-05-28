@@ -3,7 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import { getTicketByid } from "@/@data/ticket";
 import { getUsersTicketByTicketId } from "@/@data/ticket-assignee";
-import { AppTab } from "../components/tab-menu/app-tab";
+import { AppTab } from "../../@tab-menu/app-tab";
 
 interface IEditTicketPage {
   params: Promise<{ ticketId: string }>

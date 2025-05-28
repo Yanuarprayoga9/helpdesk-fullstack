@@ -1,22 +1,22 @@
 "use client";
 import { useCommentStore } from "@/store/zustand/use-comment-store";
-import { Button } from "../../ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "../../ui/dropdown-menu";
-import { MoreHorizontal, Pen, Trash2 } from "lucide-react";
+
+import { Pen } from "lucide-react";
 import { CommentDeleteButton } from "./comment-delete-form";
+import { useSession } from "next-auth/react";
 
 interface ICommentActions {
   commentId: string;
   isParent: boolean;
+  ownerId: string;
 }
 
 
-export const CommentItemActions = ({ commentId, isParent }: ICommentActions) => {
+export const CommentItemActions = ({ commentId, isParent, ownerId }: ICommentActions) => {
+  const session = useSession()
+
+
+
   const { setEditingCommentId, setEditingReplyId } = useCommentStore();
 
   const handleEdit = () => {
@@ -26,7 +26,9 @@ export const CommentItemActions = ({ commentId, isParent }: ICommentActions) => 
       setEditingReplyId(commentId);
     }
   };
-
+  if (session.data?.user.id !== ownerId) {
+    return ""
+  }
   return (
     <div className="flex">
       <Pen className="w-4 h-4 cursor-pointer" onClick={handleEdit}>Edit</Pen>

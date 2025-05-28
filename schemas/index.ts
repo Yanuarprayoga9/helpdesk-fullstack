@@ -53,6 +53,6 @@ export const addAssigneesSchema = z.object({
 
 export const assignmentRequestSchema = z.object({
     ticketId: z.string(),
-    requestedById: z.string().uuid(),
+    requestedById: z.string(),
     notes: z.string().optional()
 });

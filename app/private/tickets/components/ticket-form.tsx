@@ -72,7 +72,7 @@ export const TicketForm = ({
       toast.success(isEdit ? "Ticket updated!" : "Ticket created!")
       form.reset()
       if (isEdit) {
-        router.push(`${TICKETS_ROUTE}/${initialData?.id}`)
+        router.push(`${TICKETS_ROUTE}/${initialData?.id}/detail`)
         router.refresh()  // <= ini untuk force server re-fetch kalau caching diaktifin
       } else {
         router.push(`${TICKETS_ROUTE}`)

@@ -32,7 +32,7 @@ export const addAssignees = async (
         userId,
       })),
     });
-    revalidatePath(`${TICKETS_ROUTE}/${ticketId}`);
+    revalidatePath(`${TICKETS_ROUTE}/${ticketId}/detail`);
 
     return { success: true, message: "Assigned users added successfully." };
 

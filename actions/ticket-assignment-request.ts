@@ -4,6 +4,8 @@ import { z } from "zod";
 import prisma from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { assignmentRequestSchema } from "@/schemas"; // Buat skema validasi Zod yang sesuai
+import { TICKETS_ROUTE } from "@/constants/routes";
+import { Prisma } from "@prisma/client";
 
 export const createTicketAssignmentRequest = async (values: z.infer<typeof assignmentRequestSchema>) => {
     try {
@@ -72,3 +74,55 @@ export const deleteTicketAssignmentRequest = async (id: string) => {
     }
 };
 
+
+export const acceptRequestAssignment = async (requestId: string): Promise<ActionResult> => {
+    try {
+        const request = await prisma.ticketAssignmentRequest.findUnique({
+            where: { id: requestId },
+        });
+
+        if (!request) {
+            return { success: false, message: "Request not found." };
+        }
+
+        if (request.status === "Accepted") {
+            return { success: false, message: "Request has already been accepted." };
+        }
+
+        // Coba assign, skip kalau udah ada
+        await prisma.ticketAssignee.create({
+            data: {
+                ticketId: request.ticketId,
+                userId: request.requestedById,
+            },
+        }).catch((error: unknown) => {
+
+            if (error instanceof Prisma.PrismaClientKnownRequestError) {
+                if (error.code === "P2002") {
+                    return { success: false, message: "User already assigned to this ticket." };
+                }
+            }
+
+            if (error instanceof Error) {
+                return { success: false, message: error.message };
+            }
+        });
+
+        // Update status request
+        await prisma.ticketAssignmentRequest.update({
+            where: { id: requestId },
+            data: {
+                status: "Accepted",
+            },
+        });
+
+        // Revalidate halaman detail ticket
+        revalidatePath(`${TICKETS_ROUTE}/${request.ticketId}/detail`);
+
+        return { success: true, message: "Request accepted and user assigned to ticket." };
+
+    } catch (error: any) {
+        console.error("Error accepting request:", error);
+        return { success: false, message: error.message || "Internal server error." };
+    }
+};

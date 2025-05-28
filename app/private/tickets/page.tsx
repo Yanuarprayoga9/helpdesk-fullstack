@@ -30,15 +30,30 @@ export default async function TicketsPage({ searchParams }: TicketsPageProps) {
         <ConsoleContainer
             title="Tickets"
             desc="Track and manage support tickets efficiently. View ticket statuses, priorities, and updates in real-time."
+            className="flex justify-between space-x-3 "
         >
-            <ConsoleWrapper className="w-8/12 flex flex-col space-y-4">
+            <div className="w-full">
                 <SearchFilters />
-                <AppTickets tickets={tickets.tickets || []} isConsole={false} />
-            </ConsoleWrapper>
 
-            <ConsoleWrapper className="w-3/12">
-                <AppSideFilter categoryOptions={categoryOptions} />
-            </ConsoleWrapper>
+                <div
+                    className="flex  space-x-3 "
+
+                >
+                    <ConsoleWrapper
+                        className="lg:w-8/12"
+
+                    >
+                        <AppTickets tickets={tickets.tickets || []} isConsole={false} />
+                    </ConsoleWrapper>
+                    <ConsoleWrapper
+                        className="lg:w-1/4"
+
+                    >
+                        <AppSideFilter categoryOptions={categoryOptions} />
+                    </ConsoleWrapper>
+                </div>
+            </div>
+
         </ConsoleContainer>
     )
 }

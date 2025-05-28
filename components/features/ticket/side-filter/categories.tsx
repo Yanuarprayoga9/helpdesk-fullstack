@@ -1,8 +1,9 @@
 "use client"
 
 import { useSearchParams, useRouter } from "next/navigation"
-import { SelectorsType } from "@/lib/utils"
-import { Monitor, PenToolIcon as Tool } from "lucide-react"
+import type { SelectorsType } from "@/lib/utils"
+
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 interface ICategoriesMenu {
   categoryOptions: SelectorsType[]
@@ -11,36 +12,38 @@ interface ICategoriesMenu {
 export default function CategoriesMenu({ categoryOptions }: ICategoriesMenu) {
   const searchParams = useSearchParams()
   const router = useRouter()
+  const currentCategory = searchParams.get("category") || ""
 
-  const handleCategoryClick = (value: string) => {
+  const handleCategoryChange = (value: string) => {
     const params = new URLSearchParams(searchParams)
-    params.set("category", value)
+
+    if (value === "all") {
+      params.delete("category")
+    } else {
+      params.set("category", value)
+    }
+
     router.push(`?${params.toString()}`)
   }
 
   return (
     <div className="p-4 w-64 rounded-md">
       <h2 className="text-lg font-medium mb-4">Categories</h2>
-      <nav className="space-y-2">
-        <button
-          onClick={() => router.push("?")}
-          className="flex w-full items-center gap-3 px-2 py-2 rounded hover:bg-zinc-800"
-        >
-          <Monitor className="w-5 h-5" />
-          <span>View all categories</span>
-        </button>
-
-        {categoryOptions.map((cat) => (
-          <button
-            key={cat.value}
-            onClick={() => handleCategoryClick(cat.value)}
-            className="flex w-full items-center gap-3 px-2 py-2 rounded hover:bg-zinc-800"
-          >
-            <Tool className="w-5 h-5" />
-            <span>{cat.label}</span>
-          </button>
-        ))}
-      </nav>
+      <Select value={currentCategory || "all"} onValueChange={handleCategoryChange}>
+        <SelectTrigger className="w-full">
+          <SelectValue placeholder="Select a category" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup>
+            <SelectItem value="all">View all categories</SelectItem>
+            {categoryOptions.map((cat) => (
+              <SelectItem key={cat.value} value={cat.value}>
+                {cat.label}
+              </SelectItem>
+            ))}
+          </SelectGroup>
+        </SelectContent>
+      </Select>
     </div>
   )
 }
