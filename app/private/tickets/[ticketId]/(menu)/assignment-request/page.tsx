@@ -3,7 +3,7 @@ export const dynamic = "force-dynamic";
 import { Suspense } from "react";
 
 import { getUsersTicketByTicketId } from "@/@data/ticket-assignee";
-import { AppTab } from "../../@tab-menu/app-tab";
+import { AppTab } from "../../tab-menu/app-tab";
 
 import RequestAssignmentsList from "./components/assigment-list";
 import { getAllRequestAssignmentsByTicketId } from "@/@data/ticket-assignment-request";
@@ -23,7 +23,7 @@ const page = async ({ params }: IEditTicketPage) => {
   return (
     <Suspense fallback={<div>Loading ticket...</div>}>
 
-      <AppTab assignedUsers={ticketUsers.users} pageName="assigment-request" >
+      <AppTab assignedUsers={ticketUsers.users} pageName="assignment-request" >
         {/* <TicketDetailCard ticket={ticket.ticket} /> */}
         <RequestAssignmentsList requestAssignments={assignmentRequestsByTicketId.RequestAssignments || []}/>
       </AppTab>

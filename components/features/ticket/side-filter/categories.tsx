@@ -27,7 +27,7 @@ export default function CategoriesMenu({ categoryOptions }: ICategoriesMenu) {
   }
 
   return (
-    <div className="p-4 w-64 rounded-md">
+    <div className=" w-64 rounded-md">
       <h2 className="text-lg font-medium mb-4">Categories</h2>
       <Select value={currentCategory || "all"} onValueChange={handleCategoryChange}>
         <SelectTrigger className="w-full">
@@ -37,7 +37,7 @@ export default function CategoriesMenu({ categoryOptions }: ICategoriesMenu) {
           <SelectGroup>
             <SelectItem value="all">View all categories</SelectItem>
             {categoryOptions.map((cat) => (
-              <SelectItem key={cat.value} value={cat.value}>
+              <SelectItem key={cat.value} value={cat.label}>
                 {cat.label}
               </SelectItem>
             ))}

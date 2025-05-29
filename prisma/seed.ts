@@ -94,6 +94,7 @@ async function main() {
       { id: '4', name: 'Reopened', color: 'purple' },
       { id: '5', name: 'Closed', color: 'gray' },
       { id: '6', name: 'OnHold', color: 'orange' },
+      { id: '7', name: 'requestHelp', color: 'orange' },
     ],
     skipDuplicates: true,
   });

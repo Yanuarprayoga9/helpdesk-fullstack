@@ -3,7 +3,7 @@ export const dynamic = "force-dynamic";
 import { ConsoleContainer } from "@/components/layouts/console-container"
 import AppComment from "@/components/features/comment/app-comment"
 import { MobileSidebar } from "./(menu)/components/mobile-sidebar"
-import { TicketDetailSidebar } from "./@tab-menu/ticket-detail-sidebar"
+import { TicketDetailSidebar } from "./tab-menu/ticket-detail-sidebar"
 import { getUsers } from "@/@data/users"
 import { mapAndSort } from "@/lib/utils"
 import { Suspense } from "react";

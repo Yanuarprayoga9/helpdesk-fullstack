@@ -4,12 +4,11 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { ChevronRight, Check, X, Loader2 } from "lucide-react"
+import { Check, X, Loader2 } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import type { RequestAssignmentShowType } from "@/@types/ticket-assignment-request"
-import toast from "react-hot-toast"
 import { acceptRequestAssignment, updateTicketAssignmentRequestStatus } from "@/actions/ticket-assignment-request"
-
+import toast from "react-hot-toast"
 
 
 interface RequestAssignmentsListProps {
@@ -29,37 +28,45 @@ export default function RequestAssignmentsList({
       const result = await acceptRequestAssignment(requestId)
 
       if (result.success) {
-        toast.success(
-          "success"
-        )
+
+        toast.success("success")
       } else {
-        toast.error("Failed to submit contribution request.")
 
+        toast.error("error")
       }
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (error) {
-      toast.error("Failed to submit contribution request.")
-
+      // eslint-disable-next-line no-console
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("An unexpected error occurred while accepting the request.");
+      }
     } finally {
+      setActionLoading((prev) => ({ ...prev, [requestId]: null }))
     }
   }
 
   const handleRejectRequest = async (requestId: string) => {
+    setActionLoading((prev) => ({ ...prev, [requestId]: "reject" }))
     try {
       const result = await updateTicketAssignmentRequestStatus(requestId, "Rejected")
 
       if (result.success) {
 
-        toast.success("succcess")
+        toast.success("success")
+
       } else {
-        toast.error("Failed to submit contribution request.")
+        toast.error("error")
 
       }
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (error) {
-      toast.error("Failed to submit contribution request.")
-
-    } finally {
+      // eslint-disable-next-line no-console
+    } catch (error: unknown) {
+  if (error instanceof Error) {
+    toast.error(error.message);
+  } else {
+    toast.error("An unexpected error occurred while accepting the request.");
+  }
+} finally {
       setActionLoading((prev) => ({ ...prev, [requestId]: null }))
     }
   }
@@ -99,6 +106,7 @@ export default function RequestAssignmentsList({
   return (
     <div className="space-y-6">
 
+
       <div className="space-y-4">
         {requestAssignments.length === 0 ? (
           <p className="text-gray-500">No contribution requests yet.</p>
@@ -118,7 +126,7 @@ export default function RequestAssignmentsList({
                           <AvatarFallback className="bg-gray-100">
                             {assignment.requestedBy
                               .split(" ")
-                              .map((n) => n[0])
+                              .map((n: string) => n[0])
                               .join("")}
                           </AvatarFallback>
                         </Avatar>
@@ -169,10 +177,8 @@ export default function RequestAssignmentsList({
                             </Button>
                           </>
                         )}
-                        <Button variant="ghost" size="sm" className="text-xs flex items-center gap-1">
-                          View details
-                          <ChevronRight size={14} />
-                        </Button>
+
+
                       </div>
                     </div>
                   </CardContent>

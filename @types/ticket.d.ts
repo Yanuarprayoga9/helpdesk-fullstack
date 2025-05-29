@@ -43,9 +43,8 @@ export interface ITicketsShowParams {
     status?: string;
     projectId?: string;
     search?: string;
-    sort?: string;
-    labels?: string[];
-
+    sortOrder?: string;
+    assignedToMe?:boolean;
 }
 export interface TicketsShowReturn extends ActionResult {
     tickets?: TicketShowType[]

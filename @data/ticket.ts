@@ -95,18 +95,42 @@ export const getTicketByid = async (id: string): Promise<TicketReturn> => {
     }
 };
 
-export const getTicketsShow = async ({ createdById, category, priority, status, projectId,categoryId }: ITicketsShowParams): Promise<TicketsShowReturn> => {
+export const getTicketsShow = async ({assignedToMe, sortOrder = "desc", createdById, category, priority, status, projectId, categoryId, search }: ITicketsShowParams): Promise<TicketsShowReturn> => {
     try {
         const tickets = await prisma.ticket.findMany({
             where: {
                 deleted: false,
-                ...(category && { name: { contains: category } }),
-                ...(priority && { name: { contains: category } }),
-                ...(categoryId && { categoryId: categoryId }),
-                ...(createdById && { createdById: createdById }),
-                ...(projectId && { createdById: createdById }),
-                ...(status && { name: { contains: category } })
-
+                ...(search && {
+                    OR: [
+                        {
+                            title: {
+                                contains: search,
+                            }
+                        },
+                        {
+                            description: {
+                                contains: search,
+                            }
+                        },
+                    ],
+                }),
+                ...(assignedToMe && {
+                    assignees: {
+                        some: {
+                            userId: createdById, // Ini harusnya ID user yang sedang login / aktif
+                            deleted: false,
+                        },
+                    },
+                }),
+                ...(categoryId && { categoryId }),
+                ...(createdById && { createdById }),
+                ...(projectId && { projectId }),
+                ...(priority && { priority: { name: { contains: priority } } }),
+                ...(status && { status: { name: { contains: status } } }),
+                ...(category && { category: { name: { contains: category } } }),
+            },
+            orderBy: {
+                createdAt: "desc", // ⬅️ hanya berdasarkan createdAt
             },
             include: {
                 category: {
@@ -137,9 +161,7 @@ export const getTicketsShow = async ({ createdById, category, priority, status, 
                         color: true
                     }
                 },
-                project: {
-
-                }
+                project: true
             }
         });
 

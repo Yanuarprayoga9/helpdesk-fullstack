@@ -1,7 +1,7 @@
 // app/[ticketId]/(menu)/detail/page.tsx
 import TicketDetailCard from "./components/ticket-detail-card";
 import { getTicketByid } from "@/@data/ticket";
-import { AppTab } from "../../@tab-menu/app-tab";
+import { AppTab } from "../../tab-menu/app-tab";
 import { getUsersTicketByTicketId } from "@/@data/ticket-assignee";
 
 import { Metadata } from "next";

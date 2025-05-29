@@ -3,7 +3,7 @@ import { ReactNode, Suspense } from "react";
 import { ConsoleContainer } from "@/components/layouts/console-container";
 import { ConsoleWrapper } from "@/components/layouts/console-wrapper";
 import { MobileSidebar } from "./components/mobile-sidebar";
-import { TicketDetailSidebar } from "../@tab-menu/ticket-detail-sidebar";
+import { TicketDetailSidebar } from "../tab-menu/ticket-detail-sidebar";
 import { getUsers } from "@/@data/users";
 import { getTicketByid } from "@/@data/ticket";
 import { getUsersTicketByTicketId } from "@/@data/ticket-assignee";
