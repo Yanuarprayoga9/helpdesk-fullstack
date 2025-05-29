@@ -1,19 +1,22 @@
-export const dynamic = "force-dynamic";
+import { CTASection } from "@/components/landing/cta-section";
+import { FeaturesSection } from "@/components/landing/features-section";
+import { Footer } from "@/components/landing/footer";
+import { Header } from "@/components/landing/header";
+import { HeroSection } from "@/components/landing/hero-section";
+import { RoleBasedAccess } from "@/components/landing/role-based-access";
+import { TechStackSection } from "@/components/landing/tech-stack-section";
 
-import { getCurrentUser } from '@/@data/user';
-import React from 'react'
 
-const page = async () => {
-  const session = await getCurrentUser()
-  const isAuthenticated = !!session.user?.id;
-
+export default function HomePage() {
   return (
-    <div>
-      {
-        isAuthenticated ? JSON.stringify(session.user) : "not logged in"
-      }
-    </div>
+    <main className="min-h-screen">
+      <Header/>
+      <HeroSection />
+      <FeaturesSection />
+      <RoleBasedAccess />
+      <TechStackSection />
+      <CTASection />
+      <Footer />
+    </main>
   )
 }
-
-export default page
