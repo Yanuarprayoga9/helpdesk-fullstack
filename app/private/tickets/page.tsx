@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { ConsoleContainer } from "@/components/layouts/console-container"
 import { ConsoleWrapper } from "@/components/layouts/console-wrapper"
 import AppSideFilter from "@/components/features/ticket/side-filter/app-side-filter"

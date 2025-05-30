@@ -13,12 +13,12 @@ import {
 import { SIDEBAR_DATA } from "@/components/sidebar/sidebar-data"
 import { useSession } from "next-auth/react"
 import { UserType } from "@/@types/user"
-import { TeamSwitcher } from "./console/team-switcher"
 import { NavMain } from "./console/nav-main"
 import { NavProjects } from "./console/nav-projects"
 import { NavUser } from "./console/nav-user"
 import { usePathname } from "next/navigation"
 import { CONSOLE_ROUTE } from "@/constants/routes"
+import { ConsoleSwitcher } from "./console/team-switcher"
 
 
 
@@ -36,7 +36,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={SIDEBAR_DATA.teams} />
+        <ConsoleSwitcher  />
       </SidebarHeader>
       {
         isConsolePage ? (

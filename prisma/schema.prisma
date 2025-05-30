@@ -17,7 +17,7 @@ model User {
   roleId                  String                    @db.VarChar(36)
   password                String                    @db.VarChar(60)
   createdAt               DateTime                  @default(now()) // Waktu pembuatan, secara default diisi dengan waktu sekarang
-updatedAt DateTime? // Tanpa @updatedAt
+  updatedAt               DateTime? // Tanpa @updatedAt
   deleted                 Boolean                   @default(false)
   role                    Role                      @relation(fields: [roleId], references: [id]) // Relasi dengan prioritas tiket
   // roles                   UserRole[] // Relasi dengan model UserRole, yang menyimpan peran-peran yang dimiliki oleh user
@@ -38,7 +38,7 @@ model Project {
   tickets     Ticket[] // Relasi dengan tiket
   // users     ProjectUser[] // Relasi dengan pengguna dalam proyek
   createdAt   DateTime      @default(now()) // Timestamp pembuatan proyek
-updatedAt DateTime? // Tanpa @updatedAt
+  updatedAt   DateTime? // Tanpa @updatedAt
   deleted     Boolean       @default(false)
   ProjectUser ProjectUser[]
 }
@@ -58,20 +58,20 @@ model ProjectUser {
 // Model Role yang menyimpan informasi tentang peran
 // Role harus salah satu dari 'Developer', 'DevOps', 'Admin','Manager'
 model Role {
-  id      String  @id @default(uuid()) @db.VarChar(36) // ID unik untuk peran yang dihasilkan menggunakan UUID
-  name    String  @unique @db.VarChar(100) // Nama peran yang unik dengan panjang maksimal 20 karakter
-  User    User[]
+  id   String @id @default(uuid()) @db.VarChar(36) // ID unik untuk peran yang dihasilkan menggunakan UUID
+  name String @unique @db.VarChar(100) // Nama peran yang unik dengan panjang maksimal 20 karakter
+  User User[]
 }
 
 // Model Category yang menyimpan kategori tiket
 // Kategeri harus salah satu dari ''Bug Sistem'', 'Gangguan Infrastruktur', 'Permintaan Deployment', 'Permintaan Perubahan'
 
 model Category {
-  id        String   @id @default(uuid()) @db.VarChar(36) // ID unik kategori yang dihasilkan menggunakan UUID
-  name      String   @unique @db.VarChar(100) // Nama kategori yang unik dengan panjang maksimal 100 karakter
-  createdAt DateTime @default(now()) // Waktu pembuatan kategori, diisi dengan waktu sekarang
-updatedAt DateTime? // Tanpa @updatedAt
-  deleted   Boolean  @default(false)
+  id        String    @id @default(uuid()) @db.VarChar(36) // ID unik kategori yang dihasilkan menggunakan UUID
+  name      String    @unique @db.VarChar(100) // Nama kategori yang unik dengan panjang maksimal 100 karakter
+  createdAt DateTime  @default(now()) // Waktu pembuatan kategori, diisi dengan waktu sekarang
+  updatedAt DateTime? // Tanpa @updatedAt
+  deleted   Boolean   @default(false)
 
   tickets Ticket[] // Relasi dengan tiket-tiket yang tergabung dalam kategori ini
 }
@@ -80,10 +80,10 @@ updatedAt DateTime? // Tanpa @updatedAt
 // This would be the validation logic that was previously in SQL CHECK constraint:
 // Status tiket harus salah satu dari Critical (operasi berhenti).High (urgensi tinggi).Medium (tidak mendesak). Low (perbaikan minor).
 model Priority {
-  id      String  @id @default(uuid()) @db.VarChar(36) // ID unik untuk prioritas tiket yang dihasilkan dengan UUID
-  color   String  @db.VarChar(30)
-  name    String  @unique @db.VarChar(50) // Nama prioritas yang unik dengan panjang maksimal 20 karakter
- 
+  id    String @id @default(uuid()) @db.VarChar(36) // ID unik untuk prioritas tiket yang dihasilkan dengan UUID
+  color String @db.VarChar(30)
+  name  String @unique @db.VarChar(50) // Nama prioritas yang unik dengan panjang maksimal 20 karakter
+
   tickets Ticket[] // Relasi dengan tiket yang memiliki prioritas ini
 }
 
@@ -91,9 +91,9 @@ model Priority {
 // This would be the validation logic that was previously in SQL CHECK constraint:
 // Status tiket harus salah satu dari 'Open', 'InProgress', 'Escalated', 'Resolved', 'Reopened', 'Closed', 'OnHold'
 model Status {
-  id      String  @id @default(uuid()) @db.VarChar(36) // ID unik untuk status tiket yang dihasilkan menggunakan UUID
-  color   String  @db.VarChar(50)
-  name    String  @unique @db.VarChar(50) // Nama status yang unik dengan panjang maksimal 20 karakter
+  id    String @id @default(uuid()) @db.VarChar(36) // ID unik untuk status tiket yang dihasilkan menggunakan UUID
+  color String @db.VarChar(50)
+  name  String @unique @db.VarChar(50) // Nama status yang unik dengan panjang maksimal 20 karakter
 
   tickets      Ticket[] // Relasi dengan tiket yang memiliki status ini
   // Relasi untuk status lama dari riwayat tiket
@@ -115,7 +115,7 @@ model Ticket {
   categoryId              String                    @db.VarChar(36) // ID kategori tiket (opsional)
   projectId               String                    @db.VarChar(36)
   createdAt               DateTime                  @default(now()) // Waktu pembuatan tiket, otomatis diisi dengan waktu sekarang
-updatedAt DateTime? // Tanpa @updatedAt
+  updatedAt               DateTime? // Tanpa @updatedAt
   deleted                 Boolean                   @default(false)
   priority                Priority                  @relation(fields: [priorityId], references: [id]) // Relasi dengan prioritas tiket
   status                  Status                    @relation(fields: [statusId], references: [id]) // Relasi dengan status tiket (opsional)
@@ -139,7 +139,7 @@ model TicketAssignee {
   deleted    Boolean        @default(false)
   ticket     Ticket         @relation(fields: [ticketId], references: [id]) // Relasi dengan tiket yang ditugaskan
   user       User           @relation(fields: [userId], references: [id]) // Relasi dengan pengguna yang ditugaskan
-updatedAt DateTime? // Tanpa @updatedAt
+  updatedAt  DateTime? // Tanpa @updatedAt
 
   @@unique([ticketId, userId]) // Kombinasi unik tiket dan user sebagai pasangan unik
 }
@@ -154,19 +154,19 @@ enum TicketHistoryAction {
 // Status validation:
 // Ensure that oldStatus and newStatus values are from the set of valid statuses ('Open', 'InProgress', 'Escalated', etc.)
 model TicketHistory {
-  id          String              @id @default(uuid()) @db.VarChar(36)
-  ticketId    String              @db.VarChar(36)
-  changedById String              @db.VarChar(36)
-  oldStatusId String              @db.VarChar(36)
-  newStatusId String              @db.VarChar(36)
-  action      String              @db.VarChar(36)
-  changeNotes String              @db.Text
-  changedAt   DateTime            @default(now())
-  deleted     Boolean             @default(false)
-  ticket      Ticket              @relation(fields: [ticketId], references: [id])
-  changedBy   User                @relation(fields: [changedById], references: [id])
-  oldStatus   Status              @relation("TicketHistoryOldStatus", fields: [oldStatusId], references: [id])
-  newStatus   Status              @relation("TicketHistoryNewStatus", fields: [newStatusId], references: [id])
+  id          String   @id @default(uuid()) @db.VarChar(36)
+  ticketId    String   @db.VarChar(36)
+  changedById String   @db.VarChar(36)
+  oldStatusId String   @db.VarChar(36)
+  newStatusId String   @db.VarChar(36)
+  action      String   @db.VarChar(36)
+  changeNotes String   @db.Text
+  changedAt   DateTime @default(now())
+  deleted     Boolean  @default(false)
+  ticket      Ticket   @relation(fields: [ticketId], references: [id])
+  changedBy   User     @relation(fields: [changedById], references: [id])
+  oldStatus   Status   @relation("TicketHistoryOldStatus", fields: [oldStatusId], references: [id])
+  newStatus   Status   @relation("TicketHistoryNewStatus", fields: [newStatusId], references: [id])
 }
 
 // Model TicketComment yang menyimpan komentar pada tiket
@@ -182,7 +182,7 @@ model TicketComment {
   ticket          Ticket          @relation(fields: [ticketId], references: [id]) // Relasi dengan tiket yang dikomentari
   user            User            @relation(fields: [userId], references: [id]) // Relasi dengan pengguna yang memberikan komentar
   parentComment   TicketComment?  @relation("TicketCommentParent", fields: [parentCommentId], references: [id]) // Relasi dengan komentar induk (opsional)
-updatedAt DateTime? // Tanpa @updatedAt
+  updatedAt       DateTime? // Tanpa @updatedAt
   replies         TicketComment[] @relation("TicketCommentParent") // Relasi dengan balasan-balasannya
 }
 

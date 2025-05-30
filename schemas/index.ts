@@ -16,12 +16,15 @@ export const RegisterSchema = z.object({
   email: z.string().email({
     message: "Email is required",
   }),
-  password: z.string().min(6, {
-    message: "Minimum 6 characters required",
-  }),
+
+  password: z.string().optional(), // ← ubah di sini
+
   name: z.string().min(1, {
     message: "Name is required",
   }),
+  roleId: z.string().min(1, "Category is required").max(100, "Category too long"),
+  imageUrl: z.string().url({ message: "Invalid image URL" }).optional().nullable(),
+
 });
 
 export const categorySchema = z.object({
@@ -52,7 +55,7 @@ export const addAssigneesSchema = z.object({
 
 
 export const assignmentRequestSchema = z.object({
-    ticketId: z.string(),
-    requestedById: z.string(),
-    notes: z.string().optional()
+  ticketId: z.string(),
+  requestedById: z.string(),
+  notes: z.string().optional()
 });

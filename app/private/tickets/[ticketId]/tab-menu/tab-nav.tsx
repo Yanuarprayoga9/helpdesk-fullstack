@@ -34,7 +34,7 @@ export const TabNav = ({ TeamRegisteredCount }: TabeNavProps) => {
                 <span>History</span>
 
             </TabsTrigger>
-            <TabsTrigger value="assignment-request" className="flex items-center gap-1" onClick={() => router.push(`${TICKETS_ROUTE}/${ticketId}/assigment-request`)}>
+            <TabsTrigger value="assignment-request" className="flex items-center gap-1" onClick={() => router.push(`${TICKETS_ROUTE}/${ticketId}/assignment-request`)}>
                 <Settings className="h-4 w-4" />
                 <span>Assigment-request</span>
             </TabsTrigger>

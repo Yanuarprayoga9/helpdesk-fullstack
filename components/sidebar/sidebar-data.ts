@@ -5,7 +5,6 @@ import {
   Command,
   Frame,
   GalleryVerticalEnd,
-  Map,
   PieChart,
   Settings2,
   SquareTerminal,
@@ -21,7 +20,7 @@ const CONSOLE_NAV = [
     },
     {
       title: "Tickets",
-      url: CONSOLE_TICKETS_ROUTE,
+      url: TICKETS_ROUTE,
       icon: SquareTerminal,
     },
     {
@@ -85,24 +84,19 @@ export const SIDEBAR_TEAMS = [
 ]
 // This is sample data.
 export const SIDEBAR_DATA = {
-  teams: SIDEBAR_TEAMS,
   console: CONSOLE_NAV,
   main:MAIN_NAV,
   projects: [
     {
-      name: "Design Engineering",
+      name: "Profile",
       url: "#",
       icon: Frame,
     },
     {
-      name: "Sales & Marketing",
-      url: "#",
+      name: "Guideline",
+      url: "",
       icon: PieChart,
     },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
-    },
+    
   ],
 }

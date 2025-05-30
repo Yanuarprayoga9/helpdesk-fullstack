@@ -4,6 +4,7 @@ export interface UserType  {
     name: string;
     email: string;
     imageUrl: string;
+    roleId?:string
     role: RoleType
 }
 export interface UserTypeWtRole  {

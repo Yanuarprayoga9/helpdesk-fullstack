@@ -1,15 +1,15 @@
+
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { ArrowRight, CheckCircle, Users, Clock } from "lucide-react"
 
 export function HeroSection() {
   return (
-    <section className="relative">
-    
-      <div className="container px-4 py-24 md:py-32 ">
+    <section className="relative bg-gradient-to-br from-primary/10 via-background to-secondary/10">
+      <div className="container px-4 py-24 md:py-32 relative z-10">
         <div className="mx-auto max-w-4xl text-center">
           <Badge variant="secondary" className="mb-4">
-            🎯 Solution for IT Consulting Teams
+            🎯 PT Tristar Surya Gemilang
           </Badge>
 
           <h1 className="text-4xl font-bold tracking-tight sm:text-6xl md:text-7xl">

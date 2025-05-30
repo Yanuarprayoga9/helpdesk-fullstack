@@ -3,6 +3,7 @@
 import {  UserType } from "@/@types/user";
 import { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
+import CellAction from "./cell-action";
 
 // Definisi kolom untuk tabel users
 export const columns: ColumnDef<UserType>[] = [
@@ -44,6 +45,6 @@ export const columns: ColumnDef<UserType>[] = [
     id: "actions",
     header: "Actions",
     /* eslint-disable @typescript-eslint/no-unused-vars */
-    cell: ({ row }) => <div>...</div>, // Bisa diganti dengan tombol edit/delete
+    cell: ({ row }) => <CellAction userId={row.original.id}/>, // Bisa diganti dengan tombol edit/delete
   },
 ];

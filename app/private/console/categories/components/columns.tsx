@@ -2,7 +2,7 @@
 
 import { CategoryType } from "@/@types/category";
 import { ColumnDef } from "@tanstack/react-table";
-import { CategoryForm } from "./category-modal";
+import { CategoryForm } from "./category-update-modal";
 import { CategoryDeleteForm } from "./category-delete";
 
 // Definisi kolom untuk tabel users
