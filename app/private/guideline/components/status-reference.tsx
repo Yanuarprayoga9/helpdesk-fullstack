@@ -90,7 +90,7 @@ export function StatusReference() {
               </div>
               <div>
                 <h4 className="font-medium">{t("statusExample")}</h4>
-                <p className="text-sm text-muted-foreground italic">"{status.example}"</p>
+                <p className="text-sm text-muted-foreground italic">{status.example}</p>
               </div>
             </div>
           </CardContent>

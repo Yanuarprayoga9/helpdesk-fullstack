@@ -1,5 +1,3 @@
-export const dynamic = "force-dynamic";
-
 import { ConsoleContainer } from "@/components/layouts/console-container"
 import { ConsoleWrapper } from "@/components/layouts/console-wrapper"
 import AppSideFilter from "@/components/features/ticket/side-filter/app-side-filter"
@@ -12,28 +10,26 @@ import { getTicketsShow } from "@/@data/ticket"
 import AppTopFilter from "@/components/features/ticket/top-filter/app-top-filter"
 import { getCurrentUser } from "@/@data/user"
 interface TicketsPageProps {
-    searchParams: {
+    searchParams: Promise<{
         category?: string
         search?: string
         myticket?: string
         assigntome?: string
         priority?: string
         status?: string
-    };
+    }>;
 }
 
 
 
-
 export default async function TicketsPage({ searchParams }: TicketsPageProps) {
-    const category = searchParams.category
-    const search = searchParams.search
-    const priority = searchParams.priority
-    const status = searchParams.status
-    const shouldFilterByMe = searchParams.myticket === "true"
-    const shouldAssignToMe = searchParams.assigntome === "true"
+    const category = (await searchParams).category
+    const search = (await searchParams).search
+    const priority = (await searchParams).priority
+    const status = (await searchParams).status
     const me = await getCurrentUser();
-
+    const shouldFilterByMe = (await searchParams).myticket === "true"
+    const shouldAssignToMe = (await searchParams).assigntome === "true"
 
     const tickets = await getTicketsShow({
         category: category,
