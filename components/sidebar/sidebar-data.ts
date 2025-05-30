@@ -89,12 +89,12 @@ export const SIDEBAR_DATA = {
   projects: [
     {
       name: "Profile",
-      url: "#",
+      url: "/private/profile/edit",
       icon: Frame,
     },
     {
       name: "Guideline",
-      url: "",
+      url: "/private/guideline",
       icon: PieChart,
     },
     
