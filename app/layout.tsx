@@ -6,6 +6,7 @@ import 'react-quill-new/dist/quill.snow.css';
 import { ThemeProvider } from "next-themes";
 import { Toaster } from 'react-hot-toast';
 import { SessionProvider } from "next-auth/react";
+import { LanguageProvider } from "@/store/language-context";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -29,8 +30,8 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-   <html lang="en" suppressHydrationWarning>
-   
+    <html lang="en" suppressHydrationWarning>
+
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased `}
       >
@@ -42,8 +43,13 @@ export default async function RootLayout({
         >
 
           <Toaster />
+
           <SessionProvider>
-            {children}
+            <LanguageProvider>
+
+              {children}
+            </LanguageProvider>
+
           </SessionProvider>
 
         </ThemeProvider>
