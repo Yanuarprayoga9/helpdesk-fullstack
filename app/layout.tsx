@@ -7,6 +7,7 @@ import { ThemeProvider } from "next-themes";
 import { Toaster } from 'react-hot-toast';
 import { SessionProvider } from "next-auth/react";
 import { LanguageProvider } from "@/store/language-context";
+import { GlobalProgressBar } from "@/components/progress-bar/global-progress-bar";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -46,6 +47,7 @@ export default async function RootLayout({
 
           <SessionProvider>
             <LanguageProvider>
+        <GlobalProgressBar />
 
               {children}
             </LanguageProvider>
