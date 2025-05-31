@@ -16,6 +16,7 @@ import {
   CONSOLE_PROJECTS_ROUTE,
   CONSOLE_TICKETS_ROUTE,
   CONSOLE_USERS_ROUTE,
+  PROJECTS_ROUTE,
   TICKETS_ROUTE,
 } from "../../constants/routes"
 
@@ -68,7 +69,7 @@ const MAIN_NAV = [
   },
   {
     title: "Projects",
-    url: CONSOLE_PROJECTS_ROUTE,
+    url: PROJECTS_ROUTE,
     icon: LayoutDashboard,
   },
 ]
