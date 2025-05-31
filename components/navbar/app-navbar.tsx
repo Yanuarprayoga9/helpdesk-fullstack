@@ -34,6 +34,7 @@ const AppNavbar: React.FC<AppNavbarProps> = ({ user }) => {
           <Separator orientation="vertical" className="h-4" />
           <NavbarBreadCumb />
         </div>
+       
         <div className="ml-auto flex items-center space-x-4">
           <ModeToggle />
           <UserNav user={user} />
