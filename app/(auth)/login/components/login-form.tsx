@@ -1,4 +1,5 @@
 "use client"
+
 import { login } from '@/actions/login'
 import React, { useState, useTransition } from 'react'
 import { Input } from "@/components/ui/input"
@@ -17,53 +18,57 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { useRouter, useSearchParams } from 'next/navigation'
-import toast from 'react-hot-toast' // Import toast
+import toast from 'react-hot-toast'
 import { DEFAULT_ISLOGIN_REDIRECT_ROUTE } from '@/constants/routes'
+import { Loader } from '@/components/ui/loader'
 
 export const LoginForm = () => {
-  const searchParams = useSearchParams();
-  const [isPending, startTransition] = useTransition();
-  const [error, setError] = useState<string | undefined>("");
-  const [success, setSuccess] = useState<string | undefined>("");
-  const callbackUrl = searchParams.get("callbackUrl");
-  const router = useRouter();
+  const searchParams = useSearchParams()
+  const [isPending, startTransition] = useTransition()
+  const [redirecting, setRedirecting] = useState(false)
+  const [error, setError] = useState<string | undefined>("")
+  const [success, setSuccess] = useState<string | undefined>("")
+  const callbackUrl = searchParams.get("callbackUrl")
+  const router = useRouter()
+
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
       email: 'admin@example.com',
       password: 'password123'
     },
-  });
+  })
 
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
-    setError("");
-    setSuccess("");
-
-    // Menampilkan toast bahwa login sedang diproses
-    toast.loading("processing login...", { id: "login" });
+    setError("")
+    setSuccess("")
+    toast.loading("Processing login...", { id: "login" })
 
     startTransition(() => {
       login(values, callbackUrl)
         .then((data) => {
           if (data?.error) {
-            setError(data.error);
-            form.reset();
-            toast.error(data.error, { id: "login" }); // Menampilkan toast error
+            setError(data.error)
+            form.reset()
+            toast.error(data.error, { id: "login" })
           }
 
           if (data?.success) {
-            setSuccess(data.success);
-            form.reset();
-            toast.success("Mengalihkan...", { id: "login" }); // Menampilkan toast sukses
-            router.push(callbackUrl || DEFAULT_ISLOGIN_REDIRECT_ROUTE)
+            setSuccess(data.success)
+            form.reset()
+            toast.success("Redirecting...", { id: "login" })
+            setRedirecting(true)
+            setTimeout(() => {
+              router.push(callbackUrl || DEFAULT_ISLOGIN_REDIRECT_ROUTE)
+            }, 1000)
           }
         })
         .catch(() => {
-          setError("Something went wrong");
-          toast.error("Something went wrong", { id: "login" });
-        });
-    });
-  };
+          setError("Something went wrong")
+          toast.error("Something went wrong", { id: "login" })
+        })
+    })
+  }
 
   return (
     <div className="grid min-h-screen w-full grid-cols-1 lg:grid-cols-2">
@@ -74,7 +79,6 @@ export const LoginForm = () => {
           width={1920}
           height={1080}
           className="h-full w-full object-cover blur-sm"
-          style={{ aspectRatio: "1920/1080", objectFit: "cover" }}
         />
       </div>
       <div className="flex items-center justify-center p-6 lg:p-10">
@@ -92,7 +96,7 @@ export const LoginForm = () => {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input placeholder="shadcn" type="email" {...field} />
+                      <Input placeholder="you@example.com" type="email" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -105,7 +109,7 @@ export const LoginForm = () => {
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input placeholder="shadcn" type='password' {...field} />
+                      <Input placeholder="••••••••" type="password" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -115,13 +119,25 @@ export const LoginForm = () => {
                 {success && <span className='text-green-500'>{success}</span>}
                 {error && <span className='text-red-500'>{error}</span>}
               </div>
-              <Button type="submit" disabled={isPending} className='dark:text-white w-full dark:bg-green-500 dark:hover:bg-green-300'>
-                {isPending ? "Processing..." : "Login"}
+              <Button
+                type="submit"
+                disabled={isPending || redirecting}
+                className="dark:text-white w-full dark:bg-green-500 dark:hover:bg-green-300 flex items-center justify-center gap-2"
+              >
+                {redirecting ? (
+                  <>
+                    <Loader  /> Redirecting...
+                  </>
+                ) : isPending ? (
+                  "Processing..."
+                ) : (
+                  "Login"
+                )}
               </Button>
             </form>
           </Form>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
