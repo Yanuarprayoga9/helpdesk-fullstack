@@ -1,10 +1,9 @@
 "use client"
 
-
-import { useEffect, useState } from "react"
+import { useEffect, useState, Suspense } from "react"
 import { usePathname, useSearchParams } from "next/navigation"
 
-export const GlobalProgressBar = () => {
+const ProgressBarContent = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [progress, setProgress] = useState(0)
   const pathname = usePathname()
@@ -103,5 +102,13 @@ export const GlobalProgressBar = () => {
         }}
       />
     </div>
+  )
+}
+
+export const GlobalProgressBar = () => {
+  return (
+    <Suspense fallback={null}>
+      <ProgressBarContent />
+    </Suspense>
   )
 }
