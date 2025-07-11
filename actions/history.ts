@@ -17,7 +17,6 @@ export const createHistory = async (
 ): Promise<HistoryReturn> => {
   try {
     const me = await getCurrentUser();
-    console.log({data},me.user?.id)
     const history = await prisma.ticketHistory.create({
       data: {
         ticketId: data.ticketId,
@@ -26,7 +25,6 @@ export const createHistory = async (
         newStatusId: data.newStatusId,
         changeNotes: data.changeNotes,
         action: "changeStatus",
-
       },
     })
 
@@ -35,7 +33,6 @@ export const createHistory = async (
     revalidatePath(`${TICKETS_ROUTE}/${data.ticketId}/detail`)
     return { success: true, history }
   } catch (error) {
-    console.error("Error creating ticket history:", error)
     return { success: false, message: (error as Error).message }
   }
 }

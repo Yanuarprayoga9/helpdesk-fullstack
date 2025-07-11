@@ -4,20 +4,20 @@ import { CommentType } from "@/@types/ticket-comment";
 import { getRepliesByCommentId } from "@/@data/ticket-comment";
 
 interface CommentStore {
-  replies: Record<string, CommentType[]>; // commentId -> replies
+  replies: Record<string, CommentType[]>; 
   editingCommentId: string | null;
-  editingReplyId: string | null;
+  // editingReplyId: string | null;
   setEditingCommentId: (id: string | null) => void;
-  setEditingReplyId: (id: string | null) => void;
+  // setEditingReplyId: (id: string | null) => void;
   fetchReplies: (commentId: string) => Promise<void>;
 }
 
 export const useCommentStore = create<CommentStore>((set) => ({
   replies: {},
   editingCommentId: null,
-  editingReplyId: null,
+  // editingReplyId: null,
   setEditingCommentId: (id) => set({ editingCommentId: id }),
-  setEditingReplyId: (id) => set({ editingReplyId: id }),
+  // setEditingReplyId: (id) => set({ editingReplyId: id }),
   fetchReplies: async (commentId: string) => {
     const res = await getRepliesByCommentId(commentId);
     if (res.success) {

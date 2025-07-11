@@ -5,7 +5,14 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-
+// Function to safely disconnect Prisma
+const disconnectPrisma = async () => {
+    try {
+        await prisma.$disconnect();
+    } catch {
+        // Silent disconnect error
+    }
+};
 
 export const getTickets = async (): Promise<TicketsReturn> => {
     try {
@@ -23,8 +30,7 @@ export const getTickets = async (): Promise<TicketsReturn> => {
             },
         });
 
-
-        //   / Mapping agar sesuai dengan tipe TicketType
+        // Mapping agar sesuai dengan tipe TicketType
         const mappedTickets: TicketType[] = tickets.map((ticket) => ({
             id: ticket.id,
             title: ticket.title,
@@ -43,9 +49,10 @@ export const getTickets = async (): Promise<TicketsReturn> => {
             success: true,
             tickets: mappedTickets,
         };
-    } catch (error) {
-        console.error("Error fetching tickets:", error);
+    } catch {
         return { success: false, message: "Failed to fetch tickets" };
+    } finally {
+        await disconnectPrisma();
     }
 };
 
@@ -67,11 +74,13 @@ export const getTicketByid = async (id: string): Promise<TicketReturn> => {
                 project: true,
             },
         });
-        if (!ticket) return { success: false, message: "Failed to fetch tickets" };
+        
+        if (!ticket) {
+            return { success: false, message: "Ticket not found" };
+        }
 
-
-        //   / Mapping agar sesuai dengan tipe TicketType
-        const mappedTickets: TicketType = {
+        // Mapping agar sesuai dengan tipe TicketType
+        const mappedTicket: TicketType = {
             id: ticket.id,
             title: ticket.title,
             description: ticket.description,
@@ -87,15 +96,26 @@ export const getTicketByid = async (id: string): Promise<TicketReturn> => {
 
         return {
             success: true,
-            ticket: mappedTickets,
+            ticket: mappedTicket,
         };
-    } catch (error) {
-        console.error("Error fetching tickets:", error);
-        return { success: false, message: "Failed to fetch tickets" };
+    } catch {
+        return { success: false, message: "Failed to fetch ticket" };
+    } finally {
+        await disconnectPrisma();
     }
 };
 
-export const getTicketsShow = async ({assignedToMe, sortOrder = "desc", createdById, category, priority, status, projectId, categoryId, search }: ITicketsShowParams): Promise<TicketsShowReturn> => {
+export const getTicketsShow = async ({
+    assignedToMe,
+    sortOrder = "desc",
+    createdById,
+    category,
+    priority,
+    status,
+    projectId,
+    categoryId,
+    search
+}: ITicketsShowParams): Promise<TicketsShowReturn> => {
     try {
         const tickets = await prisma.ticket.findMany({
             where: {
@@ -130,7 +150,7 @@ export const getTicketsShow = async ({assignedToMe, sortOrder = "desc", createdB
                 ...(category && { category: { name: { contains: category } } }),
             },
             orderBy: {
-                createdAt: "desc", // ⬅️ hanya berdasarkan createdAt
+                createdAt: sortOrder === "asc" ? "asc" : "desc",
             },
             include: {
                 category: {
@@ -185,9 +205,9 @@ export const getTicketsShow = async ({assignedToMe, sortOrder = "desc", createdB
             success: true,
             tickets: mappedTickets,
         };
-    } catch (error) {
-        console.error("Error fetching tickets:", error);
+    } catch {
         return { success: false, message: "Failed to fetch tickets" };
+    } finally {
+        await disconnectPrisma();
     }
 };
-

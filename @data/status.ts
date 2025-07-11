@@ -32,24 +32,7 @@ const prisma = new PrismaClient();
 //     Closed = 'Closed',
 //     OnHold = 'OnHold'
 // } 
-type TicketStatus = "New" | "InProgress" | "Resolved" | "Reopened" | "Closed" | "OnHold";
 
-function getTicketAction(status: TicketStatus): string {
-  switch (status) {
-    case "New":
-      return "Take Ticket";
-    case "InProgress":
-      return "Resolve Ticket";
-    case "Resolved":
-      return "Close Ticket";
-    case "Reopened":
-      return "Re-Take Ticket";
-    case "OnHold":
-      return "Resume Ticket";
-    default:
-      return "No Action"; // For "Closed" or unknown
-  }
-}
 
 export const getStatuses = async (name?: string): Promise<StatusesReturn> => {
   try {

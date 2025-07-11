@@ -1,6 +1,6 @@
 "use server"
 
-import { CategoriesReturn, CategoryReturn, CategoryType } from "@/@types/category"
+import { CategoriesReturn, CategoryReturn } from "@/@types/category"
 import { categorySchema } from "@/schemas";
 import { z } from "zod";
 import prisma from "@/lib/db"
@@ -63,8 +63,6 @@ export const updateCategoryById = async (id: string, values: z.infer<typeof cate
 };
 export const deteleCategory = async (id: string): Promise<CategoryReturn> => {
     try {
-
-
         const categories = await prisma.category.update({
             where: {
                 id: id,

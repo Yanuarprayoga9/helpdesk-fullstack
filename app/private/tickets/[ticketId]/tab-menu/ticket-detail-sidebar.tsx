@@ -4,7 +4,7 @@ import { UserType } from '@/@types/user'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { AlertCircleIcon, Bell, Circle, Plus } from 'lucide-react'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import {  useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import { AssigneesForm } from './assignees-form';
 import { SelectorsType } from '@/lib/utils';
@@ -12,6 +12,7 @@ import { TicketType } from '@/@types/ticket';
 import { createTicketAssignmentRequest } from '@/actions/ticket-assignment-request';
 import { useSession } from 'next-auth/react';
 import toast from 'react-hot-toast';
+import { TICKETS_ROUTE } from '@/constants/routes';
 
 interface ITicketSidebar {
     assignedUsers: UserType[]
@@ -32,14 +33,12 @@ const colorMap: Record<string, string> = {
 export const TicketDetailSidebar = ({ assignedUsers, unnasignedUsersOptions, ticket }: ITicketSidebar) => {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
-    const pathname = usePathname(); // Ambil path saat ini
-    const searchParams = useSearchParams(); // Ambil search params saat ini
     const [isOpen, setIsOpen] = useState(false);
     const statusColor = colorMap[ticket.status.color] || "text-gray-500";
     const session = useSession()
 
-    const assigneesUserIds = assignedUsers.map((u)=>u.id)
-    const isContribUser =     assigneesUserIds.includes(session.data?.user.id as string) 
+    const assigneesUserIds = assignedUsers.map((u) => u.id)
+    const isContribUser = assigneesUserIds.includes(session.data?.user.id as string)
     const handleAssignmentRequest = async () => {
         setLoading(true);
         const response = await createTicketAssignmentRequest({ requestedById: session.data?.user.id as string, ticketId: ticket.id as string, notes: "notes" })
@@ -57,14 +56,8 @@ export const TicketDetailSidebar = ({ assignedUsers, unnasignedUsersOptions, tic
 
     const handleOpen = (open: boolean) => setIsOpen(open);
     const viewAllTeamHandleClick = () => {
-        // Buat object dari search params yang ada
-        const params = new URLSearchParams(searchParams);
 
-        // Tambahkan atau perbarui `tabActive`
-        params.set("tabActive", "team");
-
-        // Push dengan path yang sama + query string yang diperbarui
-        router.push(`${pathname}?${params.toString()}`);
+        router.push(`${TICKETS_ROUTE}/${ticket.id}/team`,);
     };
     const latestChanges = [
         {
@@ -86,7 +79,7 @@ export const TicketDetailSidebar = ({ assignedUsers, unnasignedUsersOptions, tic
                 <h3 className="mb-2 text-xs font-medium uppercase text-muted-foreground">Category</h3>
                 <div className="flex items-center gap-2">
                     <div className="h-4 w-4 rounded-full bg-primary"></div>
-                    <span className="text-sm">Infrastructure</span>
+                    <span className="text-sm">{ticket.category.name}</span>
                 </div>
             </div>
 
@@ -117,15 +110,19 @@ export const TicketDetailSidebar = ({ assignedUsers, unnasignedUsersOptions, tic
                             ) : (
                                 <div className="text-sm text-muted-foreground">No contributors yet</div>
                             )}
-                            <Button
-                                variant="outline"
-                                onClick={() => handleOpen(true)}
-                                size="sm"
-                                className="h-8 border-dashed"
-                            >
-                                <Plus className="mr-2 h-4 w-4" />
-                                Add assignee
-                            </Button>
+                            {
+                                (session.data?.user.id == ticket.createdBy.id as string) && (
+                                    <Button
+                                        variant="outline"
+                                        onClick={() => handleOpen(true)}
+                                        size="sm"
+                                        className="h-8 border-dashed"
+                                    >
+                                        <Plus className="mr-2 h-4 w-4" />
+                                        Add assignee
+                                    </Button>
+                                )
+                            }
 
                             <AssigneesForm
                                 userOptions={unnasignedUsersOptions}
@@ -151,15 +148,15 @@ export const TicketDetailSidebar = ({ assignedUsers, unnasignedUsersOptions, tic
                 </div>
             </div> */}
 
-          
+
             <div className="mb-6" >
                 {/* <h3 className="mb-2 text-xs font-medium uppercase text-muted-foreground">Notifications</h3> */}
-                <Button className="w-full justify-start bg-green-500 text-primary-foreground hover:bg-primary/90 cursor-pointer" onClick={handleAssignmentRequest} disabled={ isContribUser || loading}>
+                <Button className="w-full justify-start bg-green-500 text-primary-foreground hover:bg-primary/90 cursor-pointer" onClick={handleAssignmentRequest} disabled={isContribUser || loading}>
                     <Bell className="mr-2 h-4 w-4" />
                     Request Contributions
                 </Button>
 
-                <div className="mt-2 text-xs text-muted-foreground">Youre not receiving notifications from this thread</div>
+                <div className="mt-2 text-xs text-muted-foreground">Join to ticket issue</div>
             </div>
 
             {/* Latest Changes Section */}

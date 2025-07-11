@@ -1,6 +1,6 @@
 "use server"
 
-import { HistoriesReturn, HistoriesShowReturn } from "@/@types/history";
+import {  HistoriesShowReturn } from "@/@types/history";
 import { PrismaClient } from "@prisma/client";
 
 
@@ -66,7 +66,6 @@ export const getHistories = async (ticketId: string): Promise<HistoriesShowRetur
         return { success: true, histories: historyMapped };
 
     } catch (error) {
-        console.error("Error fetching categories:", error);
         return { success: false, message: (error as Error).message };
     }
 }

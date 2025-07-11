@@ -43,8 +43,7 @@ NEXT_PUBLIC_APP_URL=
 
 ### Setup Prisma
 ```shell
-npm i -D prisma
-npm i @prisma/client
+
 npx prisma generate
 npx prisma migrate 
 npx prisma db push

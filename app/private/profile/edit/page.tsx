@@ -15,7 +15,6 @@ export default async function ProfilePage() {
       <h1 className="text-2xl font-bold">Profile Settings</h1>
       <GeneralProfileForm user={user} />
 
-      {/* Form to update password */}
       <PasswordUpdateForm userId={user.id} />
     </div>
   );

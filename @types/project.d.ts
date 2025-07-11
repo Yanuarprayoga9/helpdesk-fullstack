@@ -4,9 +4,11 @@ export type ProjectType = {
     id: string;
     name: string;
     imageUrl?: string | null;
-    createdAt: Date | string  ; // ✅ Bisa `Date` atau `string`
-    updatedAt: Date | string | null; // ✅ Bisa `Date` atau `string`
+    createdAt: Date | string  ; 
+    updatedAt: Date | string | null; 
 };
+
+
 
 export type ProjectUser = {
     projectId: string;

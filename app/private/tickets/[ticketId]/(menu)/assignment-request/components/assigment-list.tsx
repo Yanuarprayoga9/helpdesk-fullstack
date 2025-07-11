@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge"
 import type { RequestAssignmentShowType } from "@/@types/ticket-assignment-request"
 import { acceptRequestAssignment, updateTicketAssignmentRequestStatus } from "@/actions/ticket-assignment-request"
 import toast from "react-hot-toast"
+import { useSession } from "next-auth/react"
 
 
 interface RequestAssignmentsListProps {
@@ -19,8 +20,18 @@ export default function RequestAssignmentsList({
   requestAssignments
 }: RequestAssignmentsListProps) {
   const [actionLoading, setActionLoading] = useState<{ [key: string]: "accept" | "reject" | null }>({})
+  const [createdBy, setCreatedBy] = useState("")
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
 
+      const createdByL = localStorage.getItem('createdBy')
+      setCreatedBy(createdByL as string)
+    }
+  }, []);
+  const loggedInId = useSession().data?.user.id
+
+  const isOwner = createdBy == loggedInId
 
   const handleAcceptRequest = async (requestId: string) => {
     setActionLoading((prev) => ({ ...prev, [requestId]: "accept" }))
@@ -61,12 +72,12 @@ export default function RequestAssignmentsList({
       }
       // eslint-disable-next-line no-console
     } catch (error: unknown) {
-  if (error instanceof Error) {
-    toast.error(error.message);
-  } else {
-    toast.error("An unexpected error occurred while accepting the request.");
-  }
-} finally {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("An unexpected error occurred while accepting the request.");
+      }
+    } finally {
       setActionLoading((prev) => ({ ...prev, [requestId]: null }))
     }
   }
@@ -145,7 +156,7 @@ export default function RequestAssignmentsList({
                     <div className="flex justify-between items-center mt-3">
                       <span className="text-xs text-gray-500">Ticket: {assignment.ticketId}</span>
                       <div className="flex items-center gap-2">
-                        {isPending && (
+                        {(isPending && isOwner) && (
                           <>
                             <Button
                               variant="outline"

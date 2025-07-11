@@ -32,12 +32,10 @@ export const getUsersTicketByTicketId = async (ticketId: string): Promise<getUse
             users: userMapped
         };
 
-        // Simpan ke cache
-        // await setCache(cacheKey, result, 60); // cache selama 1 menit
 
         return result;
 
-    } catch (error) {
+    } catch {
         return {
             success: false,
             message: "Failed to fetch users"

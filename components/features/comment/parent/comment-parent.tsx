@@ -1,5 +1,5 @@
 "use client";
-import { ThumbsUp, MessageSquare } from "lucide-react";
+import {  MessageSquare, CheckCircle } from "lucide-react";
 import { Avatar } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -42,7 +42,16 @@ export function CommentItem({ comment }: ICommentType) {
           </div>
           <Badge variant="outline" className="border-border text-xs">{comment.userRole}</Badge>
         </div>
-        <CommentItemActions commentId={comment.id} isParent={true} ownerId={comment.userId}/>
+        {
+           comment.itMostHelpful && (
+            <Badge className="bg-green-100 text-green-800 border-green-300 hover:bg-green-200">
+              <CheckCircle className="w-3 h-3 mr-1 text-green-600" />
+              Verified Helpful
+            </Badge>
+          )
+        }
+        
+        <CommentItemActions ticketId={comment.ticketId as string} isMostHelpful={comment.itMostHelpful} commentId={comment.id} isParent={true} ownerId={comment.userId} />
       </div>
 
       {/* Content */}
@@ -64,10 +73,7 @@ export function CommentItem({ comment }: ICommentType) {
       {/* Footer */}
       <div className="flex items-center justify-between border-t border-border p-2">
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="sm" className="h-8">
-            <ThumbsUp className="mr-1 h-4 w-4" />
-            likes: 3
-          </Button>
+          
           <Button
             variant="ghost"
             size="sm"
@@ -106,7 +112,7 @@ export function CommentItem({ comment }: ICommentType) {
       <div className="pl-6 pt-2">
         {commentReplies.length > 0 ? (
           commentReplies.map((reply) => (
-            <CommentReply key={reply.id} reply={reply} parentId={comment.id} />
+            <CommentReply  key={reply.id} reply={reply} parentId={comment.id} />
           ))
         ) : (
           <div className="text-xs text-muted-foreground">No replies yet.</div>

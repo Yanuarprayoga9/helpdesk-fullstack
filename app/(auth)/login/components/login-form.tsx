@@ -34,8 +34,8 @@ export const LoginForm = () => {
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
-      email: 'admin@example.com',
-      password: 'password123'
+      email: '',
+      password: ''
     },
   })
 
@@ -45,7 +45,7 @@ export const LoginForm = () => {
     toast.loading("Processing login...", { id: "login" })
 
     startTransition(() => {
-      login(values, callbackUrl)
+      login(values)
         .then((data) => {
           if (data?.error) {
             setError(data.error)

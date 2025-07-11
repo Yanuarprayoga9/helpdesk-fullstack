@@ -1,6 +1,70 @@
 {
   "extends": ["next/core-web-vitals", "next/typescript"],
   "rules": {
-    "no-console": ["error"]
-  }
+    // Mengizinkan console.log dan console statements lainnya
+    "no-console": "off",
+    
+    // Atau jika ingin warning saja (bukan error)
+    // "no-console": "warn",
+    
+    // Atau hanya allow console untuk development
+    // "no-console": "off",
+    
+    // Mengizinkan unused variables yang diawali dengan underscore
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_",
+        "destructuredArrayIgnorePattern": "^_"
+      }
+    ],
+    
+    // Mengizinkan any type jika diperlukan
+    "@typescript-eslint/no-explicit-any": "off",
+    
+    // Mengizinkan empty functions
+    "@typescript-eslint/no-empty-function": "off"
+  },
+  
+  // Konfigurasi khusus untuk file tertentu
+  "overrides": [
+    {
+      // Untuk file development/debug
+      "files": ["**/dev/**/*.ts", "**/dev/**/*.tsx", "**/debug/**/*.ts", "**/debug/**/*.tsx"],
+      "rules": {
+        "no-console": "off"
+      }
+    },
+    {
+      // Untuk file Prisma dan database
+      "files": ["**/prisma/**/*.ts", "**/lib/db.ts", "**/lib/prisma.ts"],
+      "rules": {
+        "no-console": "off",
+        "@typescript-eslint/no-unused-vars": "off"
+      }
+    },
+    {
+      // Untuk file konfigurasi
+      "files": ["*.config.js", "*.config.ts", "next.config.js", "tailwind.config.js"],
+      "rules": {
+        "no-console": "off",
+        "@typescript-eslint/no-unused-vars": "off"
+      }
+    }
+  ],
+  
+  // File dan folder yang diabaikan
+  "ignorePatterns": [
+    "node_modules/",
+    ".next/",
+    "out/",
+    "dist/",
+    "build/",
+    "coverage/",
+    "prisma/migrations/",
+    "public/",
+    "*.config.js"
+  ]
 }

@@ -78,7 +78,6 @@ const AssigmentRequestPage = async ({ params }: IAssigmentRequestPage) => {
           className=" lg:w-1/4"
         >
 
-          {/* Sidebar with theme variables */}
           <TicketDetailSidebar ticket={ticket.ticket} assignedUsers={ticketUsers.users} unnasignedUsersOptions={mappedUnassignedUsers} />
         </ConsoleWrapper>
 

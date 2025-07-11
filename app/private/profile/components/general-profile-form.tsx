@@ -16,6 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { updateUserById } from "@/actions/user";
 import { UserType } from "@/@types/user";
+import toast from "react-hot-toast";
 
 const generalSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -39,7 +40,7 @@ export function GeneralProfileForm({ user }: GeneralProfileFormProps) {
 
   async function onSubmit(values: z.infer<typeof generalSchema>) {
     if (!user?.id) {
-      alert("User ID is missing.");
+      toast.error("User ID is missing.");
       return;
     }
 
@@ -48,9 +49,9 @@ export function GeneralProfileForm({ user }: GeneralProfileFormProps) {
     setLoading(false);
 
     if (!response.success) {
-      alert(response.message);
+      toast.error(response.message as string);
     } else {
-      alert("Profile updated successfully!");
+      toast.success("Profile updated successfully!");
     }
   }
 

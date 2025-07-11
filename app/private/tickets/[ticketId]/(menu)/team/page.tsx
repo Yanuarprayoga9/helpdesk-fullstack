@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getTicketByid } from "@/@data/ticket";
 import { getUsersTicketByTicketId } from "@/@data/ticket-assignee";
 import { AppTab } from "../../tab-menu/app-tab";
+import AssigneeDeleteButton from "./components/assignee-delete-button";
 
 interface IEditTicketPage {
   params: Promise<{ ticketId: string }>
@@ -19,7 +20,6 @@ const page = async ({ params }: IEditTicketPage) => {
   if (!ticket.ticket || !ticketUsers.users) return "ERROR";
 
   // User ID yang sudah terdaftar pada tiket
-
 
 
   return (
@@ -45,6 +45,9 @@ const page = async ({ params }: IEditTicketPage) => {
                   <div className="text-sm text-muted-foreground">
                     {user?.email || "No email"}
                   </div>
+                </div>
+                <div className="flex ">
+                  <AssigneeDeleteButton userId={user.id} ticketId={ticketId}/>
                 </div>
               </div>
             ))}

@@ -1,11 +1,14 @@
-"use server"
+"use server";
 
 import { CommentsReturn, CommentType } from "@/@types/ticket-comment";
 import { PrismaClient } from "@prisma/client";
 
+// Global prisma instance to avoid creating multiple connections
 const prisma = new PrismaClient();
 
-export const getParentCommentsByTicketId = async (ticketId: string): Promise<CommentsReturn> => {
+export const getParentCommentsByTicketId = async (
+  ticketId: string
+): Promise<CommentsReturn> => {
   try {
     const comments = await prisma.ticketComment.findMany({
       where: {
@@ -36,7 +39,7 @@ export const getParentCommentsByTicketId = async (ticketId: string): Promise<Com
       id: comment.id,
       userId: comment.user.id,
       ticketId: comment.ticketId,
-
+      itMostHelpful: comment.isMostHelpful,
       userName: comment.user.name,
       userImage: comment.user.imageUrl || "",
       userRole: comment.user.role?.name || "",
@@ -50,19 +53,19 @@ export const getParentCommentsByTicketId = async (ticketId: string): Promise<Com
       success: true,
       comments: mappedComments,
     };
-
-  } catch (error) {
-    console.error("Failed to fetch parent comments:", error);
+  } catch {
     return {
       success: false,
       message: "Failed to fetch parent comments",
     };
+  } finally {
+    await prisma.$disconnect();
   }
 };
 
-
-
-export const getRepliesByCommentId = async (parentCommentId: string): Promise<CommentsReturn> => {
+export const getRepliesByCommentId = async (
+  parentCommentId: string
+): Promise<CommentsReturn> => {
   try {
     const replies = await prisma.ticketComment.findMany({
       where: {
@@ -94,6 +97,7 @@ export const getRepliesByCommentId = async (parentCommentId: string): Promise<Co
       userName: reply.user.name,
       ticketId: reply.ticketId,
       userImage: reply.user.imageUrl || "",
+      itMostHelpful: reply.isMostHelpful,
       userRole: reply.user.role?.name || "",
       comment: reply.comment,
       imageUrl: reply.imageUrl || "",
@@ -105,12 +109,12 @@ export const getRepliesByCommentId = async (parentCommentId: string): Promise<Co
       success: true,
       comments: mappedReplies,
     };
-
-  } catch (error) {
-    console.error("Failed to fetch replies:", error);
+  } catch {
     return {
       success: false,
       message: "Failed to fetch replies",
     };
+  } finally {
+    await prisma.$disconnect();
   }
 };

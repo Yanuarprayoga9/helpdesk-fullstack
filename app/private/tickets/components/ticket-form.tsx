@@ -91,9 +91,9 @@ export const TicketForm = ({
               name="title"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Project Name</FormLabel>
+                  <FormLabel>Ticket Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter project name" {...field} />
+                    <Input placeholder="Enter ticket name" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

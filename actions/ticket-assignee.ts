@@ -1,11 +1,17 @@
-"use server"
+"use server";
 
 import { TICKETS_ROUTE } from "@/constants/routes";
 import { addAssigneesSchema } from "@/schemas";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
+
 const prisma = new PrismaClient();
+
+interface ActionResult {
+  success: boolean;
+  message: string;
+}
 
 export const addAssignees = async (
   values: z.infer<typeof addAssigneesSchema>,
@@ -19,7 +25,6 @@ export const addAssignees = async (
     }
 
     const { assignees } = parsedData.data;
-
 
     if (assignees.length === 0) {
       return { success: false, message: "No users selected." };
@@ -36,14 +41,63 @@ export const addAssignees = async (
 
     return { success: true, message: "Assigned users added successfully." };
 
-  } catch (error: any) {
-    console.error("Error adding assignees:", error);
-
-    if (error.code === "P2002") {
-      return { success: false, message: "User already assigned to this ticket." };
+  } catch (error: unknown) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === "P2002") {
+        return { success: false, message: "User already assigned to this ticket." };
+      }
     }
 
-    return { success: false, message: error.message || "Internal server error." };
+    if (error instanceof Error) {
+      return { success: false, message: error.message };
+    }
+
+    return { success: false, message: "Internal server error." };
   }
 };
 
+export const deleteAssignee = async (
+  ticketId: string,
+  assigneeId: string
+): Promise<ActionResult> => {
+  try {
+    const existingEntry = await prisma.ticketAssignee.findUnique({
+      where: {
+        ticketId_userId: {
+          ticketId: ticketId,
+          userId: assigneeId,
+        },
+      },
+    });
+
+    if (!existingEntry) {
+      return { success: false, message: "Assigned entry not found." };
+    }
+
+    await prisma.ticketAssignee.delete({
+      where: {
+        ticketId_userId: {
+          ticketId: ticketId,
+          userId: assigneeId,
+        },
+      },
+    });
+
+    revalidatePath(`${TICKETS_ROUTE}/${ticketId}/detail`);
+
+    return { success: true, message: "Assigned user removed successfully." };
+
+  } catch (error: unknown) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === "P2002") {
+        return { success: false, message: "User already assigned to this ticket." };
+      }
+    }
+
+    if (error instanceof Error) {
+      return { success: false, message: error.message };
+    }
+
+    return { success: false, message: "Internal server error." };
+  }
+};

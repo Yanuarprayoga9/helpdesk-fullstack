@@ -15,23 +15,27 @@ const Page = async () => {
   const { statuses } = await getStatuses();
   const { projects } = await getProjects(false);
 
-const userOptions = mapAndSort(users, user => user.name, user => user.id);
-const categoryOptions = mapAndSort(categories, cat => cat.name, cat => cat.id);
-const priorityOptions = mapAndSort(priorities, p => p.name, p => p.id);
-const statusOptions = mapAndSort(statuses, s => s.name, s => s.id);
-const projectOptions = mapAndSort(projects, s => s.name, s => s.id);
+  const userOptions = mapAndSort(users, user => user.name, user => user.id);
+  const categoryOptions = mapAndSort(categories, cat => cat.name, cat => cat.id);
+  const priorityOptions = mapAndSort(priorities, p => p.name, p => p.id);
+  const statusOptions = mapAndSort(statuses, s => s.name, s => s.id);
+  const projectOptions = mapAndSort(projects, s => s.name, s => s.id);
 
   return (
-    <ConsoleContainer title="" desc="" className="flex">
-      <ConsoleWrapper 
+    <ConsoleContainer className="flex"
+      title="Create New Ticket"
+      desc="Fill in the form to create a new ticket."
+    >
+      <ConsoleWrapper
+
       >
         <TicketForm
-        statusOptions={statusOptions || []}
-        categoryOptions={categoryOptions || []}
-        userOptions={userOptions || []}
-        priorityOptions={priorityOptions || []}
-        projectOptions={projectOptions || []}
-      />
+          statusOptions={statusOptions || []}
+          categoryOptions={categoryOptions || []}
+          userOptions={userOptions || []}
+          priorityOptions={priorityOptions || []}
+          projectOptions={projectOptions || []}
+        />
       </ConsoleWrapper>
     </ConsoleContainer>
   );

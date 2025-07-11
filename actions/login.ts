@@ -6,7 +6,7 @@ import { signIn } from "@/lib/auth";
 
 export const login = async (
   values: z.infer<typeof LoginSchema>,
-  callbackUrl?: string | null
+  // callbackUrl?: string | null
 ) => {
   const validatedFields = LoginSchema.safeParse(values);
 
@@ -29,7 +29,7 @@ export const login = async (
 
     return { success: "Login successful!" };
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     if (error instanceof Error) {
       const { type, cause } = error as AuthError;
       switch (type) {

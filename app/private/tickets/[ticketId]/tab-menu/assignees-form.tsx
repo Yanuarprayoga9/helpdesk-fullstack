@@ -47,7 +47,6 @@ export function AssigneesForm({ userOptions, handleOpen, isOpen }: IAddAssignees
       form.reset();
       router.refresh();
         handleOpen(false);
-
     }
     setLoading(false);
   }

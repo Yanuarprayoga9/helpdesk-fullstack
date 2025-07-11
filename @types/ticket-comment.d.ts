@@ -5,6 +5,7 @@ export type CommentType = {
     userId: string
     userName:string
     userImage:string
+    itMostHelpful:boolean;
     userRole:string
     comment: string
     imageUrl: string

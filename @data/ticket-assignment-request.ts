@@ -1,7 +1,11 @@
+"use server";
+
 import { RequestAssignmentShowType, RequestAssignmentsShowTypeReturn } from "@/@types/ticket-assignment-request";
 import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient()
+// Global prisma instance to avoid creating multiple connections
+const prisma = new PrismaClient();
+
 export const getAllRequestAssignments = async (): Promise<RequestAssignmentsShowTypeReturn> => {
   try {
     const requests = await prisma.ticketAssignmentRequest.findMany({
@@ -22,15 +26,20 @@ export const getAllRequestAssignments = async (): Promise<RequestAssignmentsShow
     }));
 
     return { success: true, RequestAssignments: mapped };
-  } catch (error) {
+  } catch {
     return { success: false, message: "Failed to fetch request assignments" };
+  } finally {
+    await prisma.$disconnect();
   }
 };
-export const getAllRequestAssignmentsByTicketId = async (ticketId:string): Promise<RequestAssignmentsShowTypeReturn> => {
+
+export const getAllRequestAssignmentsByTicketId = async (
+  ticketId: string
+): Promise<RequestAssignmentsShowTypeReturn> => {
   try {
     const requests = await prisma.ticketAssignmentRequest.findMany({
       where: {
-        ticketId:ticketId
+        ticketId,
       },
       orderBy: { requestedAt: "desc" },
       include: {
@@ -49,7 +58,9 @@ export const getAllRequestAssignmentsByTicketId = async (ticketId:string): Promi
     }));
 
     return { success: true, RequestAssignments: mapped };
-  } catch (error) {
+  } catch {
     return { success: false, message: "Failed to fetch request assignments" };
+  } finally {
+    await prisma.$disconnect();
   }
 };

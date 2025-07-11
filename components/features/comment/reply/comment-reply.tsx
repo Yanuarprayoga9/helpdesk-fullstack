@@ -13,8 +13,8 @@ interface CommentReplyProps {
 }
 
 export function CommentReply({ reply, parentId }: CommentReplyProps) {
-  const { editingReplyId, setEditingReplyId, fetchReplies } = useCommentStore();
-  const isEditing = editingReplyId === reply.id;
+  const { editingCommentId, setEditingCommentId, fetchReplies } = useCommentStore();
+  const isEditing = editingCommentId === reply.id;
 
   return (
     <motion.div
@@ -32,7 +32,8 @@ export function CommentReply({ reply, parentId }: CommentReplyProps) {
           <span className="text-sm font-medium">{reply.userName}</span>
           <Badge variant="outline" className="border-border text-[10px]">{reply.userRole}</Badge>
         </div>
-        <CommentItemActions commentId={reply.id} isParent={false} ownerId={reply.userId}/>
+       
+        <CommentItemActions ticketId={reply.ticketId as string} isMostHelpful={reply.itMostHelpful}  commentId={reply.id} isParent={false} ownerId={reply.userId} />
       </div>
 
       {isEditing ? (
@@ -42,7 +43,7 @@ export function CommentReply({ reply, parentId }: CommentReplyProps) {
           defaultValue={reply.comment}
           parentCommentId={reply.parentCommentId}
           onSuccess={() => {
-            setEditingReplyId(null);
+            setEditingCommentId(null);
             fetchReplies(parentId);
           }}
         />

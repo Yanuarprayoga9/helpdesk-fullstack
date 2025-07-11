@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 };
 
 export default async function DetailPage({ params }: PageProps) {
-  const ticketId = (await params).ticketId; // ✅ Sudah benar, tidak perlu await
+  const ticketId = (await params).ticketId; 
 
   const ticket = await getTicketByid(ticketId);
   const ticketUsers = await getUsersTicketByTicketId(ticketId);

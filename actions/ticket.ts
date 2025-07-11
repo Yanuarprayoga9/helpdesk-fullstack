@@ -1,14 +1,12 @@
-"use server"
+"use server";
 
 import { TicketReturn } from "@/@types/ticket";
 import { getCurrentUser } from "@/@data/user";
 import { ticketSchema } from "@/schemas";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Prisma } from "@prisma/client";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { TICKETS_ROUTE } from "@/constants/routes";
-
-
 
 const prisma = new PrismaClient();
 
@@ -29,7 +27,7 @@ export const editTicket = async (
 
         const { title, description, category, priority, status, project, images, assignees } = parsedData.data;
 
-        const dataToUpdate: any = {
+        const dataToUpdate: Record<string, unknown> = {
             ...(title !== undefined && { title }),
             ...(description !== undefined && { description }),
             ...(category !== undefined && { categoryId: category }),
@@ -68,19 +66,20 @@ export const editTicket = async (
 
         return { success: true, message: "Ticket updated successfully." };
 
-    } catch (error: any) {
-        console.error("Error updating ticket:", error);
-
-        if (error.code === "P2002") {
-            return { success: false, message: "Ticket title must be unique." };
+    } catch (error: unknown) {
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+            if (error.code === "P2002") {
+                return { success: false, message: "Ticket title must be unique." };
+            }
         }
 
-        return { success: false, message: error.message || "Internal server error." };
+        if (error instanceof Error) {
+            return { success: false, message: error.message };
+        }
+
+        return { success: false, message: "Internal server error." };
     }
 };
-
-
-
 
 export const createTicket = async (values: z.infer<typeof ticketSchema>): Promise<TicketReturn> => {
     try {
@@ -92,8 +91,8 @@ export const createTicket = async (values: z.infer<typeof ticketSchema>): Promis
         if (!parsedData.success) {
             return { success: false, message: parsedData.error.errors[0].message };
         }
-        console.log({ parsedData })
-        const ticket = await prisma.ticket.create({
+
+        await prisma.ticket.create({
             data: {
                 title: values.title,
                 description: values.description,
@@ -108,21 +107,24 @@ export const createTicket = async (values: z.infer<typeof ticketSchema>): Promis
                 projectId: values.project,
                 createdById: me.user.id,
             }
-        })
+        });
 
         return { success: true, message: "Ticket successfully created" };
 
-    } catch (error: any) {
-        console.error("Error creating category:", error);
-
-        // Tangani error unik jika constraint unik di Prisma aktif
-        if (error.code === "P2002") {
-            return { success: false, message: "Ticket name must be unique." };
+    } catch (error: unknown) {
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+            if (error.code === "P2002") {
+                return { success: false, message: "Ticket name must be unique." };
+            }
         }
 
-        return { success: false, message: error.message };
+        if (error instanceof Error) {
+            return { success: false, message: error.message };
+        }
+
+        return { success: false, message: "Internal server error." };
     }
-}
+};
 
 export const softDeleteTicket = async (id: string): Promise<TicketReturn> => {
     try {
@@ -141,8 +143,10 @@ export const softDeleteTicket = async (id: string): Promise<TicketReturn> => {
         revalidatePath(TICKETS_ROUTE);
 
         return { success: true, message: "Ticket deleted successfully." };
-    } catch (error: any) {
-        console.error("Error soft deleting ticket:", error);
-        return { success: false, message: error.message || "Internal server error." };
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            return { success: false, message: error.message };
+        }
+        return { success: false, message: "Internal server error." };
     }
 };

@@ -1,7 +1,7 @@
 "use server"
 
 import { hash } from "bcrypt-ts";
-import { getUserReturn, UserType } from "@/@types/user"
+import { getUserReturn } from "@/@types/user"
 import prisma from "@/lib/db"
 import { revalidatePath } from "next/cache";
 import { CONSOLE_USERS_ROUTE } from "@/constants/routes";
@@ -16,14 +16,13 @@ export const updateUserById = async (
       return { success: false, message: "User not found" };
     }
 
-    let updatedData: any = {
+    const updatedData: any = {
       name: data.name || user.name,
       imageUrl: data.imageUrl || user.imageUrl,
       roleId: data.roleId || user.roleId,
       deleted: data.deleted ?? user.deleted,
     };
 
-    // ✅ Hanya hash jika password ada dan tidak kosong string
     if (data.password && data.password.trim() !== "") {
       updatedData.password = await hash(data.password, 10);
     }

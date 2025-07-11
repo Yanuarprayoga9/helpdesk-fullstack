@@ -33,6 +33,7 @@ const statusColorClasses: Record<string, string> = {
 };
 
 const TicketDetailCard = ({ ticket, assignedUsers }: TicketDetailCardProps) => {
+
   const [isPending, startTransition] = useTransition();
   const [statusColors, setStatusColors] = useState<Record<string, string>>({});
   const [activeActionKey, setActiveActionKey] = useState<string | false>(false);
@@ -46,7 +47,7 @@ const TicketDetailCard = ({ ticket, assignedUsers }: TicketDetailCardProps) => {
 
   // cek apakah user yang login adalah owner ticket-nya
   const isOwner = ticket.createdBy.id === (session.data?.user?.id ?? "");
-
+  const IsCanManipulate = (isAvaliableToEdit || isOwner)
   // console.log({ assignedUserIds, isAvaliableToEdit, isOwner });
 
   useEffect(() => {
@@ -91,6 +92,13 @@ const TicketDetailCard = ({ ticket, assignedUsers }: TicketDetailCardProps) => {
 
   const availableActions = getAvailableActions(ticket.status.name);
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem('createdBy', ticket.createdBy.id)
+    }
+  }, []);
+
+  // if (!mounted) return null
   return (
     <div className="mb-6 rounded-md border border-border bg-background">
       <div className="flex items-center justify-between border-b border-border p-4">
@@ -101,7 +109,7 @@ const TicketDetailCard = ({ ticket, assignedUsers }: TicketDetailCardProps) => {
           <span className="font-medium">{ticket.createdBy.name}</span>
         </div>
 
-        {(isAvaliableToEdit || isOwner) && (
+        {IsCanManipulate && (
           <>
             <div className="flex items-center gap-2">
               {availableActions.length === 0 ? (
