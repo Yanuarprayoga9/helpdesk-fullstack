@@ -33,7 +33,7 @@ interface TicketFormProps {
   initialData?: z.infer<typeof ticketSchema> & { id: string }
 }
 
-export const ProjectForm  = ({
+export const TicketForm = ({
   userOptions, categoryOptions, priorityOptions,
   projectOptions, initialData
 }: TicketFormProps) => {
@@ -50,6 +50,7 @@ export const ProjectForm  = ({
       images: [],
       assignees: [],
       priority: "",
+      backlog:0 ,
       // status: "",
       project: "",
     },
@@ -108,6 +109,24 @@ export const ProjectForm  = ({
                   <FormControl>
                     <Textarea placeholder="Type description..." {...field} />
                   </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="backlog"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Backlog</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Enter ticket Backlog"
+                      type="number"
+                      {...field}
+                      onChange={(e) => field.onChange(Number(e.target.value))}
+                    />                  
+                    </FormControl>
                   <FormMessage />
                 </FormItem>
               )}

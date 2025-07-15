@@ -40,9 +40,6 @@ export const CommentDeleteButton: React.FC<CommentDeleteButtonProps> = ({ commen
 
       <AlertModal isOpen={open} loading={loading} onClose={() => setOpen(false)} onConfirm={handleConfirm} />
 
-
-   
-
       <div className="flex ">
         <Button
           variant="ghost"

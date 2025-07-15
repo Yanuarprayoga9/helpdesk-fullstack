@@ -1,6 +1,6 @@
 "use client"
 import { Grid, List } from "lucide-react"
-import { TicketCard } from "./card bak"
+import { TicketCard } from "./ticket-card"
 import { TicketShowType } from "@/@types/ticket"
 import { useState } from "react"
 interface ITicketList {
