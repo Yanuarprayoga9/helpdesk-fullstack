@@ -105,9 +105,10 @@ model Status {
 
 // Model Ticket yang merepresentasikan tiket di sistem
 model Ticket {
-  id                      String                    @id @default(uuid()) @db.VarChar(36) // ID unik untuk tiket yang dihasilkan menggunakan UUID
-  title                   String                    @db.VarChar(50) // Judul tiket dengan panjang maksimal 50 karakter
-  description             String                    @db.Text // Deskripsi tiket yang panjangnya tidak terbatas
+  id          String @id @default(uuid()) @db.VarChar(36) // ID unik untuk tiket yang dihasilkan menggunakan UUID
+  title       String @db.VarChar(50) // Judul tiket dengan panjang maksimal 50 karakter
+  description String @db.Text // Deskripsi tiket yang panjangnya tidak terbatas
+  backlog     Int
   imageUrl                String?                   @db.VarChar(100) // URL gambar yang terkait dengan komentar (opsional)
   priorityId              String                    @db.VarChar(36) // ID dari prioritas yang diberikan pada tiket
   statusId                String                    @default("1") @db.VarChar(36) // ID dari status tiket (opsional)
@@ -171,23 +172,21 @@ model TicketHistory {
 
 // Model TicketComment yang menyimpan komentar pada tiket
 model TicketComment {
-  id                String              @id @default(uuid()) @db.VarChar(36) // ID unik untuk komentar tiket yang dihasilkan menggunakan UUID
-  ticketId          String              @db.VarChar(36) // ID dari tiket yang dikomentari
-  userId            String              @db.VarChar(36) // ID dari pengguna yang memberikan komentar
-  comment           String              @db.Text // Isi komentar
-  imageUrl          String?             @db.VarChar(100) // URL gambar yang terkait dengan komentar (opsional)
-  createdAt         DateTime            @default(now()) // Waktu pembuatan komentar, otomatis diisi dengan waktu sekarang
-  parentCommentId   String? // ID dari komentar induk, jika komentar ini adalah balasan (opsional)
-  deleted           Boolean             @default(false)
-  isMostHelpful     Boolean             @default(false) // Menandai apakah komentar ini adalah yang paling membantu
-  ticket            Ticket              @relation(fields: [ticketId], references: [id]) // Relasi dengan tiket yang dikomentari
-  user              User                @relation(fields: [userId], references: [id]) // Relasi dengan pengguna yang memberikan komentar
-  parentComment     TicketComment?      @relation("TicketCommentParent", fields: [parentCommentId], references: [id]) // Relasi dengan komentar induk (opsional)
-  updatedAt         DateTime? // Tanpa @updatedAt
-  replies           TicketComment[]     @relation("TicketCommentParent") // Relasi dengan balasan-balasannya
+  id              String          @id @default(uuid()) @db.VarChar(36) // ID unik untuk komentar tiket yang dihasilkan menggunakan UUID
+  ticketId        String          @db.VarChar(36) // ID dari tiket yang dikomentari
+  userId          String          @db.VarChar(36) // ID dari pengguna yang memberikan komentar
+  comment         String          @db.Text // Isi komentar
+  imageUrl        String?         @db.VarChar(100) // URL gambar yang terkait dengan komentar (opsional)
+  createdAt       DateTime        @default(now()) // Waktu pembuatan komentar, otomatis diisi dengan waktu sekarang
+  parentCommentId String? // ID dari komentar induk, jika komentar ini adalah balasan (opsional)
+  deleted         Boolean         @default(false)
+  isMostHelpful   Boolean         @default(false) // Menandai apakah komentar ini adalah yang paling membantu
+  ticket          Ticket          @relation(fields: [ticketId], references: [id]) // Relasi dengan tiket yang dikomentari
+  user            User            @relation(fields: [userId], references: [id]) // Relasi dengan pengguna yang memberikan komentar
+  parentComment   TicketComment?  @relation("TicketCommentParent", fields: [parentCommentId], references: [id]) // Relasi dengan komentar induk (opsional)
+  updatedAt       DateTime? // Tanpa @updatedAt
+  replies         TicketComment[] @relation("TicketCommentParent") // Relasi dengan balasan-balasannya
 }
-
-
 
 enum AssignmentRequestStatus {
   Pending

@@ -25,11 +25,12 @@ export const editTicket = async (
             return { success: false, message: parsedData.error.errors[0].message };
         }
 
-        const { title, description, category, priority, status, project, images, assignees } = parsedData.data;
+        const { title, description, category, priority, status, project, images, assignees,backlog } = parsedData.data;
 
         const dataToUpdate: Record<string, unknown> = {
             ...(title !== undefined && { title }),
             ...(description !== undefined && { description }),
+            ...(backlog !== undefined && { backlog }),
             ...(category !== undefined && { categoryId: category }),
             ...(priority !== undefined && { priorityId: priority }),
             ...(status !== undefined && { statusId: status }),
@@ -101,6 +102,7 @@ export const createTicket = async (values: z.infer<typeof ticketSchema>): Promis
                         userId: userId,
                     })),
                 },
+                backlog:values.backlog,
                 categoryId: values.category,
                 priorityId: values.priority,
                 imageUrl: values.images[0].url,

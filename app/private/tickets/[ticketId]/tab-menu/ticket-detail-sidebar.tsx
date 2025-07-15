@@ -3,7 +3,7 @@
 import { UserType } from '@/@types/user'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
-import { AlertCircleIcon, Bell, Circle, Plus } from 'lucide-react'
+import {  Bell ,Plus } from 'lucide-react'
 import {  useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import { AssigneesForm } from './assignees-form';
@@ -56,23 +56,9 @@ export const TicketDetailSidebar = ({ assignedUsers, unnasignedUsersOptions, tic
 
     const handleOpen = (open: boolean) => setIsOpen(open);
     const viewAllTeamHandleClick = () => {
-
         router.push(`${TICKETS_ROUTE}/${ticket.id}/team`,);
     };
-    const latestChanges = [
-        {
-            text: "Azure DevOps pipeline failing during package restore",
-            status: "error",
-        },
-        {
-            text: "Added retry mechanism for failed builds",
-            status: "success",
-        },
-        {
-            text: "Updated service connection configuration",
-            status: "info",
-        },
-    ]
+  
     return (
         <div className="w-full hidden shrink-0 p-4 pt-16 lg:block">
             <div className="mb-6">
@@ -159,27 +145,8 @@ export const TicketDetailSidebar = ({ assignedUsers, unnasignedUsersOptions, tic
                 <div className="mt-2 text-xs text-muted-foreground">Join to ticket issue</div>
             </div>
 
-            {/* Latest Changes Section */}
-            <div className="mb-6">
-                <h3 className="mb-2 text-xs font-medium uppercase text-muted-foreground">Latest changes</h3>
-                <div className="space-y-2">
-                    {latestChanges.map((change, index) => (
-                        <div key={index} className="flex items-start gap-2">
-                            {change.status === "error" && <AlertCircleIcon className="mt-1 h-4 w-4 text-destructive" />}
-                            {change.status === "success" && <Circle className="mt-1 h-4 w-4 text-primary" />}
-                            {change.status === "info" && <Circle className="mt-1 h-4 w-4 text-blue-500" />}
-                            <span className="text-sm text-muted-foreground">{change.text}</span>
-                        </div>
-                    ))}
-                </div>
-            </div>
-
-            {/* <div className="mb-6">
-                <Button variant="outline" className="w-full justify-start">
-                    <MessageSquare className="mr-2 h-4 w-4" />
-                    Create issue from discussion
-                </Button>
-            </div> */}
+           
+           
         </div>
     )
 }

@@ -2,9 +2,7 @@ export const dynamic = "force-dynamic";
 
 import { ConsoleContainer } from "@/components/layouts/console-container"
 import AppComment from "@/components/features/comment/app-comment"
-import { MobileSidebar } from "./(menu)/components/mobile-sidebar"
 import { TicketDetailSidebar } from "./tab-menu/ticket-detail-sidebar"
-import { getUsers } from "@/@data/users"
 import { mapAndSort } from "@/lib/utils"
 import { Suspense } from "react";
 import { ConsoleWrapper } from "@/components/layouts/console-wrapper";
@@ -12,6 +10,7 @@ import { getTicketByid } from "@/@data/ticket";
 import { getUsersTicketByTicketId } from "@/@data/ticket-assignee";
 import { getParentCommentsByTicketId } from "@/@data/ticket-comment";
 import { TicketDetailHeader } from "@/components/features/ticket-detail/ticket-detail-header";
+import { getUsersByProjectId } from "@/@data/project";
 interface IAssigmentRequestPage {
   params: Promise<{ ticketId: string }>
 }
@@ -23,15 +22,16 @@ const AssigmentRequestPage = async ({ params }: IAssigmentRequestPage) => {
   const ticket = await getTicketByid(ticketId);
   const ticketUsers = await getUsersTicketByTicketId(ticketId);
   const ticketComments = await getParentCommentsByTicketId(ticketId);
-  const allUsers = await getUsers();
+  const ProjectUsers = await getUsersByProjectId(ticketId);
 
   if (!ticket.ticket || !ticketUsers.users) return "ERROR";
 
+  console.log({ticket})
   // User ID yang sudah terdaftar pada tiket
   const assignedUserIds = ticketUsers.users.map(user => user.id);
 
   // Filter user yang belum terdaftar
-  const unassignedUsers = allUsers.users?.filter(
+  const unassignedUsers = ProjectUsers.users?.filter(
     user => !assignedUserIds.includes(user.id)
   );
 
@@ -56,11 +56,7 @@ const AssigmentRequestPage = async ({ params }: IAssigmentRequestPage) => {
 
           {/* Discussion header */}
           <TicketDetailHeader
-            category={ticket.ticket.category.name}
-            createdBy={ticket.ticket.createdBy.name}
-            title={ticket.ticket.title}
-            id={ticket.ticket.id}
-            createdAt={ticket.ticket.createdAt}
+            ticket={ticket.ticket}
           />
 
         
@@ -72,7 +68,6 @@ const AssigmentRequestPage = async ({ params }: IAssigmentRequestPage) => {
         </ConsoleWrapper>
 
         {/* Mobile sidebar */}
-        <MobileSidebar />
 
         <ConsoleWrapper
           className=" lg:w-1/4"

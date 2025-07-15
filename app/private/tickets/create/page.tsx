@@ -27,7 +27,6 @@ const Page = async () => {
       desc="Fill in the form to create a new ticket."
     >
       <ConsoleWrapper
-
       >
         <TicketForm
           statusOptions={statusOptions || []}

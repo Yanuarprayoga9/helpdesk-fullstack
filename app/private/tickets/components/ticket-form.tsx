@@ -35,7 +35,7 @@ interface TicketFormProps {
 
 export const TicketForm = ({
   userOptions, categoryOptions, priorityOptions,
-   projectOptions, initialData
+  projectOptions, initialData
 }: TicketFormProps) => {
   const isEdit = !!initialData
   const [loading, setLoading] = useState(false)
@@ -50,6 +50,7 @@ export const TicketForm = ({
       images: [],
       assignees: [],
       priority: "",
+      backlog:0 ,
       // status: "",
       project: "",
     },
@@ -68,6 +69,7 @@ export const TicketForm = ({
 
     if (!response.success) {
       toast.error(response.message || "Action failed")
+      console.log(response.message )
     } else {
       toast.success(isEdit ? "Ticket updated!" : "Ticket created!")
       form.reset()
@@ -108,6 +110,24 @@ export const TicketForm = ({
                   <FormControl>
                     <Textarea placeholder="Type description..." {...field} />
                   </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="backlog"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Backlog</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Enter ticket Backlog"
+                      type="number"
+                      {...field}
+                      onChange={(e) => field.onChange(Number(e.target.value))}
+                    />                  
+                    </FormControl>
                   <FormMessage />
                 </FormItem>
               )}

@@ -22,7 +22,7 @@ export const RegisterSchema = z.object({
   name: z.string().min(1, {
     message: "Name is required",
   }),
-  roleId: z.string().min(1, "Category is required").max(100, "Category too long"),
+  roleId: z.string().min(1, "Role is required").max(100, "Category too long"),
   imageUrl: z.string().url({ message: "Invalid image URL" }).optional().nullable(),
 
 });
@@ -46,6 +46,7 @@ export const ticketSchema = z.object({
   priority: z.string().min(1, "Status is required").max(100, "Status too long"),
   project: z.string().min(1, "Project is required").max(100, "Project too long"),
   category: z.string().min(1, "Category is required").max(100, "Category too long"),
+  backlog: z.number().min(1, "Backlog is required").max(100000000, "Backlog too long"),
 });
 
 

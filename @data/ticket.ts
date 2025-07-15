@@ -34,6 +34,8 @@ export const getTickets = async (): Promise<TicketsReturn> => {
         const mappedTickets: TicketType[] = tickets.map((ticket) => ({
             id: ticket.id,
             title: ticket.title,
+            backlog: ticket.backlog,
+
             description: ticket.description,
             imageUrl: ticket.imageUrl,
             priority: ticket.priority,
@@ -74,7 +76,7 @@ export const getTicketByid = async (id: string): Promise<TicketReturn> => {
                 project: true,
             },
         });
-        
+
         if (!ticket) {
             return { success: false, message: "Ticket not found" };
         }
@@ -82,6 +84,7 @@ export const getTicketByid = async (id: string): Promise<TicketReturn> => {
         // Mapping agar sesuai dengan tipe TicketType
         const mappedTicket: TicketType = {
             id: ticket.id,
+            backlog: ticket.backlog,
             title: ticket.title,
             description: ticket.description,
             imageUrl: ticket.imageUrl,
@@ -92,6 +95,7 @@ export const getTicketByid = async (id: string): Promise<TicketReturn> => {
             project: ticket.project,
             createdAt: ticket.createdAt,
             updatedAt: ticket.updatedAt,
+
         };
 
         return {
@@ -108,6 +112,7 @@ export const getTicketByid = async (id: string): Promise<TicketReturn> => {
 export const getTicketsShow = async ({
     assignedToMe,
     sortOrder = "desc",
+    sortBy = "createdAt", // Parameter baru untuk menentukan field yang akan di-sort
     createdById,
     category,
     priority,
@@ -117,6 +122,56 @@ export const getTicketsShow = async ({
     search
 }: ITicketsShowParams): Promise<TicketsShowReturn> => {
     try {
+        // Membuat objek orderBy berdasarkan sortBy parameter
+        let orderBy: any = {};
+        
+        switch (sortBy) {
+            case "project":
+                orderBy = {
+                    project: {
+                        name: sortOrder === "asc" ? "asc" : "desc"
+                    }
+                };
+                break;
+            case "priority":
+                orderBy = {
+                    priority: {
+                        name: sortOrder === "asc" ? "asc" : "desc"
+                    }
+                };
+                break;
+            case "status":
+                orderBy = {
+                    status: {
+                        name: sortOrder === "asc" ? "asc" : "desc"
+                    }
+                };
+                break;
+            case "category":
+                orderBy = {
+                    category: {
+                        name: sortOrder === "asc" ? "asc" : "desc"
+                    }
+                };
+                break;
+            case "title":
+                orderBy = {
+                    title: sortOrder === "asc" ? "asc" : "desc"
+                };
+                break;
+            case "backlog":
+                orderBy = {
+                    backlog: sortOrder === "asc" ? "asc" : "desc"
+                };
+                break;
+            case "createdAt":
+            default:
+                orderBy = {
+                    createdAt: sortOrder === "asc" ? "asc" : "desc"
+                };
+                break;
+        }
+
         const tickets = await prisma.ticket.findMany({
             where: {
                 deleted: false,
@@ -137,7 +192,7 @@ export const getTicketsShow = async ({
                 ...(assignedToMe && {
                     assignees: {
                         some: {
-                            userId: createdById, // Ini harusnya ID user yang sedang login / aktif
+                            userId: createdById,
                             deleted: false,
                         },
                     },
@@ -149,9 +204,7 @@ export const getTicketsShow = async ({
                 ...(status && { status: { name: { contains: status } } }),
                 ...(category && { category: { name: { contains: category } } }),
             },
-            orderBy: {
-                createdAt: sortOrder === "asc" ? "asc" : "desc",
-            },
+            orderBy: orderBy,
             include: {
                 category: {
                     select: {
@@ -188,6 +241,7 @@ export const getTicketsShow = async ({
         const mappedTickets: TicketShowType[] = tickets.map((ticket) => ({
             id: ticket.id,
             title: ticket.title,
+            backlog: ticket.backlog,
             description: ticket.description,
             priority: ticket.priority.name,
             priorityColor: ticket.priority.color,

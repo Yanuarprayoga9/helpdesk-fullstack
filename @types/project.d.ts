@@ -3,7 +3,7 @@ import { UserType } from "./user";
 export type ProjectType = {
     id: string;
     name: string;
-    imageUrl?: string | null;
+    imageUrl: string | null;
     createdAt: Date | string  ; 
     updatedAt: Date | string | null; 
 };

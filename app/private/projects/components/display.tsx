@@ -2,7 +2,7 @@
 
 import { ProjectList } from "@/components/features/project/project-list"
 import { DataTable } from "@/components/data-table"
-import { columns } from "@/app/private/console/projects/components/columns"
+import { columns } from "@/app/private/projects/components/columns"
 import ViewToggle from "@/components/view-toggle"
 import { useSearchParams } from "next/navigation"
 import { ProjectType } from "@/@types/project"

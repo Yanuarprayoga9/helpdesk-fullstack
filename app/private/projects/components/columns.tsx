@@ -5,6 +5,8 @@ import { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
 import { format } from "date-fns";
 
+import CellAction from "./cell-action";
+
 // Definisi kolom untuk tabel users
 export const columns: ColumnDef<ProjectType>[] = [
   {
@@ -39,6 +41,10 @@ export const columns: ColumnDef<ProjectType>[] = [
     id: "actions",
     header: "Actions",
     /* eslint-disable @typescript-eslint/no-unused-vars */
-    cell: ({ row }) => <div>...</div>, // Bisa diganti dengan tombol edit/delete
+    cell: ({ row }) => (
+      <div>
+        <CellAction projectId={row.original.id}/>
+      </div>
+    ) // Bisa diganti dengan tombol edit/delete
   },
 ];

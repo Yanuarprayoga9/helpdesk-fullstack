@@ -21,7 +21,6 @@ const benefits = [
     items: [
       "Clear priority system",
       "Critical issues get attention first",
-      "Balanced workload distribution",
       "Reduced stress for team members",
     ],
   },
@@ -41,9 +40,7 @@ const benefits = [
     title: "Scalable Growth",
     description: "Support your growing team effectively",
     items: [
-      "Handle increasing request volume",
       "Onboard new team members easily",
-      "Maintain service quality",
       "Support multiple projects",
     ],
   },

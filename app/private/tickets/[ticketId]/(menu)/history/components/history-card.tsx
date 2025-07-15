@@ -115,7 +115,6 @@ export default function CardHistory({ histories }: ICardHIstory) {
                                     </div>
                                 </div>
 
-                                {/* Notes */}
                                 {item.changeNotes && (
                                     <div className="flex items-start space-x-3">
                                         <FileText className="w-4 h-4 text-gray-400 mt-1" />
@@ -125,8 +124,6 @@ export default function CardHistory({ histories }: ICardHIstory) {
                                         </div>
                                     </div>
                                 )}
-
-
                             </div>
                         </CardContent>
                     </Card>

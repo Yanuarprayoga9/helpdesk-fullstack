@@ -50,6 +50,7 @@ const page = async ({ params }: IEditTicketPage) => {
     images: ticket?.imageUrl ? [{ url: ticket.imageUrl }] : [],
     assignees: ticketUsers?.users?.map(a => a.id) || [],
     id: ticketId,
+    backlog: ticket?.backlog ?? 0
   };
 
   return (

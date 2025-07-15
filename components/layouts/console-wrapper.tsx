@@ -24,7 +24,7 @@ export const ConsoleWrapper: React.FC<IWrapper> = ({
           <Header title={title} desc={desc} variant={"sub"} >  {headerChildren}     </Header>
 
         )}
-            <div className="overflow-x-scroll">
+            <div className="">
               {children}
             </div>
 

@@ -1,6 +1,6 @@
 "use server"
 
-import { CategoriesReturn, CategoryReturn, CategoryType } from "@/@types/category"
+import { CategoriesReturn } from "@/@types/category"
 
 import prisma from "@/lib/db"
 

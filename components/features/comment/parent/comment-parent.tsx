@@ -21,12 +21,14 @@ export function CommentItem({ comment }: ICommentType) {
   const { replies, fetchReplies, editingCommentId, setEditingCommentId } = useCommentStore();
   const isEditing = editingCommentId === comment.id;
 
+  console.log({replies})
   useEffect(() => {
     fetchReplies(comment.id);
   }, [comment.id, fetchReplies]);
 
   const commentReplies = replies[comment.id] || [];
 
+console.log({commentReplies})
   return (
     <div className="mb-6 rounded-md border border-border bg-background">
       {/* Header */}

@@ -39,6 +39,12 @@ export const columns: ColumnDef<ProjectType>[] = [
     id: "actions",
     header: "Actions",
     /* eslint-disable @typescript-eslint/no-unused-vars */
-    cell: ({ row }) => <div>...</div>, // Bisa diganti dengan tombol edit/delete
+    cell: ({ row }) => (
+       <div>
+              {/* <Link href={`${CONSOLE_PROJECTS_ROUTE}/${row.original.id}/edit` }>
+                <Pen className="w-4 h-4"/>
+              </Link> */}
+            </div>
+    ) // Bisa diganti dengan tombol edit/delete
   },
 ];

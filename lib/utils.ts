@@ -1,8 +1,14 @@
+
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { format } from "date-fns"
 import bcrypt from "bcryptjs";
 
+/**
+ * Menggabungkan class names dengan tailwind-merge untuk menghindari konflik kelas CSS
+ * @param inputs - Array dari class values yang akan digabungkan
+ * @returns {string} - String class names yang sudah digabungkan
+ */
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
@@ -21,14 +27,23 @@ export async function comparePassword(plainPassword: string, hashedPassword: str
     return false;
   }
 }
+
+/**
+ * Meng-hash password menggunakan bcrypt dengan salt 10 rounds
+ * @param password - Password plaintext yang akan di-hash
+ * @returns {Promise<string>} - Password yang sudah di-hash
+ */
 export async function hashPassword(password: string): Promise<string> {
   const salt = await bcrypt.genSalt(10); // Generate salt dengan 10 rounds
   const hashedPassword = await bcrypt.hash(password, salt);
   return hashedPassword;
 }
 
-
-// Helper function to format dates that could be strings or Date objects
+/**
+ * Memformat tanggal ke dalam format yang mudah dibaca
+ * @param date - Objek Date atau string tanggal
+ * @returns {string} - Tanggal dalam format "MMM d, yyyy"
+ */
 export const formatDate = (date: Date | string) => {
   if (typeof date === "string") {
     return format(new Date(date), "MMM d, yyyy")
@@ -36,11 +51,18 @@ export const formatDate = (date: Date | string) => {
   return format(date, "MMM d, yyyy")
 }
 
-
 export type SelectorsType = {
   label: string
   value: string 
 }
+
+/**
+ * Mengubah array menjadi format selector dan mengurutkannya berdasarkan label
+ * @param array - Array data yang akan diubah
+ * @param getLabel - Function untuk mendapatkan label dari setiap item
+ * @param getValue - Function untuk mendapatkan value dari setiap item
+ * @returns {SelectorsType[]} - Array objek dengan property label dan value yang sudah diurutkan
+ */
 export function mapAndSort<T>(
   array: T[] = [],
   getLabel: (item: T) => string,

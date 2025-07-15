@@ -19,7 +19,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 
-import { CONSOLE_ROUTE, DEFAULT_ISLOGIN_REDIRECT_ROUTE } from "@/constants/routes"
+import { CONSOLE_USERS_ROUTE, TICKETS_ROUTE } from "@/constants/routes"
 
 export function ConsoleSwitcher() {
   const { isMobile } = useSidebar()
@@ -32,12 +32,12 @@ export function ConsoleSwitcher() {
     {
       name: "Main App",
       icon: Home,
-      href: DEFAULT_ISLOGIN_REDIRECT_ROUTE,
+      href: TICKETS_ROUTE,
     },
     {
       name: "Console",
       icon: LayoutDashboard,
-      href: CONSOLE_ROUTE,
+      href: CONSOLE_USERS_ROUTE,
     },
   ]
 

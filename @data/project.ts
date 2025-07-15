@@ -1,7 +1,7 @@
 "use server"
 
-import { ProjectReturn, ProjectsReturn, ProjectType } from "@/@types/project";
-import { getUsersReturn, UserType } from "@/@types/user";
+import { ProjectReturn, ProjectsReturn } from "@/@types/project";
+import { getUsersReturn } from "@/@types/user";
 import prisma from "@/lib/db"
 
 

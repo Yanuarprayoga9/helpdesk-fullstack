@@ -25,7 +25,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async jwt(args: any) {
       const { token, user } = args as { token: JWT; user?: UserType };
 
-    
+
       if (user) {
 
         token.user = {
@@ -63,15 +63,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         interface UserAuthType extends UserType {
           password: string;
         }
-
         const user: UserAuthType = await prisma.user.findFirst({
           where: { email },
           include: { role: true },
         });
 
         if (!user || !user.password) return null;
-
-
 
         const isValidPassword = await comparePassword(password, user.password);
         if (!isValidPassword) return null;

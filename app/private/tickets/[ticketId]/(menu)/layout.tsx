@@ -2,15 +2,14 @@
 import { ReactNode, Suspense } from "react";
 import { ConsoleContainer } from "@/components/layouts/console-container";
 import { ConsoleWrapper } from "@/components/layouts/console-wrapper";
-import { MobileSidebar } from "./components/mobile-sidebar";
 import { TicketDetailSidebar } from "../tab-menu/ticket-detail-sidebar";
-import { getUsers } from "@/@data/users";
 import { getTicketByid } from "@/@data/ticket";
 import { getUsersTicketByTicketId } from "@/@data/ticket-assignee";
 import { mapAndSort } from "@/lib/utils";
 import AppComment from "@/components/features/comment/app-comment";
 import { getParentCommentsByTicketId } from "@/@data/ticket-comment";
 import { TicketDetailHeader } from "@/components/features/ticket-detail/ticket-detail-header";
+import { getUsersByProjectId } from "@/@data/project";
 
 export const dynamic = "force-dynamic";
 
@@ -20,16 +19,21 @@ interface MenuLayoutProps {
 }
 
 export default async function MenuLayout({ children, params }: MenuLayoutProps) {
-  const ticketId = (await params).ticketId; // ✅ Sudah benar, tidak perlu await
+    const ticketId = (await params).ticketId; // ✅ Sudah benar, tidak perlu await
     const ticket = await getTicketByid(ticketId);
+    // Early return with proper type checking
+    if (!ticket.ticket || !ticket.ticket.project?.id) {
+        return <div>ERROR: Ticket not found</div>;
+    }
+
     const ticketUsers = await getUsersTicketByTicketId(ticketId);
-    const allUsers = await getUsers();
+    const ProjectUsers = await getUsersByProjectId(ticket.ticket?.project.id);
     const ticketComments = await getParentCommentsByTicketId(ticketId);
 
     if (!ticket.ticket || !ticketUsers.users) return "ERROR";
 
     const assignedUserIds = ticketUsers.users.map((user) => user.id);
-    const unassignedUsers = allUsers.users?.filter(
+    const unassignedUsers = ProjectUsers.users?.filter(
         (user) => !assignedUserIds.includes(user.id)
     );
 
@@ -44,18 +48,13 @@ export default async function MenuLayout({ children, params }: MenuLayoutProps) 
             <ConsoleContainer>
                 <ConsoleWrapper className="lg:w-9/12">
                     <TicketDetailHeader
-                        category={ticket.ticket.category.name}
-                        createdBy={ticket.ticket.createdBy.name}
-                        title={ticket.ticket.title}
-                        id={ticket.ticket.id}
-                        createdAt={ticket.ticket.createdAt}
+                        ticket={ticket.ticket}
                     />
                     {children}
                     <AppComment ticketId={ticketId} parentComments={ticketComments.comments || []} />
 
                 </ConsoleWrapper>
 
-                <MobileSidebar />
 
                 <ConsoleWrapper className="lg:w-1/4">
                     <TicketDetailSidebar

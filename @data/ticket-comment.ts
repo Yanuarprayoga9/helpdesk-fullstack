@@ -3,7 +3,6 @@
 import { CommentsReturn, CommentType } from "@/@types/ticket-comment";
 import { PrismaClient } from "@prisma/client";
 
-// Global prisma instance to avoid creating multiple connections
 const prisma = new PrismaClient();
 
 export const getParentCommentsByTicketId = async (
@@ -30,9 +29,11 @@ export const getParentCommentsByTicketId = async (
           },
         },
       },
-      orderBy: {
-        createdAt: "asc",
-      },
+      orderBy: [
+        { isMostHelpful: 'desc' }, // komentar paling membantu di atas
+        { createdAt: 'asc' }       // komentar lain diurut naik berdasarkan waktu
+      ]
+
     });
 
     const mappedComments: CommentType[] = comments.map((comment) => ({

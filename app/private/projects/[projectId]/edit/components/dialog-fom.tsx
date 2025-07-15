@@ -5,18 +5,15 @@ import type React from "react"
 
 import { useState } from "react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
-import { Edit } from "lucide-react"
+
 import { EditProjectForm } from "./project-form"
-import { ProjectType } from "@/@types/project"
+import { Pen } from "lucide-react"
 
-interface ProjectEditDialogProps {
-  project: ProjectType // Use your ProjectData type
-  userMapped?: Array<{ label: string; value: string }>
-  trigger?: React.ReactNode
+
+type ProjectEditDialogProps = {
+  projectId:string
 }
-
-export function ProjectEditDialog({ project, userMapped, trigger }: ProjectEditDialogProps) {
+export function ProjectEditDialog({projectId}:ProjectEditDialogProps) {
   const [open, setOpen] = useState(false)
 
   // const handleSuccess = () => {
@@ -26,18 +23,14 @@ export function ProjectEditDialog({ project, userMapped, trigger }: ProjectEditD
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        {trigger || (
-          <Button variant="outline" size="sm">
-            <Edit className="h-4 w-4 mr-2" />
-            Edit
-          </Button>
-        )}
+        <Pen className="w-4 h-4" />
+
       </DialogTrigger>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Edit Project</DialogTitle>
         </DialogHeader>
-        <EditProjectForm project={project} userMapped={userMapped} />
+        <EditProjectForm projectId={projectId as string} />
       </DialogContent>
     </Dialog>
   )

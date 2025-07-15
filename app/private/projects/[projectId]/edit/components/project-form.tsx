@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -12,71 +12,120 @@ import { ImageUpload } from "@/components/image-upload"
 import MultipleSelector from "@/components/ui/multiple-selector"
 import { updateProjectById } from "@/actions/project"
 import toast from "react-hot-toast"
+import { getProjectById, getUsersByProjectId } from "@/@data/project"
+import { getUsers } from "@/@data/users"
+import { mapAndSort } from "@/lib/utils"
 
 export const projectSchema = z.object({
   name: z.string().min(3, "Project name must be at least 3 characters"),
   images: z.object({ url: z.string() }).array(),
-  userIds: z.array(z.string().optional()), // Bisa kosong
+  userIds: z.array(z.string()), // Bisa kosong
 })
+
+type EditProjectFormProps = {
+  projectId: string
+}
 
 type SelectorsType = {
   label: string
   value: string
 }
 
-interface ProjectData {
-  id: string
-  name: string
-  imageUrl?: string | null
-  ProjectUser?: Array<{
-    userId: string
-    user: {
-      id: string
-      name: string
-    }
-  }>
-}
-
-interface EditProjectFormProps {
-  project: ProjectData
-  userMapped?: SelectorsType[]
-}
-
-export function EditProjectForm({ project, userMapped }: EditProjectFormProps) {
+export function EditProjectForm({ projectId }: EditProjectFormProps) {
   const [loading, setLoading] = useState(false)
+  const [dataLoaded, setDataLoaded] = useState(false)
   const router = useRouter()
 
-  // Prepare initial values from project data
-  const initialImages = project.imageUrl ? [{ url: project.imageUrl }] : []
-  const initialUserIds = project.ProjectUser?.map((pu) => pu.userId) || []
+  // Gabungkan semua user options dalam satu state
+  const [allUserOptions, setAllUserOptions] = useState<SelectorsType[]>([])
+  const [_, setAssignedUserIds] = useState<string[]>([])
 
   const form = useForm<z.infer<typeof projectSchema>>({
     resolver: zodResolver(projectSchema),
     defaultValues: {
-      name: project.name,
-      images: initialImages,
-      userIds: initialUserIds,
+      name: "",
+      images: [],
+      userIds: [],
     },
   })
+
+  useEffect(() => {
+    const fetchProject = async (id: string) => {
+      try {
+        setLoading(true)
+
+        // Fetch semua data yang diperlukan
+        const [res, projectUserRes, allUsers] = await Promise.all([
+          getProjectById(id),
+          getUsersByProjectId(id),
+          getUsers()
+        ])
+
+        if (res.project && allUsers.users) {
+          // User ID yang sudah terdaftar pada project
+          const currentAssignedUserIds = projectUserRes.users?.map(user => user.id) || []
+
+          // Mapping semua user untuk options
+          const allUserOptions = mapAndSort(
+            allUsers.users,
+            user => user.name,
+            user => user.id
+          )
+
+          // Set state
+          setAllUserOptions(allUserOptions)
+          setAssignedUserIds(currentAssignedUserIds)
+
+          // Reset form dengan data yang tepat
+          const formData = {
+            name: res.project.name,
+            images: res.project.imageUrl ? [{ url: res.project.imageUrl }] : [],
+            userIds: currentAssignedUserIds
+          }
+
+          form.reset(formData)
+          setDataLoaded(true)
+        }
+      } catch (error) {
+        console.error("Error fetching project data:", error)
+        toast.error("Failed to load project data")
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchProject(projectId)
+  }, [projectId, form])
 
   async function onSubmit(values: z.infer<typeof projectSchema>) {
     setLoading(true)
 
-    const response = await updateProjectById(project.id, {
-      name: values.name,
-      imageUrl: values.images[0]?.url || null,
-      userIds: values.userIds?.map(String) || [],
-    })
+    try {
+      const response = await updateProjectById(projectId, {
+        name: values.name,
+        imageUrl: values.images[0]?.url || null,
+        userIds: values.userIds?.filter(Boolean) || [], // Filter out undefined values
+      })
 
-    setLoading(false)
-    if (!response.success) {
-      toast.error(response.message || "Update failed", { id: "EditProject" })
-    } else {
-      toast.success("Project updated successfully!")
-      router.refresh()
-      // Optionally redirect to project detail page
-      // router.push(`/projects/${project.id}`);
+      if (!response.success) {
+        toast.error(response.message || "Update failed", { id: "EditProject" })
+      } else {
+        toast.success("Project updated successfully!")
+        router.refresh()
+        // Optionally redirect to project detail page
+        // router.push(`/projects/${projectId}`)
+      }
+    } catch (error) {
+      console.error("Error updating project:", error)
+      toast.error("An error occurred while updating the project")
+    } finally {
+      setLoading(false)
     }
+  }
+
+  // Jangan render form sampai data dimuat
+  if (!dataLoaded) {
+    return <div>Loading...</div>
   }
 
   return (
@@ -96,6 +145,7 @@ export function EditProjectForm({ project, userMapped }: EditProjectFormProps) {
               </FormItem>
             )}
           />
+
           <FormField
             control={form.control}
             name="images"
@@ -114,6 +164,7 @@ export function EditProjectForm({ project, userMapped }: EditProjectFormProps) {
               </FormItem>
             )}
           />
+
           <FormField
             control={form.control}
             name="userIds"
@@ -122,14 +173,14 @@ export function EditProjectForm({ project, userMapped }: EditProjectFormProps) {
                 <FormLabel>Assigned Users</FormLabel>
                 <FormControl>
                   <MultipleSelector
-                    value={userMapped?.filter((opt) => field.value?.includes(opt.value))}
+                    value={allUserOptions.filter((opt) => field.value?.includes(opt.value))}
                     onChange={(selected) => {
                       form.setValue(
                         "userIds",
-                        selected.map((opt) => opt.value),
+                        selected.map((opt) => opt.value)
                       )
                     }}
-                    defaultOptions={userMapped}
+                    defaultOptions={allUserOptions} // Gunakan semua user sebagai options
                     placeholder="Select users to assign..."
                     emptyIndicator={
                       <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
@@ -143,7 +194,7 @@ export function EditProjectForm({ project, userMapped }: EditProjectFormProps) {
             )}
           />
 
-          <div className="flex gap-2">
+          <div className="flex -2">
             <Button type="submit" className="bg-main-green text-white" disabled={loading}>
               {loading ? "Updating..." : "Update Project"}
             </Button>

@@ -12,6 +12,7 @@ export type TicketType = {
     priority: PriorityType
     status: StatusType
     createdBy: UserType
+    backlog: number
     category: CategoryType
     project: ProjectType
     createdAt: Date
@@ -26,6 +27,7 @@ export type TicketShowType = {
     priorityColor: string
     status: string;
     statusColor: string
+    backlog: number
     createdBy: string
     createdByRole: string
     category: string
@@ -39,12 +41,13 @@ export interface ITicketsShowParams {
     createdById?: string;
     category?: string;
     categoryId?: string;
+    sortBy?:string;
     priority?: string;
     status?: string;
     projectId?: string;
     search?: string;
     sortOrder?: string;
-    assignedToMe?:boolean;
+    assignedToMe?: boolean;
 }
 export interface TicketsShowReturn extends ActionResult {
     tickets?: TicketShowType[]
