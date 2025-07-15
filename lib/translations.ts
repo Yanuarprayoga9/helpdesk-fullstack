@@ -32,12 +32,13 @@ export const translations = {
     statusOnHoldActivity: "Menunggu klarifikasi dari pelapor. Menunggu approval dari manajer atau akses tertentu.",
     statusOnHoldExample: "Menunggu akses ke database untuk melanjutkan investigasi.",
 
-    statusRequestHelp: "requestHelp",
+    statusRequestHelp: "Request Help",
     statusRequestHelpDesc:
-      "Tiket dinaikkan ke tim yang lebih berpengalaman atau memiliki otoritas lebih tinggi untuk menangani masalah kompleks.",
+      "Tiket dinaikkan karena tim saat ini membutuhkan bantuan dari tim lain atau pihak yang lebih berpengalaman.",
     statusRequestHelpActivity:
-      "Tim level 1 menyerahkan tiket ke level 2 atau 3. Biasanya untuk masalah dengan prioritas tinggi atau kritis.",
-    statusRequestHelpExample: "Masalah keamanan kritis diteruskan ke tim keamanan IT.",
+      "Tiket diminta bantuannya oleh developer, QA, atau support karena membutuhkan klarifikasi teknis, keputusan bisnis, atau dukungan lebih lanjut.",
+    statusRequestHelpExample:
+      "Developer mengalami kesulitan saat menghitung nilai evaluasi dan meminta bantuan dari tim produk atau arsitek sistem.",
 
     statusResolved: "Resolved",
     statusResolvedDesc: "Solusi telah diterapkan, dan masalah dianggap selesai.",
@@ -171,10 +172,12 @@ export const translations = {
     statusOnHoldExample: "Waiting for database access to continue investigation.",
 
     statusRequestHelp: "Request Help",
-    statusRequestHelpDesc: "Ticket escalated to more experienced team or higher authority to handle complex issues.",
+    statusRequestHelpDesc:
+      "The ticket is escalated because the current team needs support from another team or someone with more experience to resolve the issue.",
     statusRequestHelpActivity:
-      "Level 1 team hands over ticket to level 2 or 3. Usually for high priority or critical issues.",
-    statusRequestHelpExample: "Critical security issue forwarded to IT security team.",
+      "The developer, QA, or support team asks for help due to technical uncertainty, business clarification, or the need for deeper expertise.",
+    statusRequestHelpExample:
+      "Developer struggles with evaluation logic and requests assistance from the product team or system architect.",
 
     statusResolved: "Resolved",
     statusResolvedDesc: "Solution has been implemented, and the issue is considered resolved.",

@@ -18,19 +18,17 @@ export function PriorityReference() {
       examples:
         language === "id"
           ? [
-              "Server Produksi Down - Server aplikasi tidak dapat diakses sejak pukul 08:00, semua layanan berhenti.",
-              "Kegagalan Database Utama - Replikasi database gagal, menyebabkan transaksi tidak dapat disimpan.",
-              "Jaringan Internal Putus - Cluster Kubernetes kehilangan konektivitas antar node.",
-              "Eksploitasi Keamanan Sedang Berlangsung - Kerentanan log4j ditemukan di server produksi, segera tambal.",
-              "Pipeline CI/CD Produksi Gagal Total - Deployment aplikasi tidak dapat dilakukan akibat error di Jenkins.",
-            ]
+            "Tidak dapat membuat data penting seperti Tiket, Master Project, atau User - proses kerja terhenti total.",
+            "Bug pada tombol 'Create' menyebabkan form tidak bisa disubmit.",
+            "Data master tidak tersedia, sehingga seluruh fitur turunannya tidak bisa digunakan.",
+            "Validasi gagal di semua form penting tanpa pesan error yang jelas.",
+          ]
           : [
-              "Production Server Down - Application server inaccessible since 08:00, all services stopped.",
-              "Main Database Failure - Database replication failed, causing transactions unable to be saved.",
-              "Internal Network Disconnected - Kubernetes cluster lost connectivity between nodes.",
-              "Ongoing Security Exploitation - log4j vulnerability found on production server, patch immediately.",
-              "Production CI/CD Pipeline Total Failure - Application deployment cannot be done due to Jenkins error.",
-            ],
+            "Unable to create critical data such as Ticket, Project, or User - all operations blocked.",
+            "'Create' button bug prevents form submission.",
+            "Master data missing, causing all dependent features to fail.",
+            "Validation failure in all major forms with no clear feedback.",
+          ],
       icon: <AlertOctagon className="h-6 w-6 text-red-500" />,
       color: "bg-red-100 text-red-800",
     },
@@ -42,19 +40,17 @@ export function PriorityReference() {
       examples:
         language === "id"
           ? [
-              "Layanan API Lambat - API gateway membutuhkan waktu 10 detik untuk merespons permintaan GET.",
-              "Load Balancer Error - Load balancer hanya mengarahkan traffic ke satu server, menyebabkan overload.",
-              "Kesalahan Konfigurasi Infrastruktur - Volume storage pada satu instance penuh, layanan terganggu.",
-              "Job Scheduler Tidak Berjalan - Backup otomatis database tidak berjalan selama 3 hari terakhir.",
-              "Masalah Cache - Redis cache corrupt, menyebabkan peningkatan latency di aplikasi.",
-            ]
+            "Fungsi upload file (Minio) tidak berjalan, padahal dibutuhkan untuk lampiran penting.",
+            "Perhitungan penilaian ahli (SME) salah atau tidak konsisten.",
+            "User tidak dapat melihat peran (role) yang seharusnya dimiliki.",
+            "Tidak bisa mengakses halaman forum diskusi padahal data tersedia.",
+          ]
           : [
-              "Slow API Service - API gateway takes 10 seconds to respond to GET requests.",
-              "Load Balancer Error - Load balancer only directs traffic to one server, causing overload.",
-              "Infrastructure Configuration Error - Storage volume on one instance full, service disrupted.",
-              "Job Scheduler Not Running - Automatic database backup not running for the last 3 days.",
-              "Cache Issues - Redis cache corrupt, causing increased latency in application.",
-            ],
+            "File upload function (Minio) is not working, needed for important attachments.",
+            "SME scoring calculation is wrong or inconsistent.",
+            "User roles (admin, badiklat) not displayed correctly.",
+            "Unable to access forum detail page despite data being available.",
+          ],
       icon: <AlertTriangle className="h-6 w-6 text-orange-500" />,
       color: "bg-orange-100 text-orange-800",
     },
@@ -66,19 +62,17 @@ export function PriorityReference() {
       examples:
         language === "id"
           ? [
-              "Kesalahan pada Monitoring - Grafana tidak menampilkan metrik untuk service tertentu.",
-              "Request Pembaruan Script Deployment - Tambahkan validasi baru dalam script deployment untuk mengecek environment variables.",
-              "Masalah Log - Log dari microservice X tidak terindeks di Elasticsearch.",
-              "Permintaan Akses SSH - Developer baru meminta akses ke server staging untuk debugging.",
-              "Gangguan Minor di CDN - Beberapa file statis tidak di-cache di CDN regional tertentu.",
-            ]
+            "Developer masih kebingungan cara mengimplementasikan logika tertentu seperti perhitungan SME.",
+            "Belum ada utility notifikasi, tapi sistem utama tetap berjalan.",
+            "Proses integrasi belum lengkap, tapi tidak berdampak ke pengguna akhir.",
+            "Data tampil tetapi formatnya belum sempurna (misal: role tampil ID, bukan nama).",
+          ]
           : [
-              "Monitoring Error - Grafana not displaying metrics for specific service.",
-              "Deployment Script Update Request - Add new validation in deployment script to check environment variables.",
-              "Log Issues - Logs from microservice X not indexed in Elasticsearch.",
-              "SSH Access Request - New developer requests access to staging server for debugging.",
-              "Minor CDN Disruption - Some static files not cached in specific regional CDN.",
-            ],
+            "Developer unsure how to implement certain logic like SME scoring.",
+            "Notification utility missing, but core system works.",
+            "Integration incomplete, but no impact on end users.",
+            "Data shown with incorrect format (e.g., role shows ID instead of name).",
+          ],
       icon: <AlertCircle className="h-6 w-6 text-yellow-500" />,
       color: "bg-yellow-100 text-yellow-800",
     },
@@ -90,23 +84,23 @@ export function PriorityReference() {
       examples:
         language === "id"
           ? [
-              "Permintaan Update Dokumentasi - Update README.md untuk menjelaskan cara setup lokal.",
-              "Perubahan Nama Resource - Ubah nama bucket S3 agar sesuai dengan standar penamaan terbaru.",
-              "Cleanup Resource Lama - Hapus server development lama yang tidak digunakan.",
-              "Permintaan Perubahan Grafana Dashboard - Tambahkan metrik baru pada panel CPU usage di dashboard.",
-              "Automasi Tambahan - Tambahkan step otomatis untuk memvalidasi PR ke branch staging.",
-            ]
+            "Perubahan tampilan UI yang tidak memengaruhi fungsionalitas.",
+            "Update dokumentasi cara setup project.",
+            "Permintaan ganti nama field atau label.",
+            "Tambahan fitur minor seperti filter tambahan di tabel.",
+            "Update warna atau padding untuk keseragaman desain.",
+          ]
           : [
-              "Documentation Update Request - Update README.md to explain local setup.",
-              "Resource Name Change - Change S3 bucket name to match latest naming standards.",
-              "Old Resource Cleanup - Delete old unused development servers.",
-              "Grafana Dashboard Change Request - Add new metrics to CPU usage panel in dashboard.",
-              "Additional Automation - Add automatic step to validate PR to staging branch.",
-            ],
+            "UI changes that don't affect functionality.",
+            "Documentation updates for project setup.",
+            "Request to rename field or label.",
+            "Minor feature additions like extra table filters.",
+            "UI polish: color or padding adjustments for consistency.",
+          ],
       icon: <Info className="h-4 w-4 text-blue-500" />,
       color: "bg-blue-100 text-blue-800",
     },
-  ]
+  ];
 
   return (
     <div className="space-y-8">
