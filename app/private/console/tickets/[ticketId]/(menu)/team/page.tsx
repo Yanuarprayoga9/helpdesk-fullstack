@@ -3,7 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import { getTicketByid } from "@/@data/ticket";
 import { getUsersTicketByTicketId } from "@/@data/ticket-assignee";
-import { AppTab } from "../../tab-menu/app-tab";
+import { AppTab } from "../../tab-menu-components/app-tab";
 import AssigneeDeleteButton from "./components/assignee-delete-button";
 
 interface IEditTicketPage {

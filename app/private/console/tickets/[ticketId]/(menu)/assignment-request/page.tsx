@@ -3,7 +3,7 @@ export const dynamic = "force-dynamic";
 import { Suspense } from "react";
 
 import { getUsersTicketByTicketId } from "@/@data/ticket-assignee";
-import { AppTab } from "../../tab-menu/app-tab";
+import { AppTab } from "../../tab-menu-components/app-tab";
 
 import RequestAssignmentsList from "./components/assigment-list";
 import { getAllRequestAssignmentsByTicketId } from "@/@data/ticket-assignment-request";

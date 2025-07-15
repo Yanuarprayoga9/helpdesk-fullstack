@@ -2,7 +2,7 @@ export const dynamic = "force-dynamic";
 
 import { getTicketByid } from "@/@data/ticket";
 import { getUsersTicketByTicketId } from "@/@data/ticket-assignee";
-import { AppTab } from "../../tab-menu/app-tab";
+import { AppTab } from "../../tab-menu-components/app-tab";
 import { getHistories } from "@/@data/history";
 import CardHistory from "./components/history-card";
 
