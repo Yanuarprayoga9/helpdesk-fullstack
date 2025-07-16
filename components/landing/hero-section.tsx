@@ -13,12 +13,12 @@ export function HeroSection() {
           </Badge>
 
           <h1 className="text-4xl font-bold tracking-tight sm:text-6xl md:text-7xl">
-            Transform Your
-            <span className="text-primary"> Team Communication</span>
+            Helpdesk Ticketing
+            <span className="text-primary"> System</span>
           </h1>
 
           <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground sm:text-xl">
-            From manual chat requests to organized ticket management. Help your development and DevOps teams collaborate
+            From manual chat requests to organized ticket management. Help your dvelopment  teams collaborate
             more efficiently with structured problem tracking and resolution.
           </p>
 
@@ -27,9 +27,7 @@ export function HeroSection() {
               Start Organizing
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
-            <Button variant="outline" size="lg" className="text-lg px-8">
-              See How It Works
-            </Button>
+            
           </div>
 
           <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">

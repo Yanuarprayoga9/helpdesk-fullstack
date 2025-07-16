@@ -3,7 +3,6 @@ import AppSideFilter from "@/components/features/ticket/side-filter/app-side-fil
 import { getCategories } from "@/@data/category"
 import { mapAndSort } from "@/lib/utils"
 
-// ⬅️ import ini buat ambil searchParams
 import AppTickets from "@/components/features/ticket/app-ticket"
 import { getTicketsShow } from "@/@data/ticket"
 import AppTopFilter from "@/components/features/ticket/top-filter/app-top-filter"
@@ -47,7 +46,6 @@ export default async function TicketsPage({ searchParams }: TicketsPageProps) {
     const { categories } = await getCategories(false)
     const { projects } = await getProjects(false)
     const categoryOptions = mapAndSort(categories, (cat) => cat.name, (cat) => cat.id)
-    // Perbaikan: gunakan projects untuk projectOptions, bukan categories
     const projectOptions = mapAndSort(projects, (project) => project.name, (project) => project.id)
 
     return (

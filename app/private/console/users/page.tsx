@@ -28,7 +28,7 @@ const page = async () => {
           desc="Browse and manage all registered users"
           className="lg:w-8/12"
         >
-          <DataTable searchKey='id' columns={columns} data={users || []} />
+          <DataTable searchKey='name' columns={columns} data={users || []} />
         </ConsoleWrapper>
         <ConsoleWrapper
          
