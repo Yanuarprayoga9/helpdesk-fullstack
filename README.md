@@ -52,6 +52,9 @@ npx prisma db push
 ### Start the app
 
 ```shell
+docker run -d --name docker-mailhog -p 1025:1025 -p 8025:8025 mailhog/mailhog
+docker start docker-mailhog
+
 npm run dev
 ```
 
@@ -62,3 +65,5 @@ Running commands with npm `npm run [command]`
 | command         | description                              |
 | :-------------- | :--------------------------------------- |
 | `dev`           | Starts a development instance of the app |
+
+

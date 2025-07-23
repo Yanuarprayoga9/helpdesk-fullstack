@@ -1,12 +1,14 @@
 "use server";
 
 import { TicketReturn } from "@/@types/ticket";
-import { getCurrentUser } from "@/@data/user";
+import { getCurrentUser, getUserById } from "@/@data/user";
 import { ticketSchema } from "@/schemas";
 import { PrismaClient, Prisma } from "@prisma/client";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { TICKETS_ROUTE } from "@/constants/routes";
+import { sendEmailTicketCreate, sendMailtest } from "@/lib/mail";
+import { getUsersTicketByTicketId } from "@/@data/ticket-assignee";
 
 const prisma = new PrismaClient();
 
@@ -25,7 +27,7 @@ export const editTicket = async (
             return { success: false, message: parsedData.error.errors[0].message };
         }
 
-        const { title, description, category, priority, status, project, images, assignees,backlog } = parsedData.data;
+        const { title, description, category, priority, status, project, images, assignees, backlog } = parsedData.data;
 
         const dataToUpdate: Record<string, unknown> = {
             ...(title !== undefined && { title }),
@@ -93,7 +95,7 @@ export const createTicket = async (values: z.infer<typeof ticketSchema>): Promis
             return { success: false, message: parsedData.error.errors[0].message };
         }
 
-        await prisma.ticket.create({
+        const ticket = await prisma.ticket.create({
             data: {
                 title: values.title,
                 description: values.description,
@@ -102,7 +104,7 @@ export const createTicket = async (values: z.infer<typeof ticketSchema>): Promis
                         userId: userId,
                     })),
                 },
-                backlog:values.backlog,
+                backlog: values.backlog,
                 categoryId: values.category,
                 priorityId: values.priority,
                 imageUrl: values.images[0].url,
@@ -110,6 +112,28 @@ export const createTicket = async (values: z.infer<typeof ticketSchema>): Promis
                 createdById: me.user.id,
             }
         });
+
+
+        if (!process.env.RESEND_API_KEY) {
+            throw `Abort: You need to define RESEND_API_KEY in the .env file.`;
+        }
+
+        const creator = await getUserById(me.user.id)
+        console.log({ id: ticket.id, title: ticket.title, email: creator.user?.email })
+
+        const getTicketUsers = await getUsersTicketByTicketId(ticket.id)
+
+        const emails = getTicketUsers.users?.map(u => u.email)
+
+        if (emails) {
+            emails.forEach((e: string) => {
+                sendMailtest({ email: e, ticketName: ticket.title, ticketId: ticket.id })
+            });
+        }
+
+
+        console.log({ getTicketUsers })
+        await sendEmailTicketCreate(ticket.id, ticket.title, "yanuarprayogat@gmail.com")
 
         return { success: true, message: "Ticket successfully created" };
 

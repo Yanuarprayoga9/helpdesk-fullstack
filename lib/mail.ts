@@ -1,31 +1,83 @@
-// // import { Resend } from "resend";
+import { Resend } from "resend";
+import nodemailer from "nodemailer"
+const resend = new Resend(process.env.RESEND_API_KEY);
+const domain = process.env.NEXT_PUBLIC_APP_URL
+export const sendTwoFactorTokenEmail = async (email: string, token: string) => {
+    await resend.emails.send({
+        from: "onboarding@resend.dev",
+        to: email,
+        subject: "2FA Code",
+        html: `<p>Your 2FA code: ${token}</p>`,
+    });
+};
 
-// // const resend = new Resend(process.env.RESEND_API_KEY);
-// import nodemailer from "nodemailer";
+export const sendEmailVerifictionToken = async (
+    email: string,
+    token: string
+) => {
+    const confirmLink = `${domain}/auth/new-verification?token=${token}`;
+    console.log({ confirmLink, email });
+    await resend.emails.send({
+        from: "onboarding@resend.dev",
+        to: email,
+        subject: "Confirm your email",
+        html: `<p>Click <a href="${confirmLink}">here</a> to confirm email.</p>`,
+    });
+};
 
-// export const transporter = nodemailer.createTransport({
-//   service: "gmail",
-//   host:"smtp.gmail.com",
-//   port:587,
-//   secure:false,
-//   auth: {
-//     user: process.env.EMAIL_USER,
-//     pass: process.env.EMAIL_PASS,
-//   },
-// });
+export const sendEmailResetPasswordToken = async (
+    email: string,
+    token: string
+) => {
+    const resetLink = `${domain}/auth/new-password?token=${token}`;
+    console.log({ resetLink, email });
+    await resend.emails.send({
+        from: "onboarding@resend.dev",
+        to: email,
+        subject: "reset password",
+        html: `<p>Click <a href="${resetLink}">here</a> to reset your password.</p>`,
+    });
+};
 
-// export async function sendMail(to: string, subject: string, html: string) {
-//  try {
-//     const info = await transporter.sendMail({
-//       from: `"VR Jakarta" <${process.env.EMAIL_USER}>`,
-//       to,
-//       subject,
-//       html,
-//     });
-//     // console.log("Email sent: ", info.messageId);
-//   } catch (error) {
-//     // console.error("Failed to send email:", error);
-//   }
+export const sendEmailTicketCreate = async (ticketId: string, ticketname: string, email: string) => {
 
-// //   console.log("Email sent: ", info.messageId);
-// }
+    console.log(process.env.RESEND_API_KEY, domain)
+    const ticketRoute = `${domain}/private/tickets/${ticketId}/detail`;
+    try {
+        await resend.emails.send({
+            from: "onboarding@resend.dev",
+            to: email,
+            subject: `tiket ${ticketname} harus segera dikerjakan `,
+            html: `<p>Klik <a href="${ticketRoute}">disini</a> untuk menuju ke halaman tiket.</p>`,
+        });
+    } catch (error) {
+        console.log(error)
+    }
+
+}
+
+export interface SendMailTestParams {
+    email: string;
+    ticketName: string;
+    ticketId: string | number;
+}
+
+
+export const sendMailtest = async ({ email, ticketName, ticketId }: SendMailTestParams) => {
+    const ticketRoute = `${domain}/private/tickets/${ticketId}/detail`;
+
+    const transporter = nodemailer.createTransport({
+        host: "localhost",
+        port: 1025,
+        secure: false,
+        ignoreTLS: true,
+    });
+
+    await transporter.sendMail({
+        from: '"Helpdesk System" <no-reply@example.com>',
+        to: email,
+        subject: `Ticket Harus Segera diselesaikan : ${ticketName}`,
+        text: `Tiket "${ticketName}" (ID: ${ticketId}) telah dikirim.`,
+        html: `<p>Klik <a href="${ticketRoute}">disini</a> untuk menuju ke halaman tiket.</p>`,
+    });
+};

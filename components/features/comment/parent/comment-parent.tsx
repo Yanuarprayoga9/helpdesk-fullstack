@@ -4,7 +4,7 @@ import { Avatar } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CommentType } from "@/@types/ticket-comment";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CommentForm } from "../comment-form";
 import { motion, AnimatePresence } from "framer-motion";
 import { CommentReply } from "../reply/comment-reply";
@@ -21,8 +21,14 @@ export function CommentItem({ comment }: ICommentType) {
   const { replies, fetchReplies, editingCommentId, setEditingCommentId } = useCommentStore();
   const isEditing = editingCommentId === comment.id;
 
+ 
+  console.log({ replies })
+  useEffect(() => {
+    fetchReplies(comment.id);
+  }, [comment.id, fetchReplies]);
 
   const commentReplies = replies[comment.id] || [];
+
 
   console.log({ commentReplies })
   return (
